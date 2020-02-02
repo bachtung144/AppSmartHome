@@ -5,6 +5,7 @@ import Login from './src/Components/Login';
 import ForgetPass from './src/Components/ForgetPass';
 import InputMXN from './src/Components/InputMXN';
 import NewPass from './src/Components/NewPass';
+import SignUp from './src/Components/SignUp';
 
 
 const StackNavigator = createStackNavigator({
@@ -31,7 +32,13 @@ const StackNavigator = createStackNavigator({
         navigationOptions:{
             title:"Nhập mật khẩu mới"
         }
-    }
+    },
+    SignUpScreen:{
+        screen: SignUp,
+        navigationOptions:{
+            title:"Đăng kí tài khoản"
+        }
+    },
 })
 
 const AppContainer = createAppContainer(StackNavigator);
