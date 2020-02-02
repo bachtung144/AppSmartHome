@@ -7,12 +7,12 @@ export default class Login extends Component {
         const {navigate} = this.props.navigation;
         return (
             <View>
-                <Text>Quoc Gia</Text>
-                <TextInput placeholder={"so dien thoai"}></TextInput>
-                <TextInput placeholder={"mat khau"}></TextInput>
-                <Button title={"Dang Nhap"} ></Button>
-                <Button title={"Dang ki tai khoan"} style={{marginLeft:'auto'}}></Button>
-                <Button title={"Quen mat khau"} style={{marginRight:'auto'}} onPress={() => navigate('ForgetPassScreen')}>
+                <Text>Quốc gia</Text>
+                <TextInput placeholder={"Số điện thoại"}></TextInput>
+                <TextInput placeholder={"Mật khẩu"}></TextInput>
+                <Button title={"Đăng nhập"} ></Button>
+                <Button title={"Đăng kí tài khoản"} style={{marginLeft:'auto'}}></Button>
+                <Button title={"Quên mật khẩu"} style={{marginRight:'auto'}} onPress={() => navigate('ForgetPassScreen')}>
 
                 </Button>
             </View>

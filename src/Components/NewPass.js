@@ -6,8 +6,8 @@ export default class NewPass extends Component{
         const {navigate} = this.props.navigation;
         return (
             <View>
-                <TextInput placeholder={"nhap mat khau moi"}></TextInput>
-                <Button title={"Xac nhan"} onPress={() => navigate('LoginScreen')}></Button>
+                <TextInput placeholder={"Nhập mật khẩu mới"}></TextInput>
+                <Button title={"Xác nhận"} onPress={() => navigate('LoginScreen')}></Button>
             </View>
         );
     }

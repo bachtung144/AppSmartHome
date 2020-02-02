@@ -11,25 +11,25 @@ const StackNavigator = createStackNavigator({
     LoginScreen:{
         screen: Login,
         navigationOptions:{
-            title:"Dang Nhap"
+            title:"Đăng nhập"
         }
     },
     ForgetPassScreen:{
         screen: ForgetPass,
         navigationOptions:{
-            title:"Quen mat khau"
+            title:"Quên mật khẩu"
         }
     },
     InputMXNScreen:{
         screen: InputMXN,
         navigationOptions:{
-            title:"Nhap ma xac nhan"
+            title:"Nhập mã xác nhận"
         }
     },
     NewPassScreen:{
         screen: NewPass,
         navigationOptions:{
-            title:"Nhap mat khau moi"
+            title:"Nhập mật khẩu mới"
         }
     }
 })
