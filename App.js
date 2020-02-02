@@ -1,23 +1,40 @@
-import * as React from 'react';
+import React from "react";
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import DangNhap from './android/Screens/DangNhap';
-import QuenMK from './android/Screens/QuenMK';
-import NhapMaXacNhan from './android/Screens/NhapMaXacNhan';
-import NhapMatKhauMoi from './android/Screens/NhapMatKhauMoi';
+import Login from './src/Components/Login';
+import ForgetPass from './src/Components/ForgetPass';
+import InputMXN from './src/Components/InputMXN';
+import NewPass from './src/Components/NewPass';
 
-const AppNavigator = createStackNavigator(
-    {
-        DangNhap,
-        QuenMK,
-        NhapMaXacNhan,
-        NhapMatKhauMoi
+
+const StackNavigator = createStackNavigator({
+    LoginScreen:{
+        screen: Login,
+        navigationOptions:{
+            title:"Dang Nhap"
+        }
     },
-    {
-        initialRouteName: 'DangNhap'
+    ForgetPassScreen:{
+        screen: ForgetPass,
+        navigationOptions:{
+            title:"Quen mat khau"
+        }
+    },
+    InputMXNScreen:{
+        screen: InputMXN,
+        navigationOptions:{
+            title:"Nhap ma xac nhan"
+        }
+    },
+    NewPassScreen:{
+        screen: NewPass,
+        navigationOptions:{
+            title:"Nhap mat khau moi"
+        }
     }
-);
-const AppContainer = createAppContainer(AppNavigator);
+})
+
+const AppContainer = createAppContainer(StackNavigator);
 
 export default class App extends React.Component {
     render() {

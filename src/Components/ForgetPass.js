@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, View, Text,TextInput } from 'react-native';
 
-export default class QuenMK extends Component {
+export default class ForgetPass extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
@@ -9,7 +9,7 @@ export default class QuenMK extends Component {
                 <Text>Quoc Gia</Text>
                 <TextInput placeholder={"so dien thoai"}></TextInput>
                 <TextInput placeholder={"mat khau"}></TextInput>
-                <Button title={"Tiep tuc"} onPress={() => navigate('NhapMaXacNhan')}></Button>
+                <Button title={"Tiep tuc"} onPress={() => navigate('InputMXNScreen')}></Button>
                 <Button title={"Dang ki tai khoan"} style={{marginLeft:'auto'}}></Button>
                 <Button title={"Dang nhap"} ></Button>
             </View>
