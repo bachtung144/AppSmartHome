@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {Button, View, Text,TextInput } from 'react-native';
+import {Button, View, Text,TextInput,TouchableOpacity ,ImageBackground} from 'react-native';
+import BackGround from './BackGround';
+import CountryPicker, { getAllCountries, getCallingCode } from 'react-native-country-picker-modal';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import background_input from '../Picture/backround_input.png'
+import ButtonCustom from './Button'
 
 export default class ForgetPass extends Component {
     constructor(props) {

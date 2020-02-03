@@ -1,20 +1,36 @@
 import React, {Component} from 'react';
 import {Button, View, Text,TextInput,TouchableOpacity ,ImageBackground} from 'react-native';
 import BackGround from './BackGround';
-import CountryPicker, { getAllCountries, getCallingCode } from 'react-native-country-picker-modal';
+import CountryPicker, {getAllCountries, getCallingCode,} from 'react-native-country-picker-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import background_input from '../Picture/backround_input.png'
-
+import ButtonCustom from './Button'
+export const CUSTOM_THEME = {
+    primaryColor: 'red',
+    primaryColorVariant: 'blue',
+    backgroundColor: 'pink',
+    onBackgroundTextColor: 'orange',
+    fontSize: 16,
+    fontFamily: Platform.select({
+        ios: 'System',
+        android: 'Roboto',
+        web: 'Arial'
+    }),
+    filterPlaceholderTextColor: 'purple',
+    activeOpacity: 0.7,
+}
 export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            callingCode : '',
+            callingCode : '84',
             password : '',
             secureTextEntry : true,
+            nameNation:'Vietnam',
+            modal: false
         }
     }
-    secureTextEntry(){
+    secureTextEntryFunction(){
         this.setState({
             secureTextEntry : !this.state.secureTextEntry
         })
@@ -30,37 +46,44 @@ export default class Login extends Component {
                     <BackGround/>
 
                 <View style={styles.container}>
-                    <ImageBackground source={background_input} style={{resizeMode:'contain',
-                    height:500,width:500,position:"absolute"}}></ImageBackground>
-                    <View style={{  width: "100%" ,flexDirection:"row",
-                        justifyContent: "center" , alignItems: "center" ,borderWidth:1,borderColor:"gray" ,
-                        borderTopLeftRadius:10 ,borderTopRightRadius :10,height:50,backgroundColor:'white'
-                    }}>
-                        <Text style={{flex:1 , }}> Quoc Gia</Text>
-                        <Text style={{flex:2 , }}> Viet Nam</Text>
+                    <ImageBackground source={background_input} style={styles.imageBackGround}></ImageBackground>
+                    <CountryPicker withEmoji withCallingCode
+                                   visible ={this.state.modal}
+                                   onSelect={(country) => this.setState({nameNation : country.name
+                                           ,callingCode:country.callingCode})
+                                   }
+                                   onClose ={() => this.setState({modal:false})}
+                                   placeholder={''}></CountryPicker>
+                    <TouchableOpacity style={styles.nation} onPress={() => this.setState({modal:true})}>
+                        <Text style={{flex:1 ,paddingLeft:5}}> Quoc Gia</Text>
+                        <Text style={{textAlign:'center',paddingRight:5}}>
+                            {this.state.nameNation}
+                            (+{this.state.callingCode})
+                        </Text>
+                        <Icon name="angle-right" color={'black'} size={20} style={{paddingRight:5}}/>
+                    </TouchableOpacity>
+
+
+                    <View style={styles.phonenumber}>
+                        <TextInput placeholder={"Số điện thoại"}></TextInput>
                     </View>
 
-                    <View style={{borderColor:'gray',borderLeftWidth:1
-                        ,borderRightWidth:1 ,width: "100%",height:50,backgroundColor:'white' }}>
-                        <TextInput placeholder={"Số điện thoại"}
-                        ></TextInput>
-                    </View>
+                    <View style={styles.blockPass}>
+                        {this.state.secureTextEntry ?
+                            <TextInput placeholder={"Mật khẩu"}
+                                       secureTextEntry={true}
+                                       value={this.state.password}
+                                       onChangeText={password => this.setState({password})}
+                                       style={{flex: 1}}/>
+                            :
+                            <TextInput placeholder={"Mật khẩu"}
+                                       value={this.state.password}
+                                       onChangeText={password => this.setState({password})}
+                                       style={{flex: 1}}/>
+                        }
 
-                    <View style={{width: "100%" ,flexDirection:"row",
-                    justifyContent: "center" , alignItems: "center" ,borderWidth:1,borderColor:"gray" ,
-                        borderBottomLeftRadius:10 ,borderBottomRightRadius :10,height:50,backgroundColor:'white'
-
-
-                    }}>
-
-                        <TextInput placeholder={"Mật khẩu"} secureTextEntry={true}
-                                   value={this.state.password}
-                                   onChangeText = {password => this.setState({password})}
-                                    style={{flex:1}}>
-                        </TextInput>
-
-                        <TouchableOpacity onPress={() => this.secureTextEntry} style={{width:40
-                             , height:'100%' , justifyContent:'center' , alignItems: 'center'}} >
+                        <TouchableOpacity
+                            onPress={() => this.secureTextEntryFunction()} style={styles.iconEye} >
                             {this.state.secureTextEntry ?
                                 <Icon name="eye-slash" color="black" size={15}/>
                                 :
@@ -68,15 +91,11 @@ export default class Login extends Component {
                             }
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={{ width:'100%' ,borderRadius: 70,
-                        height:35,alignItems: 'center',justifyContent:'center',marginTop:10,backgroundColor:'#1291b6'}}>
-                        <Text style={{color:'white'}}>Dang Nhap</Text>
-                    </TouchableOpacity>
+                    <ButtonCustom name={'Dang nhap'}/>
 
-                    <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between',
-                    marginTop:5}}>
-                        <Text style={{paddingVertical:10 , color:'#22a4c5',fontWeight:'bold'}} onPress={() => alert('hello')}>Dang ki tai khoan</Text>
-                        <Text style={{paddingVertical:10 ,color:'#22a4c5',fontWeight:'bold'}} onPress={() => alert('hello')}>Quen Mk</Text>
+                    <View style={styles.blockLink}>
+                        <Text style={styles.customLink} onPress={() => alert('hello')}>Dang ki tai khoan</Text>
+                        <Text style={styles.customLink} onPress={() => navigate('ForgetPassScreen')}>Quen mat khau</Text>
                     </View>
 
                 </View>
@@ -94,4 +113,59 @@ const styles ={
         borderRadius:5,
         marginTop:10,
     },
+    imageBackGround: {
+        resizeMode:'contain',
+        height:500,
+        width:500,
+        position:"absolute"
+    },
+    nation : {
+        width: "100%" ,
+        flexDirection:"row",
+        justifyContent: "center" ,
+        alignItems: "center" ,
+        borderWidth:1,
+        borderColor:"gray" ,
+        borderTopLeftRadius:10 ,
+        borderTopRightRadius :10,
+        height:50,
+        backgroundColor:'white'
+    },
+    phonenumber:{
+        borderColor:'gray'
+        ,borderLeftWidth:1
+        ,borderRightWidth:1
+        ,width: "100%"
+        ,height:50
+        ,backgroundColor:'white'
+    },
+    blockPass:{
+        width: "100%"
+        ,flexDirection:"row"
+        ,justifyContent: "center"
+        ,alignItems: "center"
+        ,borderWidth:1
+        ,borderColor:"gray"
+        ,borderBottomLeftRadius:10
+        ,borderBottomRightRadius :10
+        ,height:50
+        ,backgroundColor:'white'
+    },
+    iconEye:{
+        width:40
+        ,height:'100%'
+        ,justifyContent:'center'
+        ,alignItems: 'center'
+    },
+    blockLink:{
+        width:'100%'
+        ,flexDirection:'row'
+        ,justifyContent:'space-between'
+        ,marginTop:5
+    },
+    customLink: {
+        paddingVertical:10
+        ,color:'#22a4c5'
+        ,fontWeight:'bold'
+    }
 }
