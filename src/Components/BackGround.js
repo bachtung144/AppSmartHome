@@ -5,7 +5,7 @@ import background1 from '../Picture/background1.jpg'
 export default class BackGround extends React.Component{
     render(){
         return (
-            <ImageBackground source={background1} style={styles.ImageSize}>
+            <ImageBackground source={background1} style={styles.ImageSize} >
                 <View style={styles.viewStyles}>
                     <View style={styles.BlockStyle}>
                         <Text style = {styles.Logo}>Logo GratIoT</Text>
@@ -24,8 +24,10 @@ export default class BackGround extends React.Component{
 const styles = {
     ImageSize :{
         width : '100%',
-        height : '75%',
-        opacity :0.7
+        opacity :0.7,
+        height: 200,
+        resizeMode :'contain'
+
     },
     BlockStyle:{
         backgroundColor : '#DCDCDC',
