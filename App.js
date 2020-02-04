@@ -52,7 +52,7 @@ const StackNavigatorAuth = createStackNavigator({
         }
     },
 })
-const AppContainer = createAppContainer(StackNavigatorAuth);
+
 
 const InitialNavigator = createSwitchNavigator({
     SplashScreen: {

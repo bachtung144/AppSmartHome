@@ -25,10 +25,13 @@ export default class SignUp extends Component {
             nameNation:'Vietnam',
             modal: false,
             phoneNumberCode:'',
+            checkBox : true
         }
     }
-    SaveNumber(number){
-        this.setState({phoneNumberCode:number})
+    noti() {
+        this.setState({
+            checkBox: !this.state.checkBox,
+        });
     }
     render() {
         const {navigate} = this.props.navigation;
@@ -78,14 +81,23 @@ export default class SignUp extends Component {
                                     <Text style={styles.error}>{props.errors.phoneNumber}</Text>
                                 ) : null}
 
-                                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}>
-                                </ButtonCustom>
+                                {
+                                    this.state.checkBox ?
+                                        (<ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}>
+                                        </ButtonCustom>)
+                                        :(<ButtonCustom name={'Tiếp tục'}>
+                                        </ButtonCustom>)
+                                }
                             </View>
                         )}
                     </Formik>
                     <View>
-                        <TouchableOpacity>
-                            <Icon name={'check-square'} color={'blue'}></Icon>
+
+                        <TouchableOpacity onPress={() => this.noti()}>
+                            {
+                                this.state.checkBox ? (<Icon name={'check-square'} color={'blue'}></Icon>)
+                                    : (<Icon name={'check-square'} color={'black'}></Icon>)
+                            }
                         </TouchableOpacity>
                         <Text>
                             Tôi đồng ý điều khoản và chính sách đăng nhập
