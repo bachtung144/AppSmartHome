@@ -5,7 +5,6 @@ import {
     TextInput,
     TouchableOpacity,
     ImageBackground,
-    Button
 } from 'react-native';
 import BackGround from '../../Components/BackGround';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -29,10 +28,9 @@ export default class SignUp extends Component {
         }
     }
     noti() {
-        this.setState({
-            checkBox: !this.state.checkBox,
-        });
+        this.setState({checkBox: !this.state.checkBox});
     }
+
     render() {
         const {navigate} = this.props.navigation;
         return (
@@ -45,14 +43,13 @@ export default class SignUp extends Component {
                                    withCallingCode
                                    visible ={this.state.modal}
                                    onSelect={(country) => this.setState({nameNation : country.name
-                                       ,callingCode:country.callingCode})
-                                   }
+                                       ,callingCode:country.callingCode})}
                                    onClose ={() => this.setState({modal:false})}
-                                   placeholder={''}>
-                    </CountryPicker>
+                                   placeholder={''}/>
+
                     <TouchableOpacity style={styles.nation} onPress={() => this.setState({modal:true})}>
-                        <Text style={{flex:1 ,paddingLeft:5}}>Quốc gia</Text>
-                        <Text style={{textAlign:'center',paddingRight:5}}>
+                        <Text style={styles.smallNation}>Quốc gia</Text>
+                        <Text style={styles.callCode}>
                             {this.state.nameNation}
                             (+{this.state.callingCode})
                         </Text>
@@ -191,5 +188,12 @@ const styles ={
         ,marginTop:10
         ,backgroundColor:'#1291b6'
     },
-
+    smallNation:{
+        flex:1 ,
+        paddingLeft:5
+    },
+    callCode:{
+        textAlign:'center',
+        paddingRight:5
+    }
 }

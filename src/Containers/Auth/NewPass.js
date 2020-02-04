@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity, ImageBackground} from 'react-native';
+import {View,TextInput,TouchableOpacity} from 'react-native';
 import BackGround from '../../Components/BackGround';
-import CountryPicker from 'react-native-country-picker-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import background_input from '../../Picture/backround_input.png'
 import ButtonCustom from '../../Components/Button';
 
 export default class NewPass extends Component {
@@ -28,13 +26,11 @@ export default class NewPass extends Component {
                 <BackGround/>
                 <View style={styles.container}>
                     <View style={styles.blockPass}>
-
                         <TextInput placeholder={'Mật khẩu'}
                                    secureTextEntry={this.state.secureTextEntry}
                                    value={this.state.password}
                                    onChangeText={password => this.setState({password})}
                                    style={{flex: 1}}/>
-
                         <TouchableOpacity
                             onPress={() => this.secureTextEntryFunction()} style={styles.iconEye}>
                             <Icon name={this.state.secureTextEntry ? "eye-slash" : "eye"} color="black" size={15}/>
@@ -86,5 +82,4 @@ const styles = {
         , justifyContent: 'center'
         , alignItems: 'center',
     },
-
 };

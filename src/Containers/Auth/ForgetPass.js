@@ -5,7 +5,6 @@ import {
     TextInput,
     TouchableOpacity,
     ImageBackground,
-    Button
 } from 'react-native';
 import BackGround from '../../Components/BackGround';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -46,8 +45,8 @@ export default class ForgetPass extends Component {
                                    placeholder={''}>
                     </CountryPicker>
                     <TouchableOpacity style={styles.nation} onPress={() => this.setState({modal:true})}>
-                        <Text style={{flex:1 ,paddingLeft:5}}>Quốc gia</Text>
-                        <Text style={{textAlign:'center',paddingRight:5}}>
+                        <Text style={styles.smallNation}>Quốc gia</Text>
+                        <Text style={styles.callCode}>
                             {this.state.nameNation}
                             (+{this.state.callingCode})
                         </Text>
@@ -75,7 +74,6 @@ export default class ForgetPass extends Component {
                         {props.touched.phoneNumber && props.errors.phoneNumber ? (
                             <Text style={styles.error}>{props.errors.phoneNumber}</Text>
                         ) : null}
-
                                 <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}/>
                             </View>
                         )}
@@ -84,9 +82,7 @@ export default class ForgetPass extends Component {
                         <Text style={styles.customLink} onPress={() =>navigate('SignUpScreen')}>Đăng kí tài khoản</Text>
                         <Text style={styles.customLink} onPress={() => navigate('LoginScreen')}>Đăng nhập</Text>
                     </View>
-
                 </View>
-
             </View>
         );
     }
@@ -169,5 +165,12 @@ const styles ={
         ,marginTop:10
         ,backgroundColor:'#1291b6'
     },
-
+    smallNation:{
+        flex:1 ,
+        paddingLeft:5
+    },
+    callCode:{
+        textAlign:'center',
+        paddingRight:5
+    }
 }

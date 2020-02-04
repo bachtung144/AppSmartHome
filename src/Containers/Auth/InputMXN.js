@@ -27,7 +27,7 @@ export default class InputMXN extends Component {
                 <View style={styles.container}>
                     <ImageBackground source={background_input} style={styles.imageBackGround}/>
                     <View style={styles.phonenumber}>
-                        <TextInput placeholder={'Mã xác nhận'}></TextInput>
+                        <TextInput placeholder={'Mã xác nhận'}/>
                     </View>
 
                 <ButtonCustom name={'Xác nhận'} onPress={() => navigate('NewPassScreen')}/>
@@ -46,7 +46,6 @@ const styles = {
     container: {
         marginHorizontal: 30,
         alignItems: 'center',
-        // borderRadius: 5,
         marginTop: 10,
         backgroundColor:'pink'
     },
@@ -79,5 +78,4 @@ const styles = {
         justifyContent: 'center'
         ,alignItems: 'center'
     }
-
 };

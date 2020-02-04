@@ -24,11 +24,7 @@ export default class Login extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View
-                style={{
-                    flex: 1,
-                }}
-            >
+            <View style={{flex: 1,}}>
                 <BackGround/>
 
                 <View style={styles.container}>
@@ -38,28 +34,23 @@ export default class Login extends Component {
                                    visible={this.state.modal}
                                    onSelect={(country) => this.setState({
                                        nameNation: country.name
-                                       , callingCode: country.callingCode,
-                                   })
-                                   }
+                                       ,callingCode: country.callingCode,})}
                                    onClose={() => this.setState({modal: false})}
-                                   placeholder={''}>
-                    </CountryPicker>
+                                   placeholder={''}/>
                     <TouchableOpacity style={styles.nation} onPress={() => this.setState({modal: true})}>
-                        <Text style={{flex: 1, paddingLeft: 5}}>Quốc gia</Text>
-                        <Text style={{textAlign: 'center', paddingRight: 5}}>
+                        <Text style={styles.smallNation}>Quốc gia</Text>
+                        <Text style={styles.callCode}>
                             {this.state.nameNation}
                             (+{this.state.callingCode})
                         </Text>
                         <Icon name="angle-right" size={20} style={styles.styleIcon}/>
                     </TouchableOpacity>
 
-
                     <View style={styles.phonenumber}>
-                        <TextInput placeholder={'Số điện thoại'}></TextInput>
+                        <TextInput placeholder={'Số điện thoại'}/>
                     </View>
 
                     <View style={styles.blockPass}>
-
                             <TextInput placeholder={'Mật khẩu'}
                                        secureTextEntry={this.state.secureTextEntry}
                                        value={this.state.password}
@@ -71,16 +62,13 @@ export default class Login extends Component {
                                 <Icon name={this.state.secureTextEntry ? "eye-slash" : "eye"} color="black" size={15}/>
                         </TouchableOpacity>
                     </View>
-                    <ButtonCustom name={'Đăng nhập'} onPress={() => navigate('ForgetPassScreen')}/>
+                    <ButtonCustom name={'Đăng nhập'} />
 
                     <View style={styles.blockLink}>
                         <Text style={styles.customLink} onPress={() => navigate('SignUpScreen')}>Đăng kí tài khoản</Text>
-                        <Text style={styles.customLink} onPress={() => navigate('ForgetPassScreen')}>Quên mật
-                            khẩu</Text>
+                        <Text style={styles.customLink} onPress={() => navigate('ForgetPassScreen')}>Quên mật khẩu</Text>
                     </View>
-
                 </View>
-
             </View>
         );
     }
@@ -153,5 +141,12 @@ const styles = {
         paddingRight: 5,
         color: 'black',
     },
-
+    smallNation:{
+        flex:1 ,
+        paddingLeft:5
+    },
+    callCode:{
+        textAlign:'center',
+        paddingRight:5
+    }
 };
