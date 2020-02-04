@@ -33,7 +33,7 @@ export default class InputMXN extends Component {
                 <ButtonCustom name={'Xác nhận'} onPress={() => navigate('NewPassScreen')}/>
 
                     <View style={styles.blockLink}>
-                        <Text style={styles.customLink} onPress={() => alert('hello')}>Đăng kí tài khoản</Text>
+                        <Text style={styles.customLink} onPress={() => navigate('SignUpScreen')}>Đăng kí tài khoản</Text>
                         <Text style={styles.customLink} onPress={() => navigate('LoginScreen')}>Đăng nhập</Text>
                     </View>
                 </View>

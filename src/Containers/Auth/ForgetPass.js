@@ -27,9 +27,7 @@ export default class ForgetPass extends Component {
             phoneNumberCode:''
         }
     }
-    SaveNumber(number){
-            this.setState({phoneNumberCode:number})
-    }
+
     render() {
         const {navigate} = this.props.navigation;
         return (
@@ -65,26 +63,25 @@ export default class ForgetPass extends Component {
                         onSubmit={(values) => navigate('InputMXNScreen',
                             {phone:values.phoneNumber,code_clicked : this.state.callingCode})}>
                         {props => (
-                            <View style={{backgroundColor:'purple',width:'100%'
-                                ,borderColor:"gray",borderLeftWidth: 1
-                                , borderRightWidth: 1}}>
+                            <View style={{width:'100%'
+                                }}>
                                 <TextInput
                                     onChangeText={props.handleChange('phoneNumber')}
                                     onBlur={props.handleBlur('phoneNumber')}
                                     value={props.values.phoneNumber}
                                     placeholder="phoneNumber"
+                                    style={styles.phonenumber}
                                 />
                         {props.touched.phoneNumber && props.errors.phoneNumber ? (
                             <Text style={styles.error}>{props.errors.phoneNumber}</Text>
                         ) : null}
 
-                                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}>
-                                </ButtonCustom>
+                                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}/>
                             </View>
                         )}
                     </Formik>
                     <View style={styles.blockLink}>
-                        <Text style={styles.customLink} >Đăng kí tài khoản</Text>
+                        <Text style={styles.customLink} onPress={() =>navigate('SignUpScreen')}>Đăng kí tài khoản</Text>
                         <Text style={styles.customLink} onPress={() => navigate('LoginScreen')}>Đăng nhập</Text>
                     </View>
 
@@ -122,15 +119,13 @@ const styles ={
         backgroundColor:'white'
     },
     phonenumber:{
-        borderColor:'gray'
-        ,borderLeftWidth:1
-        ,borderRightWidth:1
-        ,width: "100%"
-        ,height:50
-        ,backgroundColor:'white'
+        backgroundColor:'white'
+        ,borderLeftWidth: 1
+        ,borderRightWidth: 1
+        ,borderBottomWidth: 1
+        ,borderColor:'gray'
         ,borderBottomLeftRadius:10
-        ,borderBottomRightRadius :10
-        ,borderBottomWidth:1
+        ,borderBottomRightRadius:10
     },
     blockPass:{
         width: "100%"

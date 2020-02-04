@@ -25,7 +25,7 @@ export default class SignUp extends Component {
             nameNation:'Vietnam',
             modal: false,
             phoneNumberCode:'',
-            checkBox : true
+            checkBox : false
         }
     }
     noti() {
@@ -68,14 +68,13 @@ export default class SignUp extends Component {
                         onSubmit={(values) => navigate('InputMXNScreen',
                             {phone:values.phoneNumber,code_clicked : this.state.callingCode})}>
                         {props => (
-                            <View style={{backgroundColor:'purple',width:'100%'
-                                ,borderColor:"gray",borderLeftWidth: 1
-                                , borderRightWidth: 1}}>
+                            <View style={{width: '100%'}}>
                                 <TextInput
                                     onChangeText={props.handleChange('phoneNumber')}
                                     onBlur={props.handleBlur('phoneNumber')}
                                     value={props.values.phoneNumber}
                                     placeholder="phoneNumber"
+                                    style={styles.phonenumber}
                                 />
                                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
                                     <Text style={styles.error}>{props.errors.phoneNumber}</Text>
@@ -91,16 +90,16 @@ export default class SignUp extends Component {
                             </View>
                         )}
                     </Formik>
-                    <View>
+                    <View style={{flexDirection:'row',justifyContent:'center',width:'100%',marginTop:15}}>
 
-                        <TouchableOpacity onPress={() => this.noti()}>
+                        <TouchableOpacity onPress={() => this.noti()} style={{marginRight:10,marginTop:2.5}}>
                             {
-                                this.state.checkBox ? (<Icon name={'check-square'} color={'blue'}></Icon>)
-                                    : (<Icon name={'check-square'} color={'black'}></Icon>)
+                                this.state.checkBox ? (<Icon name={'check-square'} color={'#1490b5'} size={15}></Icon>)
+                                    : (<Icon name={'check-square'} color={'black'} size={15}></Icon>)
                             }
                         </TouchableOpacity>
                         <Text>
-                            Tôi đồng ý điều khoản và chính sách đăng nhập
+                            Tôi đồng ý điều khoản và chính sách
                         </Text>
                     </View>
                     <View style={styles.blockLink}>
@@ -142,15 +141,13 @@ const styles ={
         backgroundColor:'white'
     },
     phonenumber:{
-        borderColor:'gray'
-        ,borderLeftWidth:1
-        ,borderRightWidth:1
-        ,width: "100%"
-        ,height:50
-        ,backgroundColor:'white'
+        backgroundColor:'white'
+        ,borderLeftWidth: 1
+        ,borderRightWidth: 1
+        ,borderBottomWidth: 1
+        ,borderColor:'gray'
         ,borderBottomLeftRadius:10
-        ,borderBottomRightRadius :10
-        ,borderBottomWidth:1
+        ,borderBottomRightRadius:10
     },
     blockPass:{
         width: "100%"
