@@ -24,18 +24,16 @@ export default class ForgetPass extends Component {
             callingCode : '84',
             nameNation:'Vietnam',
             modal: false,
-            phoneNumber: ''
+            phoneNumberCode:''
         }
     }
-
+    SaveNumber(number){
+            this.setState({phoneNumberCode:number})
+    }
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
+            <View style={{flex: 1}}>
                 <BackGround/>
 
                 <View style={styles.container}>
@@ -57,13 +55,6 @@ export default class ForgetPass extends Component {
                         </Text>
                         <Icon name="angle-right" size={20} style={styles.styleIcon}/>
                     </TouchableOpacity>
-                    {/*<View style={styles.phonenumber}>*/}
-                    {/*    <TextInput placeholder={"Số điện thoại"}*/}
-                    {/*               value={this.state.phonenumber}*/}
-                    {/*               onChangeText={phoneNumber => this.setState({phoneNumber})}>*/}
-                    {/*    </TextInput>*/}
-                    {/*</View>*/}
-
 
                     <Formik
                         initialValues={{phoneNumber: ''}}
@@ -71,7 +62,8 @@ export default class ForgetPass extends Component {
                             phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
                                     .required('Required')
                         })}
-                        onSubmit={() => navigate('InputMXNScreen')}>
+                        onSubmit={(values) => navigate('InputMXNScreen',
+                            {phone:values.phoneNumber,code_clicked : this.state.callingCode})}>
                         {props => (
                             <View style={{backgroundColor:'purple',width:'100%'
                                 ,borderColor:"gray",borderLeftWidth: 1
@@ -85,6 +77,7 @@ export default class ForgetPass extends Component {
                         {props.touched.phoneNumber && props.errors.phoneNumber ? (
                             <Text style={styles.error}>{props.errors.phoneNumber}</Text>
                         ) : null}
+
                                 <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'}>
                                 </ButtonCustom>
                             </View>

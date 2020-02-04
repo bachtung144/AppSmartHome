@@ -9,7 +9,6 @@ import NewPass from './src/Containers/Auth/NewPass';
 import SignUp from './src/Containers/Auth/SignUp';
 import Splash from './src/Containers/Splash';
 import {Dimensions } from "react-native";
-import FGPass from './src/Containers/Auth/FGPass';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const StackNavigatorAuth = createStackNavigator({
     LoginScreen:{
@@ -50,12 +49,6 @@ const StackNavigatorAuth = createStackNavigator({
         screen: SignUp,
         navigationOptions:{
             title:"Đăng kí tài khoản"
-        }
-    },
-    FGPassScreen:{
-        screen: FGPass,
-        navigationOptions:{
-            title:"FG Pass phụ"
         }
     },
 })

@@ -66,18 +66,15 @@ export default class Login extends Component {
                                        onChangeText={password => this.setState({password})}
                                        style={{flex: 1}}/>
 
-
                         <TouchableOpacity
                             onPress={() => this.secureTextEntryFunction()} style={styles.iconEye}>
                                 <Icon name={this.state.secureTextEntry ? "eye-slash" : "eye"} color="black" size={15}/>
-
-
                         </TouchableOpacity>
                     </View>
                     <ButtonCustom name={'Đăng nhập'} onPress={() => navigate('ForgetPassScreen')}/>
 
                     <View style={styles.blockLink}>
-                        <Text style={styles.customLink} onPress={() => alert('hello')}>Đăng kí tài khoản</Text>
+                        <Text style={styles.customLink} onPress={() => navigate('SignUpScreen')}>Đăng kí tài khoản</Text>
                         <Text style={styles.customLink} onPress={() => navigate('ForgetPassScreen')}>Quên mật
                             khẩu</Text>
                     </View>
