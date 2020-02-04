@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, View, Text,TextInput } from 'react-native';
+import {Button, View,TextInput } from 'react-native';
 
 export default class NewPass extends Component{
     render() {

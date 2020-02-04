@@ -2,11 +2,12 @@ import React from 'react';
 import { Text,TouchableOpacity } from 'react-native';
 
 
-export default class ButtonCustom extends React.Component{
+export default class ButtonCustom extends React.PureComponent{
     render(){
+        let onPress = this.props.onPress
         return(
-            <TouchableOpacity style={styles.buttonLogin}>
-                <Text style={{color:'white'}}>{this.props.name}</Text>
+            <TouchableOpacity style={styles.buttonLogin} onPress={onPress}>
+                <Text style={{color:'white'}} >{this.props.name}</Text>
             </TouchableOpacity>
         )
     }

@@ -2,21 +2,20 @@ import React from "react";
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createSwitchNavigator} from 'react-navigation';
-import Login from './src/Components/Login';
-import ForgetPass from './src/Components/ForgetPass';
-import InputMXN from './src/Components/InputMXN';
-import NewPass from './src/Components/NewPass';
-import SignUp from './src/Components/SignUp';
-import Splash from './src/Components/Splash';
+import Login from './src/Containers/Auth/Login';
+import ForgetPass from './src/Containers/Auth/ForgetPass';
+import InputMXN from './src/Containers/Auth/InputMXN';
+import NewPass from './src/Containers/Auth/NewPass';
+import SignUp from './src/Containers/Auth/SignUp';
+import Splash from './src/Containers/Splash';
 import {Dimensions } from "react-native";
+import FGPass from './src/Containers/Auth/FGPass';
 const screenWidth = Math.round(Dimensions.get('window').width);
-const StackNavigator = createStackNavigator({
+const StackNavigatorAuth = createStackNavigator({
     LoginScreen:{
         screen: Login,
         navigationOptions :{
             title:"Đăng nhập",
-            // headerTitleContainerStyle :{justifyContent: 'center',alignItems:'center'
-            //     ,color:'red',marginLeft:0,paddingLeft:0,width:"100%"}
             headerTitleContainerStyle: {
                 alignItems: "center",
                 justifyContent: "center",
@@ -27,7 +26,12 @@ const StackNavigator = createStackNavigator({
     ForgetPassScreen:{
         screen: ForgetPass,
         navigationOptions:{
-            title:"Quên mật khẩu"
+            title:"Quên mật khẩu",
+            headerTitleContainerStyle: {
+                alignItems: "center",
+                justifyContent: "center",
+                width : screenWidth - 147
+            },
         }
     },
     InputMXNScreen:{
@@ -48,14 +52,20 @@ const StackNavigator = createStackNavigator({
             title:"Đăng kí tài khoản"
         }
     },
+    FGPassScreen:{
+        screen: FGPass,
+        navigationOptions:{
+            title:"FG Pass phụ"
+        }
+    },
 })
-const AppContainer = createAppContainer(StackNavigator);
+const AppContainer = createAppContainer(StackNavigatorAuth);
 
 const InitialNavigator = createSwitchNavigator({
     SplashScreen: {
         screen : Splash
     },
-    App: StackNavigator
+    Auth: StackNavigatorAuth
 });
 const AppContainer_splash =  createAppContainer(InitialNavigator);
 export default class App extends React.Component {

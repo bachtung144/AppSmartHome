@@ -15,7 +15,7 @@ export default class SplashScreen extends React.Component {
         // Preload data using AsyncStorage
         const data = await this.performTimeConsumingTask();
         if (data !== null) {
-            this.props.navigation.navigate('App');
+            this.props.navigation.navigate('Auth');
         }
     }
     render() {
