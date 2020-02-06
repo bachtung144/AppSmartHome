@@ -11,6 +11,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
+import {AsyncStorage} from 'react-native';
 
 export default class Login extends Component {
   state = {
@@ -31,10 +32,9 @@ export default class Login extends Component {
   onSubmit() {
     const {navigate} = this.props.navigation;
     let data = {};
+    data.phone = this.state.phoneNum;
+    data.pword = this.state.password;
     data.callingCode = this.state.callingCode;
-    data.password = this.state.password;
-    data.phoneNum = this.state.phoneNum;
-
     fetch('http://192.168.99.116:1123/login', {
       method: 'POST', // or 'PUT'
       headers: {
@@ -42,15 +42,38 @@ export default class Login extends Component {
       },
       body: JSON.stringify(data),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success', data);
-      })
-      .catch(error => {
-        console.warn(error);
-      })
-      .done(() => navigate('TestScreen'));
+        .then(response => response.json())
+        .then(data => {
+           console.warn('Success', data);
+          // console.warn(data.data.token)
+          this._storeData('Token', data.data.token)
+
+        })
+
+        .catch(error => {
+          console.warn(error);
+        })
+        .done(() => navigate('TestScreen'));
   }
+  _storeData = async (Token,data) => {
+    try {
+      await AsyncStorage.setItem(Token, data);
+      // console.warn('data stored');
+    } catch (error) {
+      console.log('AsyncStorage save error: ' + error.message);
+    }
+  };
+  // _retrieveData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('Token');
+  //     if (value !== null) {
+  //       // We have data!!
+  //       console.warn(value);
+  //     }
+  //   } catch (error) {
+  //     console.warn('Error')
+  //   }
+  // };
 
   render() {
     const {navigate} = this.props.navigation;

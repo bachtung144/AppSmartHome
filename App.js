@@ -10,6 +10,7 @@ import SignUp from './src/Containers/Auth/SignUp';
 import Splash from './src/Containers/Splash';
 import {Dimensions} from 'react-native';
 import Test from './src/Containers/Auth/Test';
+import UserInfor from './src/Containers/Auth/UserInfor';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const StackNavigatorAuth = createStackNavigator({
   LoginScreen: {
@@ -69,6 +70,9 @@ const StackNavigatorAuth = createStackNavigator({
   },
   TestScreen :{
     screen: Test,
+  },
+  UserInforScreen:{
+    screen: UserInfor
   }
 });
 
