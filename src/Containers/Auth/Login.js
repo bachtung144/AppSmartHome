@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator
 } from 'react-native';
 import BackGround from '../../Components/BackGround';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -12,7 +13,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {Global,term} from './Global';
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class Login extends Component {
   state = {
     callingCode: '84',
@@ -21,6 +26,8 @@ export default class Login extends Component {
     secureTextEntry: true,
     nameNation: 'Vietnam',
     modal: false,
+    status: '',
+    isLoading : true
   };
 
   secureTextEntryFunction() {
@@ -28,34 +35,40 @@ export default class Login extends Component {
       secureTextEntry: !this.state.secureTextEntry,
     });
   }
-
-  onSubmit() {
+  navig(){
+    const {navigate} = this.props.navigation;
+    const te = () => navigate('UserInforScreen')
+    if(this.state.status === "success") return te;
+  }
+  onSubmit1 = values => {
     const {navigate} = this.props.navigation;
     let data = {};
-    data.phone = this.state.phoneNum;
+    data.phone = values.phoneNumber;
     data.pword = this.state.password;
     data.callingCode = this.state.callingCode;
-    fetch('http://192.168.99.116:1123/login', {
+    fetch('http://192.168.99.199:1123/login', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-        .then(response => response.json())
-        .then(data => {
-           console.warn('Success', data);
-          // console.warn(data.data.token)
-          this._storeData('Token', data.data.token)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({status:data.status})
+        console.warn('Success', data);
+        this._storeData('Token', data.data.token);
+        this.onPost()
+      })
 
-        })
-
-        .catch(error => {
-          console.warn(error);
-        })
-        .done(() => navigate('TestScreen'));
+      .catch(error => {
+        console.warn(error);
+      })
+        .done(() => navigate('UserInforScreen'))
   }
-  _storeData = async (Token,data) => {
+
+
+  _storeData = async (Token, data) => {
     try {
       await AsyncStorage.setItem(Token, data);
       // console.warn('data stored');
@@ -63,20 +76,43 @@ export default class Login extends Component {
       console.log('AsyncStorage save error: ' + error.message);
     }
   };
-  // _retrieveData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('Token');
-  //     if (value !== null) {
-  //       // We have data!!
-  //       console.warn(value);
-  //     }
-  //   } catch (error) {
-  //     console.warn('Error')
-  //   }
-  // };
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('Token');
+      if (value !== null) {
+        return value;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.warn('Error');
+      return null;
+    }
+  };
+  async onPost() {
+    var data = {};
+    data.token = await this._retrieveData();
+    fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
+      method: 'GET',
+    })
+        .then(response => response.json())
+        .then(json => {
+          // this.setState({phoneNum: json.data.phone});
+          // this.setState({callingCode: json.data.callingCode});
+          Global.userinfor.phone = json.data.phone;
+          Global.userinfor.callingCode = json.data.callingCode
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
+  // componentDidMount(){
+  //   this.onPost()
+  // }
 
   render() {
     const {navigate} = this.props.navigation;
+
     return (
       <View style={{flex: 1}}>
         <BackGround />
@@ -110,34 +146,49 @@ export default class Login extends Component {
             <Icon name="angle-right" size={20} style={styles.styleIcon} />
           </TouchableOpacity>
 
-          <View style={styles.phonenumber}>
-            <TextInput
-              placeholder="Số điện thoại"
-              value={this.state.phoneNum}
-              onChangeText={phoneNum => this.setState({phoneNum})}
-            />
-          </View>
+          <Formik
+            initialValues={{phoneNumber: ''}}
+            validationSchema={Yup.object({
+              phoneNumber: Yup.string()
+                .matches(phoneRegExp, 'Phone number is not valid')
+                .required('Required'),
+            })}
+            onSubmit={this.onSubmit1}>
+            {props => (
+              <View style={{width: '100%'}}>
+                <TextInput
+                  onChangeText={props.handleChange('phoneNumber')}
+                  onBlur={props.handleBlur('phoneNumber')}
+                  value={props.values.phoneNumber}
+                  placeholder="phoneNumber"
+                  style={styles.phonenumber}
+                />
+                <View style={styles.blockPass}>
+                  <TextInput
+                    placeholder={'Mật khẩu'}
+                    secureTextEntry={this.state.secureTextEntry}
+                    value={this.state.password}
+                    onChangeText={password => this.setState({password})}
+                    style={{flex: 1}}
+                  />
 
-          <View style={styles.blockPass}>
-            <TextInput
-              placeholder={'Mật khẩu'}
-              secureTextEntry={this.state.secureTextEntry}
-              value={this.state.password}
-              onChangeText={password => this.setState({password})}
-              style={{flex: 1}}
-            />
-
-            <TouchableOpacity
-              onPress={() => this.secureTextEntryFunction()}
-              style={styles.iconEye}>
-              <Icon
-                name={this.state.secureTextEntry ? 'eye-slash' : 'eye'}
-                color="black"
-                size={15}
-              />
-            </TouchableOpacity>
-          </View>
-          <ButtonCustom name={'Đăng nhập'} onPress={() => this.onSubmit()} />
+                  <TouchableOpacity
+                    onPress={() => this.secureTextEntryFunction()}
+                    style={styles.iconEye}>
+                    <Icon
+                      name={this.state.secureTextEntry ? 'eye-slash' : 'eye'}
+                      color="black"
+                      size={15}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {props.touched.phoneNumber && props.errors.phoneNumber ? (
+                  <Text style={styles.error}>{props.errors.phoneNumber}</Text>
+                ) : null}
+                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'} />
+              </View>
+            )}
+          </Formik>
 
           <View style={styles.blockLink}>
             <Text

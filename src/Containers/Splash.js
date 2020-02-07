@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, AsyncStorage} from 'react-native';
 
 export default class SplashScreen extends React.Component {
   performTimeConsumingTask = async () => {
@@ -9,14 +9,29 @@ export default class SplashScreen extends React.Component {
       }, 2000),
     );
   };
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('Token');
+      if (value !== null) {
+        return value;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.warn('Error');
+      return null;
+    }
+  };
   async componentDidMount() {
     // Preload data from an external API
     // Preload data using AsyncStorage
     const data = await this.performTimeConsumingTask();
-    if (data !== null) {
-      this.props.navigation.navigate('Auth');
-    }
-  }
+    var value = await this._retrieveData();
+    if (data !== null ) {
+      if(value === null) this.props.navigation.navigate('Auth');
+      if(value !== null) this.props.navigation.navigate('UserInforScreen');
+  }}
+
   render() {
     return (
       <View style={styles.viewStyles}>

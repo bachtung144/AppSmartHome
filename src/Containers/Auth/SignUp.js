@@ -38,7 +38,7 @@ export default class SignUp extends Component {
     data.callingCode = this.state.callingCode;
     data.phone = values.phoneNumber;
 
-    fetch('http://192.168.99.116:1123/reg', {
+    fetch('http://192.168.99.199:1123/reg', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default class SignUp extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Success', data);
+        console.warn('Success', data);
       })
       .catch(error => {
         console.warn(error);

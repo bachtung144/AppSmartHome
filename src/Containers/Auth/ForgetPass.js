@@ -31,7 +31,7 @@ export default class ForgetPass extends Component {
     data.callingCode = this.state.callingCode;
     data.phone = values.phoneNumber;
 
-    fetch('http://192.168.99.116:1123/forgetPword', {
+    fetch('http://192.168.99.104:1123/forgetPword', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',

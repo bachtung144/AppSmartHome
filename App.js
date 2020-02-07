@@ -12,6 +12,16 @@ import {Dimensions} from 'react-native';
 import Test from './src/Containers/Auth/Test';
 import UserInfor from './src/Containers/Auth/UserInfor';
 const screenWidth = Math.round(Dimensions.get('window').width);
+const StackLoginSuccess = createStackNavigator(
+    {
+      UserInfor :{
+        screen : UserInfor,
+        navigationOptions:{
+          title:'',
+        }
+      },
+}
+)
 const StackNavigatorAuth = createStackNavigator({
   LoginScreen: {
     screen: Login,
@@ -68,12 +78,7 @@ const StackNavigatorAuth = createStackNavigator({
       },
     },
   },
-  TestScreen :{
-    screen: Test,
-  },
-  UserInforScreen:{
-    screen: UserInfor
-  }
+
 });
 
 const InitialNavigator = createSwitchNavigator({
@@ -81,6 +86,8 @@ const InitialNavigator = createSwitchNavigator({
     screen: Splash,
   },
   Auth: StackNavigatorAuth,
+  UserInforScreen :StackLoginSuccess
+
 });
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
