@@ -4,10 +4,9 @@ import {AsyncStorage} from 'react-native';
 import {Global} from './Global';
 
 export default class Test extends React.Component {
-
   render() {
     return (
-      <Button title={'Submit'} onPress={console.warn(Global.userinfor.phone)}/>
+      <Button title={'Submit'} onPress={console.warn(Global.userinfor.phone)} />
     );
   }
 }

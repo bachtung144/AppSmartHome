@@ -1,1 +1,1 @@
-export var Global  ={userinfor:{}}
+export var Global = {userinfor: {}};

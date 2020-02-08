@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity,Button} from 'react-native';
+import {View, Text, TouchableOpacity, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
@@ -7,57 +7,38 @@ import {Global} from './Global';
 export default class UserInfor extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      phone: '',
+      callingCode: '',
+    };
   }
-  // async onPost() {
-  //   var data = {};
-  //   data.token = await this._retrieveData();
-  //   fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
-  //     method: 'GET',
-  //   })
-  //     .then(response => response.json())
-  //     .then(json => {
-  //       this.setState({phone: json.data.phone});
-  //       this.setState({callingCode: json.data.callingCode});
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }
-  // _retrieveData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('Token');
-  //     if (value !== null) {
-  //       return value;
-  //     } else {
-  //       return null;
-  //     }
-  //   } catch (error) {
-  //     console.warn('Error');
-  //     return null;
-  //   }
-  // };
-  // componentDidMount(): void {
-  //   this.onPost();
-  // }
-  removeItemValue = async () => {
+
+  removeItemValue = async key => {
     try {
-      await AsyncStorage.removeItem('Token');
-      return 1
+      await AsyncStorage.removeItem(key);
+      return 1;
     } catch (error) {
       return 0;
     }
   };
 
-
   navi = async () => {
-     const {navigate} =  this.props.navigation;
-     let term = await this.removeItemValue()
-    if (term === 1) return navigate('LoginScreen');
+    const {navigate} = this.props.navigation;
+    let term1 = await this.removeItemValue('Token');
+    let term2 = await this.removeItemValue('phone');
+    let term3 = await this.removeItemValue('callingCode');
+    if (term1 === 1 && term2 === 1 && term3 === 1) {
+      return navigate('LoginScreen');
+    }
+  };
+
+  componentDidMount(): void {
+    AsyncStorage.multiGet(['callingCode', 'phone']).then(response => {
+      this.setState({callingCode: response[0][1], phone: response[1][1]});
+    });
   }
 
   render() {
-
     return (
       <View style={{flex: 1}}>
         <View style={styles.containerFirst}>
@@ -66,8 +47,7 @@ export default class UserInfor extends React.Component {
               <Icon name="user" size={130} color={'#555555'} />
             </View>
             <Text>
-              (+{Global.userinfor.callingCode})
-              {Global.userinfor.phone}
+              (+{this.state.callingCode}){this.state.phone}
             </Text>
           </View>
         </View>
@@ -88,11 +68,7 @@ export default class UserInfor extends React.Component {
             <Text style={styles.version}>1.0.0(v121)</Text>
           </View>
 
-          <ButtonCustom
-            name={'Đăng xuất'}
-            onPress={this.navi}
-          />
-
+          <ButtonCustom name={'Đăng xuất'} onPress={this.navi} />
         </View>
       </View>
     );

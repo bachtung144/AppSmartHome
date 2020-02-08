@@ -48,12 +48,13 @@ export default class SignUp extends Component {
       .then(response => response.json())
       .then(data => {
         console.warn('Success', data);
+        console.warn(data.message.match(/\d/g).join(""))
       })
       .catch(error => {
         console.warn(error);
       })
       .done(
-        navigate('InputMXNScreen', {
+        navigate('InputMXNSignUpScreen', {
           code_clicked: this.state.callingCode,
           phone: data.phone,
         }),

@@ -21,7 +21,6 @@ export default class InputMXNSignUp extends Component {
       this.setState({verify: !this.state.verify});
     }
   };
-
   onSubmit = () => {
     const {navigate} = this.props.navigation;
     const {navigation} = this.props;
@@ -29,9 +28,8 @@ export default class InputMXNSignUp extends Component {
     data.phone = navigation.getParam('phone', 'default value');
     data.code = this.state.MXN;
     data.callingCode = this.props.navigation.state.params.code_clicked;
-    console.warn(data);
 
-    fetch('http://192.168.99.199:1123/forgetPwordVerify', {
+    fetch('http://192.168.99.199:1123/regVerify', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',

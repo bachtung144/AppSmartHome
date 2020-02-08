@@ -11,17 +11,16 @@ import Splash from './src/Containers/Splash';
 import {Dimensions} from 'react-native';
 import Test from './src/Containers/Auth/Test';
 import UserInfor from './src/Containers/Auth/UserInfor';
+import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
 const screenWidth = Math.round(Dimensions.get('window').width);
-const StackLoginSuccess = createStackNavigator(
-    {
-      UserInfor :{
-        screen : UserInfor,
-        navigationOptions:{
-          title:'',
-        }
-      },
-}
-)
+const StackLoginSuccess = createStackNavigator({
+  UserInfor: {
+    screen: UserInfor,
+    navigationOptions: {
+      title: '',
+    },
+  },
+});
 const StackNavigatorAuth = createStackNavigator({
   LoginScreen: {
     screen: Login,
@@ -79,6 +78,20 @@ const StackNavigatorAuth = createStackNavigator({
     },
   },
 
+  InputMXNSignUpScreen: {
+    screen: InputMXNSignUp,
+    navigationOptions: {
+      title: 'Nhập mã xác nhận',
+      headerTitleContainerStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: screenWidth - 147,
+      },
+    },
+  },
+  TestScreen: {
+    screen: Test,
+  },
 });
 
 const InitialNavigator = createSwitchNavigator({
@@ -86,8 +99,7 @@ const InitialNavigator = createSwitchNavigator({
     screen: Splash,
   },
   Auth: StackNavigatorAuth,
-  UserInforScreen :StackLoginSuccess
-
+  UserInforScreen: StackLoginSuccess,
 });
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {

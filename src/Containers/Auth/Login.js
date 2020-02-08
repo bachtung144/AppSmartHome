@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  ActivityIndicator
 } from 'react-native';
 import BackGround from '../../Components/BackGround';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -15,7 +14,7 @@ import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {Global,term} from './Global';
+import {Global} from './Global';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class Login extends Component {
@@ -27,7 +26,7 @@ export default class Login extends Component {
     nameNation: 'Vietnam',
     modal: false,
     status: '',
-    isLoading : true
+    isLoading: true,
   };
 
   secureTextEntryFunction() {
@@ -35,17 +34,20 @@ export default class Login extends Component {
       secureTextEntry: !this.state.secureTextEntry,
     });
   }
-  navig(){
+  navig = status => {
     const {navigate} = this.props.navigation;
-    const te = () => navigate('UserInforScreen')
-    if(this.state.status === "success") return te;
-  }
+    if (status === 'success') {
+      return navigate('UserInforScreen');
+    }
+  };
   onSubmit1 = values => {
-    const {navigate} = this.props.navigation;
     let data = {};
     data.phone = values.phoneNumber;
     data.pword = this.state.password;
     data.callingCode = this.state.callingCode;
+    this._storeData('phone', data.phone);
+    this._storeData('calling', data.callingCode);
+    this._storeData('phone', data.phone);
     fetch('http://192.168.99.199:1123/login', {
       method: 'POST', // or 'PUT'
       headers: {
@@ -55,23 +57,19 @@ export default class Login extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({status:data.status})
         console.warn('Success', data);
         this._storeData('Token', data.data.token);
-        this.onPost()
+        this.onPost();
+        this.navig(data.status);
       })
-
       .catch(error => {
         console.warn(error);
-      })
-        .done(() => navigate('UserInforScreen'))
-  }
-
+      });
+  };
 
   _storeData = async (Token, data) => {
     try {
       await AsyncStorage.setItem(Token, data);
-      // console.warn('data stored');
     } catch (error) {
       console.log('AsyncStorage save error: ' + error.message);
     }
@@ -95,20 +93,17 @@ export default class Login extends Component {
     fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
       method: 'GET',
     })
-        .then(response => response.json())
-        .then(json => {
-          // this.setState({phoneNum: json.data.phone});
-          // this.setState({callingCode: json.data.callingCode});
-          Global.userinfor.phone = json.data.phone;
-          Global.userinfor.callingCode = json.data.callingCode
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      .then(response => response.json())
+      .then(json => {
+        Global.userinfor.phone = json.data.phone;
+        Global.userinfor.callingCode = json.data.callingCode;
+        this._storeData('phone', json.data.phone);
+        this._storeData('callingCode', json.data.callingCode);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
-  // componentDidMount(){
-  //   this.onPost()
-  // }
 
   render() {
     const {navigate} = this.props.navigation;

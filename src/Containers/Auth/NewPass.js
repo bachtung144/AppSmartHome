@@ -12,6 +12,30 @@ export default class NewPass extends Component {
     nameNation: 'Vietnam',
     modal: false,
   };
+  onSubmit = () => {
+    const {navigate} = this.props.navigation;
+    const {navigation} = this.props;
+    let data = {};
+    data.token = this.props.navigation.state.params.token;
+    data.pword = this.state.password;
+
+    fetch('http://192.168.99.199:1123/setPword', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.warn('Success', data);
+      })
+      .catch(error => {
+        console.warn(error);
+      })
+      .done(() => navigate('LoginScreen'));
+  };
+
   secureTextEntryFunction() {
     this.setState({
       secureTextEntry: !this.state.secureTextEntry,
@@ -19,8 +43,6 @@ export default class NewPass extends Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
-    const {navigation} = this.props;
     return (
       <View style={{flex: 1}}>
         <BackGround />
@@ -44,10 +66,7 @@ export default class NewPass extends Component {
             </TouchableOpacity>
           </View>
 
-          <ButtonCustom
-            name={'Xác nhận'}
-            onPress={() => navigate('LoginScreen')}
-          />
+          <ButtonCustom name={'Xác nhận'} onPress={this.onSubmit} />
         </View>
       </View>
     );
