@@ -14,6 +14,7 @@ import ButtonCustom from '../../Components/Button';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
+import {stylesForgetPass} from '../../Components/Styles';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class SignUp extends Component {
@@ -69,10 +70,10 @@ export default class SignUp extends Component {
       <View style={{flex: 1}}>
         <BackGround />
 
-        <View style={styles.container}>
+        <View style={stylesForgetPass.container}>
           <ImageBackground
             source={background_input}
-            style={styles.imageBackGround}
+            style={stylesForgetPass.imageBackGround}
           />
           <CountryPicker
             withEmoji
@@ -89,14 +90,18 @@ export default class SignUp extends Component {
           />
 
           <TouchableOpacity
-            style={styles.nation}
+            style={stylesForgetPass.nation}
             onPress={() => this.setState({modal: true})}>
-            <Text style={styles.smallNation}>Quốc gia</Text>
-            <Text style={styles.callCode}>
+            <Text style={stylesForgetPass.smallNation}>Quốc gia</Text>
+            <Text style={stylesForgetPass.callCode}>
               {this.state.nameNation}
               (+{this.state.callingCode})
             </Text>
-            <Icon name="angle-right" size={20} style={styles.styleIcon} />
+            <Icon
+              name="angle-right"
+              size={20}
+              style={stylesForgetPass.styleIcon}
+            />
           </TouchableOpacity>
 
           <Formik
@@ -114,10 +119,12 @@ export default class SignUp extends Component {
                   onBlur={props.handleBlur('phoneNumber')}
                   value={props.values.phoneNumber}
                   placeholder="phoneNumber"
-                  style={styles.phonenumber}
+                  style={stylesForgetPass.phonenumber}
                 />
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
-                  <Text style={styles.error}>{props.errors.phoneNumber}</Text>
+                  <Text style={stylesForgetPass.error}>
+                    {props.errors.phoneNumber}
+                  </Text>
                 ) : null}
 
                 {this.state.checkBox ? (
@@ -161,79 +168,3 @@ export default class SignUp extends Component {
     );
   }
 }
-
-const styles = {
-  container: {
-    marginHorizontal: 30,
-    flex: 1,
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  imageBackGround: {
-    resizeMode: 'contain',
-    height: 500,
-    width: 500,
-    position: 'absolute',
-  },
-  nation: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    height: 50,
-    backgroundColor: 'white',
-  },
-  phonenumber: {
-    backgroundColor: 'white',
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'gray',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-  blockPass: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    height: 50,
-    backgroundColor: 'white',
-  },
-  iconEye: {
-    width: 40,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  styleIcon: {
-    paddingRight: 5,
-    color: 'black',
-  },
-  buttonLogin: {
-    width: '100%',
-    borderRadius: 70,
-    height: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-    backgroundColor: '#1291b6',
-  },
-  smallNation: {
-    flex: 1,
-    paddingLeft: 5,
-  },
-  callCode: {
-    textAlign: 'center',
-    paddingRight: 5,
-  },
-};

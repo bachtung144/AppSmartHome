@@ -16,6 +16,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
+import {stylesLogin} from '../../Components/Styles';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class Login extends Component {
@@ -82,10 +83,10 @@ export default class Login extends Component {
       <View style={{flex: 1}}>
         <BackGround />
 
-        <View style={styles.container}>
+        <View style={stylesLogin.container}>
           <ImageBackground
             source={background_input}
-            style={styles.imageBackGround}
+            style={stylesLogin.imageBackGround}
           />
           <CountryPicker
             withEmoji
@@ -101,14 +102,14 @@ export default class Login extends Component {
             placeholder={''}
           />
           <TouchableOpacity
-            style={styles.nation}
+            style={stylesLogin.nation}
             onPress={() => this.setState({modal: true})}>
-            <Text style={styles.smallNation}>Quốc gia</Text>
-            <Text style={styles.callCode}>
+            <Text style={stylesLogin.smallNation}>Quốc gia</Text>
+            <Text style={stylesLogin.callCode}>
               {this.state.nameNation}
               (+{this.state.callingCode})
             </Text>
-            <Icon name="angle-right" size={20} style={styles.styleIcon} />
+            <Icon name="angle-right" size={20} style={stylesLogin.styleIcon} />
           </TouchableOpacity>
 
           <Formik
@@ -126,9 +127,9 @@ export default class Login extends Component {
                   onBlur={props.handleBlur('phoneNumber')}
                   value={props.values.phoneNumber}
                   placeholder="phoneNumber"
-                  style={styles.phonenumber}
+                  style={stylesLogin.phonenumber}
                 />
-                <View style={styles.blockPass}>
+                <View style={stylesLogin.blockPass}>
                   <TextInput
                     placeholder={'Mật khẩu'}
                     secureTextEntry={this.state.secureTextEntry}
@@ -139,7 +140,7 @@ export default class Login extends Component {
 
                   <TouchableOpacity
                     onPress={() => this.secureTextEntryFunction()}
-                    style={styles.iconEye}>
+                    style={stylesLogin.iconEye}>
                     <Icon
                       name={this.state.secureTextEntry ? 'eye-slash' : 'eye'}
                       color="black"
@@ -148,7 +149,7 @@ export default class Login extends Component {
                   </TouchableOpacity>
                 </View>
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
-                  <Text style={styles.error}>{props.errors.phoneNumber}</Text>
+                  <Text style={stylesLogin.error}>{props.errors.phoneNumber}</Text>
                 ) : null}
                 {this.state.verify ? null : (
                   <Text style={{color: 'red'}}>Tài khoản ko tồn tại</Text>
@@ -169,69 +170,3 @@ export default class Login extends Component {
     );
   }
 }
-
-const styles = {
-  container: {
-    marginHorizontal: 30,
-    flex: 1,
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  imageBackGround: {
-    resizeMode: 'contain',
-    height: 500,
-    width: 500,
-    position: 'absolute',
-  },
-  nation: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    height: 50,
-    backgroundColor: 'white',
-  },
-  phonenumber: {
-    borderColor: 'gray',
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    width: '100%',
-    height: 50,
-    backgroundColor: 'white',
-  },
-  blockPass: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    height: 50,
-    backgroundColor: 'white',
-  },
-  iconEye: {
-    width: 40,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  styleIcon: {
-    paddingRight: 5,
-    color: 'black',
-  },
-  smallNation: {
-    flex: 1,
-    paddingLeft: 5,
-  },
-  callCode: {
-    textAlign: 'center',
-    paddingRight: 5,
-  },
-};

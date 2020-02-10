@@ -3,6 +3,7 @@ import {View, TextInput, TouchableOpacity} from 'react-native';
 import BackGround from '../../Components/BackGround';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
+import {stylesNewPass} from '../../Components/Styles';
 
 export default class NewPass extends Component {
   state = {
@@ -46,8 +47,8 @@ export default class NewPass extends Component {
     return (
       <View style={{flex: 1}}>
         <BackGround />
-        <View style={styles.container}>
-          <View style={styles.blockPass}>
+        <View style={stylesNewPass.container}>
+          <View style={stylesNewPass.blockPass}>
             <TextInput
               placeholder={'Mật khẩu'}
               secureTextEntry={this.state.secureTextEntry}
@@ -57,7 +58,7 @@ export default class NewPass extends Component {
             />
             <TouchableOpacity
               onPress={() => this.secureTextEntryFunction()}
-              style={styles.iconEye}>
+              style={stylesNewPass.iconEye}>
               <Icon
                 name={this.state.secureTextEntry ? 'eye-slash' : 'eye'}
                 color="black"
@@ -72,42 +73,3 @@ export default class NewPass extends Component {
     );
   }
 }
-
-const styles = {
-  container: {
-    marginHorizontal: 30,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  imageBackGround: {
-    resizeMode: 'contain',
-    height: 500,
-    width: 500,
-    position: 'absolute',
-  },
-  phonenumber: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    width: '100%',
-    height: 50,
-    backgroundColor: 'white',
-  },
-  blockPass: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 10,
-    height: 50,
-    backgroundColor: 'white',
-  },
-  iconEye: {
-    width: 40,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};

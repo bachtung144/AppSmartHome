@@ -4,6 +4,7 @@ import BackGround from '../../Components/BackGround';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import BlockLink from '../../Components/BlockLink';
+import {stylesInputMXN} from '../../Components/Styles';
 
 export default class InputMXNSignUp extends Component {
   state = {
@@ -53,19 +54,19 @@ export default class InputMXNSignUp extends Component {
     return (
       <View style={{flex: 1}}>
         <BackGround />
-        <View style={styles.noti}>
+        <View style={stylesInputMXN.noti}>
           <Text>Mã xác nhận đã được gửi vào số điện thoại :</Text>
           <Text>
             (+{this.props.navigation.state.params.code_clicked})
             {navigation.getParam('phone', 'default value')}
           </Text>
         </View>
-        <View style={styles.container}>
+        <View style={stylesInputMXN.container}>
           <ImageBackground
             source={background_input}
-            style={styles.imageBackGround}
+            style={stylesInputMXN.imageBackGround}
           />
-          <View style={styles.phonenumber}>
+          <View style={stylesInputMXN.phonenumber}>
             <TextInput
               placeholder={'Mã xác nhận'}
               value={this.state.MXN}
@@ -87,30 +88,3 @@ export default class InputMXNSignUp extends Component {
     );
   }
 }
-
-const styles = {
-  container: {
-    marginHorizontal: 30,
-    alignItems: 'center',
-    marginTop: 10,
-    backgroundColor: 'pink',
-  },
-  imageBackGround: {
-    resizeMode: 'contain',
-    height: 500,
-    width: 500,
-    position: 'absolute',
-  },
-  phonenumber: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    width: '100%',
-    height: 50,
-    backgroundColor: 'white',
-  },
-  noti: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};
