@@ -3,14 +3,12 @@ import {View, Text, TouchableOpacity, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
-import {Global} from './Global';
+import getGlobalPhone, {Global} from './Global';
+
 export default class UserInfor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      phone: '',
-      callingCode: '',
-    };
+
   }
 
   removeItemValue = async key => {
@@ -25,20 +23,21 @@ export default class UserInfor extends React.Component {
   navi = async () => {
     const {navigate} = this.props.navigation;
     let term1 = await this.removeItemValue('Token');
-    let term2 = await this.removeItemValue('phone');
-    let term3 = await this.removeItemValue('callingCode');
-    if (term1 === 1 && term2 === 1 && term3 === 1) {
+    if (term1 === 1 ) {
       return navigate('LoginScreen');
     }
   };
 
-  componentDidMount(): void {
-    AsyncStorage.multiGet(['callingCode', 'phone']).then(response => {
-      this.setState({callingCode: response[0][1], phone: response[1][1]});
-    });
-  }
+  // componentDidMount(): void {
+  //   AsyncStorage.multiGet(['callingCode', 'phone']).then(response => {
+  //     this.setState({callingCode: response[0][1], phone: response[1][1]});
+  //   });
+  // }
+
 
   render() {
+    // const {navigate} = this.props.navigation;
+    // const {navigation} = this.props;
     return (
       <View style={{flex: 1}}>
         <View style={styles.containerFirst}>
@@ -47,8 +46,11 @@ export default class UserInfor extends React.Component {
               <Icon name="user" size={130} color={'#555555'} />
             </View>
             <Text>
-              (+{this.state.callingCode}){this.state.phone}
+              (+{Global.userinfor.callingCode}){Global.userinfor.phone}
+
+              {/*{getGlobalPhone()}*/}
             </Text>
+
           </View>
         </View>
 

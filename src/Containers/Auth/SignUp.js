@@ -37,6 +37,7 @@ export default class SignUp extends Component {
     let data = {};
     data.callingCode = this.state.callingCode;
     data.phone = values.phoneNumber;
+    console.warn(data)
 
     fetch('http://192.168.99.199:1123/reg', {
       method: 'POST', // or 'PUT'
