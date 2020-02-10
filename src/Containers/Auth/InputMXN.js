@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  ImageBackground,
-} from 'react-native';
+import {View, Text, TextInput, ImageBackground} from 'react-native';
 import BackGround from '../../Components/BackGround';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
+import BlockLink from '../../Components/BlockLink';
 
 export default class InputMXNSignUp extends Component {
   state = {
@@ -80,19 +76,12 @@ export default class InputMXNSignUp extends Component {
             <Text style={{color: 'red'}}>Mã xác nhận ko đúng!</Text>
           )}
           <ButtonCustom name={'Xác nhận'} onPress={this.onSubmit} />
-
-          <View style={styles.blockLink}>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('SignUpScreen')}>
-              Đăng kí tài khoản
-            </Text>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('LoginScreen')}>
-              Đăng nhập
-            </Text>
-          </View>
+          <BlockLink
+            name1={'Đăng kí tài khoản'}
+            name2={'Đăng nhập'}
+            onPress1={() => navigate('SignUpScreen')}
+            onPress2={() => navigate('LoginScreen')}
+          />
         </View>
       </View>
     );
@@ -119,17 +108,6 @@ const styles = {
     width: '100%',
     height: 50,
     backgroundColor: 'white',
-  },
-  blockLink: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  customLink: {
-    paddingVertical: 10,
-    color: '#22a4c5',
-    fontWeight: 'bold',
   },
   noti: {
     justifyContent: 'center',

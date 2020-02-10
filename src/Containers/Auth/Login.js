@@ -14,7 +14,8 @@ import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {Global} from './Global';
+import onPost from '../../Function/onPost';
+import BlockLink from '../../Components/BlockLink';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class Login extends Component {
@@ -23,12 +24,9 @@ export default class Login extends Component {
     this.state = {
       callingCode: '84',
       password: '',
-      phoneNum: '',
       secureTextEntry: true,
       nameNation: 'Vietnam',
       modal: false,
-      status: '',
-      isLoading: true,
       verify: true,
     };
   }
@@ -57,7 +55,7 @@ export default class Login extends Component {
         console.warn(data);
         if (data.status === 'success') {
           await this._storeData('Token', data.data.token);
-          await this.onPost();
+          await onPost();
           await navigate('UserInforScreen');
         }
         if (data.status === 'fail') {
@@ -76,37 +74,6 @@ export default class Login extends Component {
       console.log('AsyncStorage save error: ' + error.message);
     }
   };
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('Token');
-      if (value !== null) {
-        return value;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.warn('Error');
-      return null;
-    }
-  };
-  async onPost() {
-    var data = {};
-    data.token = await this._retrieveData();
-    return new Promise(async (resolve, reject) => {
-      fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
-        method: 'GET',
-      })
-        .then(response => response.json())
-        .then(json => {
-          Global.userinfor.phone = json.data.phone;
-          Global.userinfor.callingCode = json.data.callingCode;
-          resolve(true);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -191,18 +158,12 @@ export default class Login extends Component {
             )}
           </Formik>
 
-          <View style={styles.blockLink}>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('SignUpScreen')}>
-              Đăng kí tài khoản
-            </Text>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('ForgetPassScreen')}>
-              Quên mật khẩu
-            </Text>
-          </View>
+          <BlockLink
+            name1={'Đăng kí tài khoản'}
+            name2={'Quên mật khẩu'}
+            onPress1={() => navigate('SignUpScreen')}
+            onPress2={() => navigate('ForgetPassScreen')}
+          />
         </View>
       </View>
     );
@@ -260,17 +221,6 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  blockLink: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  customLink: {
-    paddingVertical: 10,
-    color: '#22a4c5',
-    fontWeight: 'bold',
   },
   styleIcon: {
     paddingRight: 5,

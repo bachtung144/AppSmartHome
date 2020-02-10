@@ -13,6 +13,7 @@ import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import BlockLink from '../../Components/BlockLink';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class ForgetPass extends Component {
@@ -111,18 +112,12 @@ export default class ForgetPass extends Component {
               </View>
             )}
           </Formik>
-          <View style={styles.blockLink}>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('SignUpScreen')}>
-              Đăng kí tài khoản
-            </Text>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('LoginScreen')}>
-              Đăng nhập
-            </Text>
-          </View>
+          <BlockLink
+            name1={'Đăng kí tài khoản'}
+            name2={'Đăng nhập'}
+            onPress1={() => navigate('SignUpScreen')}
+            onPress2={() => navigate('LoginScreen')}
+          />
         </View>
       </View>
     );
@@ -181,17 +176,6 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  blockLink: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  customLink: {
-    paddingVertical: 10,
-    color: '#22a4c5',
-    fontWeight: 'bold',
   },
   styleIcon: {
     paddingRight: 5,

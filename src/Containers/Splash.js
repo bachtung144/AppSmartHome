@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, AsyncStorage} from 'react-native';
-import {Global} from './Auth/Global';
+import {View, Text } from 'react-native';
+import onPost from '../Function/onPost';
+import {_retrieveData} from  '../Function/_retrieveData'
 
 export default class SplashScreen extends React.Component {
   performTimeConsumingTask = async () => {
@@ -10,44 +11,14 @@ export default class SplashScreen extends React.Component {
       }, 2000),
     );
   };
-  async onPost() {
-    var data = {};
-    data.token = await this._retrieveData();
-    return new Promise(async (resolve, reject) => {
-      fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
-        method: 'GET',
-      })
-          .then(response => response.json())
-          .then( json => {
-            Global.userinfor.phone = json.data.phone;
-            Global.userinfor.callingCode = json.data.callingCode;
-            resolve (true)
-          })
-          .catch(error => {
-            reject(error)
-          });
-    })}
 
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('Token');
-      if (value !== null) {
-        return value;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.warn('Error');
-      return null;
-    }
-  };
   async componentDidMount() {
     const data = await this.performTimeConsumingTask();
-    var value = await this._retrieveData();
+    var value = await _retrieveData();
     if (data !== null ) {
       if(value === null) this.props.navigation.navigate('Auth');
       if(value !== null) {
-        await this.onPost()
+        await onPost()
         await this.props.navigation.navigate('UserInforScreen');}
   }}
 

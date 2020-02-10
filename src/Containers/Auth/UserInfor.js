@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
-import {Global} from './Global';
+import {Global} from '../../Function/Global';
 
 export default class UserInfor extends React.Component {
   constructor(props) {

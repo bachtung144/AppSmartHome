@@ -13,6 +13,7 @@ import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import BlockLink from '../../Components/BlockLink';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class SignUp extends Component {
@@ -37,7 +38,7 @@ export default class SignUp extends Component {
     let data = {};
     data.callingCode = this.state.callingCode;
     data.phone = values.phoneNumber;
-    console.warn(data)
+    console.warn(data);
 
     fetch('http://192.168.99.199:1123/reg', {
       method: 'POST', // or 'PUT'
@@ -49,7 +50,7 @@ export default class SignUp extends Component {
       .then(response => response.json())
       .then(data => {
         console.warn('Success', data);
-        console.warn(data.message.match(/\d/g).join(""))
+        console.warn(data.message.match(/\d/g).join(''));
       })
       .catch(error => {
         console.warn(error);
@@ -148,18 +149,13 @@ export default class SignUp extends Component {
             </TouchableOpacity>
             <Text>Tôi đồng ý điều khoản và chính sách</Text>
           </View>
-          <View style={styles.blockLink}>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('LoginScreen')}>
-              Đăng nhập
-            </Text>
-            <Text
-              style={styles.customLink}
-              onPress={() => navigate('ForgetPassScreen')}>
-              Quên mật khẩu
-            </Text>
-          </View>
+
+          <BlockLink
+            name1={'Đăng nhập'}
+            name2={'Quên mật khẩu'}
+            onPress1={() => navigate('LoginScreen')}
+            onPress2={() => navigate('ForgetPassScreen')}
+          />
         </View>
       </View>
     );
@@ -218,17 +214,6 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  blockLink: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  customLink: {
-    paddingVertical: 10,
-    color: '#22a4c5',
-    fontWeight: 'bold',
   },
   styleIcon: {
     paddingRight: 5,
