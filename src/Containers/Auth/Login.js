@@ -16,13 +16,11 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Global} from './Global';
 
-
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class Login extends Component {
-
   constructor() {
     super();
-    this.state= {
+    this.state = {
       callingCode: '84',
       password: '',
       phoneNum: '',
@@ -31,7 +29,6 @@ export default class Login extends Component {
       modal: false,
       status: '',
       isLoading: true,
-      phoneGet:'',
       verify: true,
     };
   }
@@ -41,15 +38,6 @@ export default class Login extends Component {
       secureTextEntry: !this.state.secureTextEntry,
     });
   }
-  navig =  status => {
-    const {navigate} = this.props.navigation;
-    if (status === 'success') {
-      return  navigate('UserInforScreen');
-    }
-    if (status === 'fail') {
-      console.warn(this.state.verify)
-    }
-  };
 
   onSubmit1 = values => {
     const {navigate} = this.props.navigation;
@@ -65,12 +53,16 @@ export default class Login extends Component {
       body: JSON.stringify(data),
     })
       .then(response => response.json())
-      .then( async data => {
-        await console.warn('Success', data);
-        await this._storeData('Token', data.data.token);
-        await this.onPost();
-        this.navig(data.status);
-
+      .then(async data => {
+        console.warn(data);
+        if (data.status === 'success') {
+          await this._storeData('Token', data.data.token);
+          await this.onPost();
+          await navigate('UserInforScreen');
+        }
+        if (data.status === 'fail') {
+          await this.setState({verify: !this.state.verify});
+        }
       })
       .catch(error => {
         console.warn(error);
@@ -104,17 +96,17 @@ export default class Login extends Component {
       fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
         method: 'GET',
       })
-          .then(response => response.json())
-          .then( json => {
-            Global.userinfor.phone = json.data.phone;
-            Global.userinfor.callingCode = json.data.callingCode;
-            resolve (true)
-          })
-          .catch(error => {
-            reject(error)
-          });
-    })}
-
+        .then(response => response.json())
+        .then(json => {
+          Global.userinfor.phone = json.data.phone;
+          Global.userinfor.callingCode = json.data.callingCode;
+          resolve(true);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -191,14 +183,13 @@ export default class Login extends Component {
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
                   <Text style={styles.error}>{props.errors.phoneNumber}</Text>
                 ) : null}
+                {this.state.verify ? null : (
+                  <Text style={{color: 'red'}}>Tài khoản ko tồn tại</Text>
+                )}
                 <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'} />
               </View>
             )}
           </Formik>
-
-          {this.state.verify ? null : (
-              <Text style={{color: 'red'}}>Tài khoản ko tồn tại</Text>
-          )}
 
           <View style={styles.blockLink}>
             <Text

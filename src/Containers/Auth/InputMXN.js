@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   ImageBackground,
 } from 'react-native';
 import BackGround from '../../Components/BackGround';

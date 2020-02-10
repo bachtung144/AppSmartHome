@@ -1,14 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Button} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
-import getGlobalPhone, {Global} from './Global';
+import {Global} from './Global';
 
 export default class UserInfor extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   removeItemValue = async key => {
@@ -23,21 +22,12 @@ export default class UserInfor extends React.Component {
   navi = async () => {
     const {navigate} = this.props.navigation;
     let term1 = await this.removeItemValue('Token');
-    if (term1 === 1 ) {
+    if (term1 === 1) {
       return navigate('LoginScreen');
     }
   };
 
-  // componentDidMount(): void {
-  //   AsyncStorage.multiGet(['callingCode', 'phone']).then(response => {
-  //     this.setState({callingCode: response[0][1], phone: response[1][1]});
-  //   });
-  // }
-
-
   render() {
-    // const {navigate} = this.props.navigation;
-    // const {navigation} = this.props;
     return (
       <View style={{flex: 1}}>
         <View style={styles.containerFirst}>
@@ -47,10 +37,7 @@ export default class UserInfor extends React.Component {
             </View>
             <Text>
               (+{Global.userinfor.callingCode}){Global.userinfor.phone}
-
-              {/*{getGlobalPhone()}*/}
             </Text>
-
           </View>
         </View>
 
