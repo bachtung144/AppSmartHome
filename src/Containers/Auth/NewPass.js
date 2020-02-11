@@ -4,6 +4,8 @@ import BackGround from '../../Components/BackGround';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {stylesNewPass} from '../../Components/Styles';
+import onPost from '../../Function/onPost';
+import {_storeData} from '../../Function/_storeData'
 
 export default class NewPass extends Component {
   state = {
@@ -15,7 +17,6 @@ export default class NewPass extends Component {
   };
   onSubmit = () => {
     const {navigate} = this.props.navigation;
-    const {navigation} = this.props;
     let data = {};
     data.token = this.props.navigation.state.params.token;
     data.pword = this.state.password;
@@ -28,13 +29,16 @@ export default class NewPass extends Component {
       body: JSON.stringify(data),
     })
       .then(response => response.json())
-      .then(data => {
+      .then(async data => {
         console.warn('Success', data);
+        await _storeData('Token', data.data.token);
+        await onPost();
+        await navigate('UserInforScreen');
       })
       .catch(error => {
         console.warn(error);
       })
-      .done(() => navigate('LoginScreen'));
+
   };
 
   secureTextEntryFunction() {

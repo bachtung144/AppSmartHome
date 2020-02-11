@@ -11,14 +11,15 @@ import CountryPicker from 'react-native-country-picker-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
-import {AsyncStorage} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
 import {stylesLogin} from '../../Components/Styles';
+import {_storeData} from '../../Function/_storeData';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 export default class Login extends Component {
   constructor() {
     super();
@@ -55,7 +56,7 @@ export default class Login extends Component {
       .then(async data => {
         console.warn(data);
         if (data.status === 'success') {
-          await this._storeData('Token', data.data.token);
+          await _storeData('Token', data.data.token);
           await onPost();
           await navigate('UserInforScreen');
         }
@@ -66,14 +67,6 @@ export default class Login extends Component {
       .catch(error => {
         console.warn(error);
       });
-  };
-
-  _storeData = async (Token, data) => {
-    try {
-      await AsyncStorage.setItem(Token, data);
-    } catch (error) {
-      console.log('AsyncStorage save error: ' + error.message);
-    }
   };
 
   render() {
@@ -128,7 +121,9 @@ export default class Login extends Component {
                   value={props.values.phoneNumber}
                   placeholder="phoneNumber"
                   style={stylesLogin.phonenumber}
+                  keyboardType="numeric"
                 />
+
                 <View style={stylesLogin.blockPass}>
                   <TextInput
                     placeholder={'Mật khẩu'}
@@ -148,6 +143,7 @@ export default class Login extends Component {
                     />
                   </TouchableOpacity>
                 </View>
+
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
                   <Text style={stylesLogin.error}>
                     {props.errors.phoneNumber}

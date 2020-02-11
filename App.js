@@ -61,8 +61,10 @@ const StackNavigatorAuth = createStackNavigator({
       headerTitleContainerStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: screenWidth - 147,
+        width: screenWidth - 50,
       },
+      headerLeft: null,
+      gesturesEnabled: false,
     },
   },
   SignUpScreen: {

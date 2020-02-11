@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  Linking,
 } from 'react-native';
 import BackGround from '../../Components/BackGround';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -15,7 +16,6 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
 import {stylesForgetPass} from '../../Components/Styles';
-
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class SignUp extends Component {
@@ -28,7 +28,7 @@ export default class SignUp extends Component {
       phoneNumberCode: '',
       checkBox: false,
       phoneNum: '',
-      verify:true,
+      verify: true,
     };
   }
 
@@ -52,20 +52,19 @@ export default class SignUp extends Component {
       .then(response => response.json())
       .then(data => {
         console.warn('Success', data);
-        if (data.status === 'success'){
+        if (data.status === 'success') {
           navigate('InputMXNSignUpScreen', {
             code_clicked: this.state.callingCode,
             phone: values.phoneNumber,
           });
         }
-        if (data.status === 'fail'){
-          this.setState({verify: !this.state.verify})
+        if (data.status === 'fail') {
+          this.setState({verify: !this.state.verify});
         }
       })
       .catch(error => {
         console.warn(error);
-      })
-
+      });
   };
 
   render() {
@@ -130,7 +129,9 @@ export default class SignUp extends Component {
                   </Text>
                 ) : null}
                 {this.state.verify ? null : (
-                    <Text style={{color: 'red'}}>Số điện thoại không tồn tại</Text>
+                  <Text style={{color: 'red'}}>
+                    Số điện thoại không tồn tại
+                  </Text>
                 )}
 
                 {this.state.checkBox ? (
@@ -147,14 +148,21 @@ export default class SignUp extends Component {
           <View style={stylesForgetPass.containerIconCheckBox}>
             <TouchableOpacity
               onPress={() => this.noti()}
-              style={{marginRight: 10, marginTop: 2.5}}>
+              style={{
+                padding:5
+                }}>
               {this.state.checkBox ? (
                 <Icon name={'check-square'} color={'#1490b5'} size={15} />
               ) : (
                 <Icon name={'check-square'} color={'black'} size={15} />
               )}
             </TouchableOpacity>
-            <Text>Tôi đồng ý điều khoản và chính sách</Text>
+            <Text style={{marginTop:2}}>Tôi đồng ý
+              <Text style={{color: '#1490b5',textDecorationLine:'underline'}}
+                    onPress={() => Linking.openURL('http://google.com')}>
+                 {' '}điều khoản và chính sách
+              </Text>
+            </Text>
           </View>
 
           <BlockLink
