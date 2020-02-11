@@ -149,7 +149,9 @@ export default class Login extends Component {
                   </TouchableOpacity>
                 </View>
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
-                  <Text style={stylesLogin.error}>{props.errors.phoneNumber}</Text>
+                  <Text style={stylesLogin.error}>
+                    {props.errors.phoneNumber}
+                  </Text>
                 ) : null}
                 {this.state.verify ? null : (
                   <Text style={{color: 'red'}}>Tài khoản ko tồn tại</Text>

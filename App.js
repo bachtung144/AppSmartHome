@@ -9,7 +9,6 @@ import NewPass from './src/Containers/Auth/NewPass';
 import SignUp from './src/Containers/Auth/SignUp';
 import Splash from './src/Containers/Splash';
 import {Dimensions} from 'react-native';
-import Test from './src/Containers/Auth/Test';
 import UserInfor from './src/Containers/Auth/UserInfor';
 import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -88,9 +87,6 @@ const StackNavigatorAuth = createStackNavigator({
         width: screenWidth - 147,
       },
     },
-  },
-  TestScreen: {
-    screen: Test,
   },
 });
 

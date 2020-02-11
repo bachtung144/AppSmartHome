@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
 import {stylesForgetPass} from '../../Components/Styles';
 
+
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class SignUp extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export default class SignUp extends Component {
       phoneNumberCode: '',
       checkBox: false,
       phoneNum: '',
+      verify:true,
     };
   }
 
@@ -39,7 +41,6 @@ export default class SignUp extends Component {
     let data = {};
     data.callingCode = this.state.callingCode;
     data.phone = values.phoneNumber;
-    console.warn(data);
 
     fetch('http://192.168.99.199:1123/reg', {
       method: 'POST', // or 'PUT'
@@ -51,17 +52,20 @@ export default class SignUp extends Component {
       .then(response => response.json())
       .then(data => {
         console.warn('Success', data);
-        console.warn(data.message.match(/\d/g).join(''));
+        if (data.status === 'success'){
+          navigate('InputMXNSignUpScreen', {
+            code_clicked: this.state.callingCode,
+            phone: values.phoneNumber,
+          });
+        }
+        if (data.status === 'fail'){
+          this.setState({verify: !this.state.verify})
+        }
       })
       .catch(error => {
         console.warn(error);
       })
-      .done(
-        navigate('InputMXNSignUpScreen', {
-          code_clicked: this.state.callingCode,
-          phone: data.phone,
-        }),
-      );
+
   };
 
   render() {
@@ -103,7 +107,6 @@ export default class SignUp extends Component {
               style={stylesForgetPass.styleIcon}
             />
           </TouchableOpacity>
-
           <Formik
             initialValues={{phoneNumber: ''}}
             validationSchema={Yup.object({
@@ -126,6 +129,9 @@ export default class SignUp extends Component {
                     {props.errors.phoneNumber}
                   </Text>
                 ) : null}
+                {this.state.verify ? null : (
+                    <Text style={{color: 'red'}}>Số điện thoại không tồn tại</Text>
+                )}
 
                 {this.state.checkBox ? (
                   <ButtonCustom
@@ -138,13 +144,7 @@ export default class SignUp extends Component {
               </View>
             )}
           </Formik>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              width: '100%',
-              marginTop: 15,
-            }}>
+          <View style={stylesForgetPass.containerIconCheckBox}>
             <TouchableOpacity
               onPress={() => this.noti()}
               style={{marginRight: 10, marginTop: 2.5}}>

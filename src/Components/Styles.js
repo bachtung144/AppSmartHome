@@ -137,6 +137,12 @@ export const stylesForgetPass = {
     textAlign: 'center',
     paddingRight: 5,
   },
+  containerIconCheckBox:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: 15,
+  },
 };
 export const stylesInputMXN = {
   container: {
