@@ -13,30 +13,32 @@ import UserInfor from './src/Containers/Auth/UserInfor';
 import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
 import Home from './src/Containers/Auth/Home';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Device from './src/Containers/Auth/Device';
+import Layer from './src/Containers/Auth/Layer';
+
 
 const screenWidth = Math.round(Dimensions.get('window').width);
-// const StackLoginSuccess = createStackNavigator({
-//   UserInfor: {
-//     screen: UserInfor,
-//     navigationOptions: {
-//       title: '',
-//     },
-//   },
-// });
+
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
   let iconName;
   if (routeName === 'Home') {
-    iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-  } else if (routeName === 'Settings') {
-    iconName = `ios-options${focused ? '' : '-outline'}`;
+    iconName = `home`;
+  } else if (routeName === 'User') {
+    iconName = `user-alt`;
+  }else if (routeName === 'Device'){
+    iconName = `satellite-dish`;
+  }else if (routeName === 'Layer'){
+    iconName = `layer-group`
   }
   return <Icon name={iconName} size={25} color={tintColor} />;
 };
 const TabNavigator = createBottomTabNavigator({
-  HomeScreen: {screen: Home},
-  UserInforScreen: {screen: UserInfor},
+  Home: {screen: Home},
+  Device:{screen:Device},
+  Layer:{screen:Layer},
+  User: {screen: UserInfor},
 },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -44,7 +46,7 @@ const TabNavigator = createBottomTabNavigator({
             getTabBarIcon(navigation, focused, tintColor),
       }),
       tabBarOptions: {
-        activeTintColor: 'tomato',
+        activeTintColor: '#1291b6',
         inactiveTintColor: 'gray',
       },
     }
@@ -130,8 +132,7 @@ const InitialNavigator = createSwitchNavigator({
   Auth: StackNavigatorAuth,
   UserInforScreen: TabNavigator,
 });
-// TabNavigator
-// StackLoginSuccess
+
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
   render() {
