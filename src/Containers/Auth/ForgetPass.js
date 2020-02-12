@@ -15,6 +15,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
 import {stylesForgetPass} from '../../Components/Styles';
+import ButtonTest from '../../Components/ButtonTest';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class ForgetPass extends Component {
@@ -75,6 +76,7 @@ export default class ForgetPass extends Component {
                 callingCode: country.callingCode,
               })
             }
+            withFilter={true}
             onClose={() => this.setState({modal: false})}
             placeholder={''}
           />
@@ -95,10 +97,16 @@ export default class ForgetPass extends Component {
 
           <Formik
             initialValues={{phoneNumber: ''}}
-            validationSchema={Yup.object({
+            validationSchema={Yup.object().shape({
               phoneNumber: Yup.string()
-                .matches(phoneRegExp, 'Phone number is not valid')
-                .required('Required'),
+                .min(9, 'Auth.FieldValidation.min_length_phone')
+                .max(15, 'Auth.FieldValidation.max_length_phone')
+                .required('Auth.FieldValidation.required_phone')
+                .test(
+                  'check_phone',
+                  'Auth.FieldValidation.check_is_phone',
+                  value => !isNaN(value),
+                ),
             })}
             onSubmit={this.onSubmit1}>
             {props => (
@@ -111,9 +119,18 @@ export default class ForgetPass extends Component {
                   style={stylesForgetPass.phonenumber}
                 />
                 {props.touched.phoneNumber && props.errors.phoneNumber ? (
-                  <Text style={stylesForgetPass.error}>{props.errors.phoneNumber}</Text>
+                  <Text style={stylesForgetPass.error}>
+                    {props.errors.phoneNumber}
+                  </Text>
                 ) : null}
-                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'} />
+                {props.isValid && props.values.phoneNumber ? (
+                  <ButtonCustom
+                    onPress={props.handleSubmit}
+                    name={'Tiếp tục'}
+                  />
+                ) : (
+                  <ButtonTest name={'Tiếp tục'} />
+                )}
               </View>
             )}
           </Formik>
@@ -128,4 +145,3 @@ export default class ForgetPass extends Component {
     );
   }
 }
-

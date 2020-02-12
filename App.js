@@ -11,15 +11,44 @@ import Splash from './src/Containers/Splash';
 import {Dimensions} from 'react-native';
 import UserInfor from './src/Containers/Auth/UserInfor';
 import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
+import Home from './src/Containers/Auth/Home';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
-const StackLoginSuccess = createStackNavigator({
-  UserInfor: {
-    screen: UserInfor,
-    navigationOptions: {
-      title: '',
-    },
-  },
-});
+// const StackLoginSuccess = createStackNavigator({
+//   UserInfor: {
+//     screen: UserInfor,
+//     navigationOptions: {
+//       title: '',
+//     },
+//   },
+// });
+const getTabBarIcon = (navigation, focused, tintColor) => {
+  const { routeName } = navigation.state;
+  let iconName;
+  if (routeName === 'Home') {
+    iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+  } else if (routeName === 'Settings') {
+    iconName = `ios-options${focused ? '' : '-outline'}`;
+  }
+  return <Icon name={iconName} size={25} color={tintColor} />;
+};
+const TabNavigator = createBottomTabNavigator({
+  HomeScreen: {screen: Home},
+  UserInforScreen: {screen: UserInfor},
+},
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, tintColor }) =>
+            getTabBarIcon(navigation, focused, tintColor),
+      }),
+      tabBarOptions: {
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+      },
+    }
+);
 const StackNavigatorAuth = createStackNavigator({
   LoginScreen: {
     screen: Login,
@@ -86,8 +115,10 @@ const StackNavigatorAuth = createStackNavigator({
       headerTitleContainerStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: screenWidth - 147,
+        width: screenWidth - 50,
       },
+      headerLeft: null,
+      gesturesEnabled: false,
     },
   },
 });
@@ -97,8 +128,10 @@ const InitialNavigator = createSwitchNavigator({
     screen: Splash,
   },
   Auth: StackNavigatorAuth,
-  UserInforScreen: StackLoginSuccess,
+  UserInforScreen: TabNavigator,
 });
+// TabNavigator
+// StackLoginSuccess
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
   render() {

@@ -17,8 +17,8 @@ import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
 import {stylesLogin} from '../../Components/Styles';
 import {_storeData} from '../../Function/_storeData';
-
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+import ButtonTest from '../../Components/ButtonTest';
+import Loading from '../../Components/Loading';
 
 export default class Login extends Component {
   constructor() {
@@ -30,6 +30,7 @@ export default class Login extends Component {
       nameNation: 'Vietnam',
       modal: false,
       verify: true,
+      isLoading:false
     };
   }
 
@@ -56,12 +57,14 @@ export default class Login extends Component {
       .then(async data => {
         console.warn(data);
         if (data.status === 'success') {
+          await this.setState({isLoading:true})
           await _storeData('Token', data.data.token);
           await onPost();
           await navigate('UserInforScreen');
         }
         if (data.status === 'fail') {
-          await this.setState({verify: !this.state.verify});
+          await this.setState({isLoading:true})
+          await this.setState({verify: false});
         }
       })
       .catch(error => {
@@ -71,7 +74,6 @@ export default class Login extends Component {
 
   render() {
     const {navigate} = this.props.navigation;
-
     return (
       <View style={{flex: 1}}>
         <BackGround />
@@ -91,6 +93,7 @@ export default class Login extends Component {
                 callingCode: country.callingCode,
               })
             }
+            withFilter={true}
             onClose={() => this.setState({modal: false})}
             placeholder={''}
           />
@@ -107,10 +110,16 @@ export default class Login extends Component {
 
           <Formik
             initialValues={{phoneNumber: ''}}
-            validationSchema={Yup.object({
+            validationSchema={Yup.object().shape({
               phoneNumber: Yup.string()
-                .matches(phoneRegExp, 'Phone number is not valid')
-                .required('Required'),
+                .min(9, 'Auth.FieldValidation.min_length_phone')
+                .max(15, 'Auth.FieldValidation.max_length_phone')
+                .required('Auth.FieldValidation.required_phone')
+                .test(
+                  'check_phone',
+                  'Auth.FieldValidation.check_is_phone',
+                  value => !isNaN(value),
+                ),
             })}
             onSubmit={this.onSubmit1}>
             {props => (
@@ -152,7 +161,15 @@ export default class Login extends Component {
                 {this.state.verify ? null : (
                   <Text style={{color: 'red'}}>Tài khoản ko tồn tại</Text>
                 )}
-                <ButtonCustom onPress={props.handleSubmit} name={'Tiếp tục'} />
+                {props.isValid && props.values.phoneNumber ? (
+                  <ButtonCustom
+                    onPress={props.handleSubmit}
+                    name={'Đăng nhập'}
+                    status={this.state.isLoading}
+                  />
+                ) : (
+                  <ButtonTest name={'Đăng nhập'} />
+                )}
               </View>
             )}
           </Formik>

@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {stylesNewPass} from '../../Components/Styles';
 import onPost from '../../Function/onPost';
-import {_storeData} from '../../Function/_storeData'
+import {_storeData} from '../../Function/_storeData';
+import ButtonTest from '../../Components/ButtonTest';
 
 export default class NewPass extends Component {
   state = {
@@ -37,8 +38,7 @@ export default class NewPass extends Component {
       })
       .catch(error => {
         console.warn(error);
-      })
-
+      });
   };
 
   secureTextEntryFunction() {
@@ -71,7 +71,11 @@ export default class NewPass extends Component {
             </TouchableOpacity>
           </View>
 
-          <ButtonCustom name={'Xác nhận'} onPress={this.onSubmit} />
+          {this.state.password ? (
+            <ButtonCustom onPress={this.onSubmit} name={'Xác nhận'} />
+          ) : (
+            <ButtonTest name={'Xác nhận'} />
+          )}
         </View>
       </View>
     );

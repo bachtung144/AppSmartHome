@@ -4,7 +4,8 @@ import BackGround from '../../Components/BackGround';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import BlockLink from '../../Components/BlockLink';
-import {stylesInputMXNSignUp, stylesInputMXN} from '../../Components/Styles';
+import {stylesInputMXN} from '../../Components/Styles';
+import ButtonTest from '../../Components/ButtonTest';
 
 export default class InputMXNSignUp extends Component {
   state = {
@@ -12,12 +13,9 @@ export default class InputMXNSignUp extends Component {
     token: '',
     verify: true,
   };
-  navig = status => {
-    if (status === 'fail') {
-      this.setState({verify: !this.state.verify});
-    }
-  };
+
   onSubmit = () => {
+    this.setState({isLoading: false});
     const {navigate} = this.props.navigation;
     const {navigation} = this.props;
     let data = {};
@@ -33,13 +31,15 @@ export default class InputMXNSignUp extends Component {
       body: JSON.stringify(data),
     })
       .then(response => response.json())
-      .then(data => {
+      .then(async data => {
         console.warn('Success', data);
-        this.setState({token: data.data.token});
+        await this.setState({token: data.data.token});
         if (data.status === 'success') {
-          return navigate('NewPassScreen', {token: this.state.token});
+          await navigate('NewPassScreen', {token: this.state.token});
         }
-        this.navig(data.status);
+        if (data.status === 'fail') {
+          await this.setState({verify: false});
+        }
       })
       .catch(error => {
         console.warn(error);
@@ -74,7 +74,11 @@ export default class InputMXNSignUp extends Component {
           {this.state.verify ? null : (
             <Text style={{color: 'red'}}>Mã xác nhận ko đúng!</Text>
           )}
-          <ButtonCustom name={'Xác nhận'} onPress={this.onSubmit} />
+          {this.state.MXN ? (
+            <ButtonCustom onPress={this.onSubmit} name={'Xác nhận'} />
+          ) : (
+            <ButtonTest name={'Xác nhận'} />
+          )}
 
           <BlockLink
             name1={'Đăng kí tài khoản'}

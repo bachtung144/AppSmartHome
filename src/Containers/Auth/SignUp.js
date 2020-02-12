@@ -16,8 +16,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
 import {stylesForgetPass} from '../../Components/Styles';
+import ButtonTest from '../../Components/ButtonTest';
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +37,7 @@ export default class SignUp extends Component {
   }
 
   onSubmit1 = values => {
+    this.setState({isLoading: false});
     const {navigate} = this.props.navigation;
     let data = {};
     data.callingCode = this.state.callingCode;
@@ -50,16 +51,16 @@ export default class SignUp extends Component {
       body: JSON.stringify(data),
     })
       .then(response => response.json())
-      .then(data => {
+      .then(async data => {
         console.warn('Success', data);
         if (data.status === 'success') {
-          navigate('InputMXNSignUpScreen', {
+          await navigate('InputMXNSignUpScreen', {
             code_clicked: this.state.callingCode,
             phone: values.phoneNumber,
           });
         }
         if (data.status === 'fail') {
-          this.setState({verify: !this.state.verify});
+          await this.setState({verify: false});
         }
       })
       .catch(error => {
@@ -88,6 +89,7 @@ export default class SignUp extends Component {
                 callingCode: country.callingCode,
               })
             }
+            withFilter={true}
             onClose={() => this.setState({modal: false})}
             placeholder={''}
           />
@@ -108,10 +110,16 @@ export default class SignUp extends Component {
           </TouchableOpacity>
           <Formik
             initialValues={{phoneNumber: ''}}
-            validationSchema={Yup.object({
+            validationSchema={Yup.object().shape({
               phoneNumber: Yup.string()
-                .matches(phoneRegExp, 'Phone number is not valid')
-                .required('Required'),
+                .min(9, 'Auth.FieldValidation.min_length_phone')
+                .max(15, 'Auth.FieldValidation.max_length_phone')
+                .required('Auth.FieldValidation.required_phone')
+                .test(
+                  'check_phone',
+                  'Auth.FieldValidation.check_is_phone',
+                  value => !isNaN(value),
+                ),
             })}
             onSubmit={this.onSubmit1}>
             {props => (
@@ -134,13 +142,15 @@ export default class SignUp extends Component {
                   </Text>
                 )}
 
-                {this.state.checkBox ? (
+                {this.state.checkBox &&
+                props.isValid &&
+                props.values.phoneNumber ? (
                   <ButtonCustom
                     onPress={props.handleSubmit}
                     name={'Tiếp tục'}
                   />
                 ) : (
-                  <ButtonCustom name={'Tiếp tục'} />
+                  <ButtonTest name={'Tiếp tục'} />
                 )}
               </View>
             )}
@@ -149,18 +159,21 @@ export default class SignUp extends Component {
             <TouchableOpacity
               onPress={() => this.noti()}
               style={{
-                padding:5
-                }}>
+                padding: 5,
+              }}>
               {this.state.checkBox ? (
                 <Icon name={'check-square'} color={'#1490b5'} size={15} />
               ) : (
                 <Icon name={'check-square'} color={'black'} size={15} />
               )}
             </TouchableOpacity>
-            <Text style={{marginTop:2}}>Tôi đồng ý
-              <Text style={{color: '#1490b5',textDecorationLine:'underline'}}
-                    onPress={() => Linking.openURL('http://google.com')}>
-                 {' '}điều khoản và chính sách
+            <Text style={{marginTop: 2}}>
+              Tôi đồng ý
+              <Text
+                style={{color: '#1490b5', textDecorationLine: 'underline'}}
+                onPress={() => Linking.openURL('http://google.com')}>
+                {' '}
+                điều khoản và chính sách
               </Text>
             </Text>
           </View>

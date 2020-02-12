@@ -137,7 +137,7 @@ export const stylesForgetPass = {
     textAlign: 'center',
     paddingRight: 5,
   },
-  containerIconCheckBox:{
+  containerIconCheckBox: {
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
