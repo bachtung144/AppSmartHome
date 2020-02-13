@@ -12,6 +12,7 @@ import {Dimensions} from 'react-native';
 import UserInfor from './src/Containers/Auth/UserInfor';
 import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
 import Home from './src/Containers/Auth/Home';
+import 'react-native-gesture-handler';
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator,

@@ -21,8 +21,8 @@ import ButtonTest from '../../Components/ButtonTest';
 import Loading from '../../Components/Loading';
 
 export default class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       callingCode: '84',
       password: '',

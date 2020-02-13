@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, Button, TextInput, TouchableOpacity} from 'react-native';
 import io from 'socket.io-client';
-import AppTest from './AppContainer';
 
 export default class screen1 extends Component{
     constructor(props) {
