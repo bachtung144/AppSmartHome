@@ -7,6 +7,10 @@ import {Global} from '../../Function/Global';
 import {stylesUserInfor} from '../../Components/Styles';
 
 export default class UserInfor extends React.Component {
+  static navigationOptions = {
+    headerTitle: '',
+  };
+
   constructor(props) {
     super(props);
   }

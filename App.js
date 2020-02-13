@@ -12,45 +12,67 @@ import {Dimensions} from 'react-native';
 import UserInfor from './src/Containers/Auth/UserInfor';
 import InputMXNSignUp from './src/Containers/Auth/InputMXNSignUp';
 import Home from './src/Containers/Auth/Home';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Device from './src/Containers/Auth/Device';
 import Layer from './src/Containers/Auth/Layer';
-
+import HeaderHome from './src/Components/HeaderHome';
+import screen1 from './src/Containers/Auth/screen1';
+import screen2 from './src/Containers/Auth/screen2';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
-  const { routeName } = navigation.state;
+  const {routeName} = navigation.state;
   let iconName;
   if (routeName === 'Home') {
-    iconName = `home`;
+    iconName = 'home';
   } else if (routeName === 'User') {
-    iconName = `user-alt`;
-  }else if (routeName === 'Device'){
-    iconName = `satellite-dish`;
-  }else if (routeName === 'Layer'){
-    iconName = `layer-group`
+    iconName = 'user-alt';
+  } else if (routeName === 'Device') {
+    iconName = 'satellite-dish';
+  } else if (routeName === 'Layer') {
+    iconName = 'layer-group';
   }
   return <Icon name={iconName} size={25} color={tintColor} />;
 };
-const TabNavigator = createBottomTabNavigator({
-  Home: {screen: Home},
-  Device:{screen:Device},
-  Layer:{screen:Layer},
-  User: {screen: UserInfor},
-},
-    {
-      defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused, tintColor }) =>
-            getTabBarIcon(navigation, focused, tintColor),
-      }),
-      tabBarOptions: {
-        activeTintColor: '#1291b6',
-        inactiveTintColor: 'gray',
-      },
-    }
+
+const TabNavigatorTest = createMaterialTopTabNavigator({
+  screen1: {screen: screen1},
+  screen2: {screen: screen2},
+});
+
+const StackHome = createStackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      headerTitle: () => <HeaderHome />,
+    },
+  },
+});
+
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: {screen: StackHome},
+    Device: {screen: Device},
+    Layer: {screen: Layer},
+    User: {screen: UserInfor},
+  },
+  {
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused, tintColor}) =>
+        getTabBarIcon(navigation, focused, tintColor),
+    }),
+    tabBarOptions: {
+      activeTintColor: '#1291b6',
+      inactiveTintColor: 'gray',
+    },
+  },
 );
+
 const StackNavigatorAuth = createStackNavigator({
   LoginScreen: {
     screen: Login,
