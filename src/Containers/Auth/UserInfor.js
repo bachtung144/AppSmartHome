@@ -5,12 +5,9 @@ import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
 import {Global} from '../../Function/Global';
 import {stylesUserInfor} from '../../Components/Styles';
+import { connect } from 'react-redux'
 
 export default class UserInfor extends React.Component {
-  static navigationOptions = {
-    headerTitle: '',
-  };
-
   constructor(props) {
     super(props);
   }

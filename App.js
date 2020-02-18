@@ -21,9 +21,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Device from './src/Containers/Auth/Device';
 import Layer from './src/Containers/Auth/Layer';
 import HeaderHome from './src/Components/HeaderHome';
-import screen1 from './src/Containers/Auth/screen1';
-import screen2 from './src/Containers/Auth/screen2';
+import { createStore } from 'redux'
+import User from './src/Redux/Reducer/ReducerUserInfor'
 
+const store = createStore(User)
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
@@ -40,11 +41,6 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   }
   return <Icon name={iconName} size={25} color={tintColor} />;
 };
-
-const TabNavigatorTest = createMaterialTopTabNavigator({
-  screen1: {screen: screen1},
-  screen2: {screen: screen2},
-});
 
 const StackHome = createStackNavigator({
   Home: {

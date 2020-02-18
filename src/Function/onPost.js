@@ -1,5 +1,8 @@
 import {Global} from './Global';
 import {_retrieveData} from './_retrieveData';
+import { connect } from 'react-redux'
+import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
+import {Store as store} from 'redux';
 
 export default async function onPost() {
   var data = {};
@@ -12,6 +15,8 @@ export default async function onPost() {
       .then(json => {
         Global.userinfor.phone = json.data.phone;
         Global.userinfor.callingCode = json.data.callingCode;
+        //   store.dispatch(AddPhone(json.data.phone))
+        //   store.dispatch(AddCallingCode(json.data.callingCode))
         resolve(true);
       })
       .catch(error => {
