@@ -6,8 +6,12 @@ import {AsyncStorage} from 'react-native';
 import {Global} from '../../Function/Global';
 import {stylesUserInfor} from '../../Components/Styles';
 import { connect } from 'react-redux'
+import NavigationService from '../../Function/NavigationService';
 
 export default class UserInfor extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
   constructor(props) {
     super(props);
   }
@@ -25,7 +29,7 @@ export default class UserInfor extends React.Component {
     const {navigate} = this.props.navigation;
     let term1 = await this.removeItemValue('Token');
     if (term1 === 1) {
-      return navigate('LoginScreen');
+      return NavigationService.navigate('LoginScreen')
     }
   };
 
@@ -65,3 +69,6 @@ export default class UserInfor extends React.Component {
     );
   }
 }
+// const mapStateToProps = state => ({
+//   tasks: state.todoList
+// })

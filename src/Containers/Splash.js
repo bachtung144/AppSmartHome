@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import onPost from '../Function/onPost';
 import {_retrieveData} from '../Function/_retrieveData';
 import {stylesSplash} from '../Components/Styles';
+import NavigationService from '../Function/NavigationService';
 
 export default class SplashScreen extends React.Component {
   performTimeConsumingTask = async () => {
@@ -22,7 +23,8 @@ export default class SplashScreen extends React.Component {
       }
       if (value !== null) {
         await onPost();
-        await this.props.navigation.navigate('UserInforScreen');
+        // await this.props.navigation.navigate('UserInforScreen');
+        NavigationService.navigate('UserInforScreen')
       }
     }
   }

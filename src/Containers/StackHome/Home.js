@@ -5,6 +5,8 @@ import {createAppContainer} from 'react-navigation';
 import 'react-native-gesture-handler';
 import ListDevice from './ListDevice';
 import {View, Text} from 'react-native';
+import {createStackNavigator} from 'react-navigation-stack';
+import DetailDevice from './DetailDevice';
 
 export default class Home extends Component {
   constructor(props) {
@@ -16,9 +18,9 @@ export default class Home extends Component {
     this.socket = io('http://192.168.99.199:1123');
   }
 
+
   componentDidMount = async => {
     let obj = {};
-
     this.socket.emit('listRoom');
     this.socket.on('listRoom', async response => {
       await this.setState({listRoom: JSON.parse(response).data});
@@ -36,13 +38,11 @@ export default class Home extends Component {
       // await console.warn(ListIdRoom)
       const TabNavigator = createMaterialTopTabNavigator(obj, {
         swipeEnabled: true,
-        screenProps: {aaa: 2},
         tabBarOptions: {
           scrollEnabled: true,
           tabStyle: {width: 130, backgroundColor: 'white', height: 40},
           activeTintColor: 'blue',
           inactiveTintColor: 'black',
-          screenProps: {aaa: 3},
         },
       });
       this.setState({appTest: createAppContainer(TabNavigator)});

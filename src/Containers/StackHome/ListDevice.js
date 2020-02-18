@@ -6,11 +6,17 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
 import AddDevice from '../../Function/AddDevice';
-import {Dimensions} from 'react-native';
+import {styleFlatList} from '../../Components/Styles';
+import hp_wall from '../../Picture/hp_wall.png';
+import Icon from 'react-native-vector-icons/AntDesign';
+import {Global,Global1} from '../../Function/Global';
+import NavigationService from '../../Function/NavigationService';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 export default class ListDevice extends Component {
   constructor(props) {
@@ -26,12 +32,11 @@ export default class ListDevice extends Component {
     let roomId = navigation.state.key;
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: roomId}));
     this.socket.on('deviceRoom', async response => {
-      // console.warn(JSON.parse(response).data)
       await this.setState({DATA: JSON.parse(response).data});
     });
   };
-
   render() {
+    // const {navigate} = this.props.navigation
     if (this.state.DATA === null) {
       return (
         <View>
@@ -50,7 +55,7 @@ export default class ListDevice extends Component {
               index > this.state.DATA.length - 1 ? (
                 <AddDevice />
               ) : (
-                <Item title={item.deviceName} />
+                <Item title={item.deviceName} onPress={() => NavigationService.navigate('stackDevice')} />
               )
             }
           />
@@ -59,11 +64,4 @@ export default class ListDevice extends Component {
     );
   }
 }
-// <SafeAreaView >
-//     <FlatList
-//         data={this.formatData(this.state.DATA,numColumn)}
-//         renderItem={({ item }) => <Item title={item.deviceName} item={item}/>}
-//         keyExtractor={item => item.id}
-//         numColumns={Math.round(screenWidth/150)}
-//     />
-// </SafeAreaView>
+

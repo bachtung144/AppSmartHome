@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
 import {Store as store} from 'redux';
 
-export default async function onPost() {
+
+ export default async function onPost() {
   var data = {};
   data.token = await _retrieveData();
   return new Promise(async (resolve, reject) => {
@@ -16,7 +17,9 @@ export default async function onPost() {
         Global.userinfor.phone = json.data.phone;
         Global.userinfor.callingCode = json.data.callingCode;
         //   store.dispatch(AddPhone(json.data.phone))
-        //   store.dispatch(AddCallingCode(json.data.callingCode))
+          // store.dispatch(AddCallingCode(json.data.callingCode))
+          // this.props.AddPhone1(json.data.phone)
+
         resolve(true);
       })
       .catch(error => {
@@ -24,3 +27,14 @@ export default async function onPost() {
       });
   });
 }
+// const mapDispatchToProps = dispatch => ({
+//     AddPhone1: phone => dispatch(AddPhone(phone))
+// })
+// const mapStateToProps = state => ({
+//     AddPhone1: state
+// })
+//
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(onPost)
