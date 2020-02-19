@@ -3,12 +3,12 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
-import {Global} from '../../Function/Global';
 import {styleButtonBlue, stylesUserInfor} from '../../Components/Styles';
 import { connect } from 'react-redux'
 import NavigationService from '../../Function/NavigationService';
+import {AddPhone} from '../../Redux/Action/ActionUserInfor';
 
-export default class UserInfor extends React.Component {
+ class UserInfor extends React.Component {
   static navigationOptions = {
     header: null,
   }
@@ -42,7 +42,8 @@ export default class UserInfor extends React.Component {
               <Icon name="user" size={130} color={'#555555'} />
             </View>
             <Text>
-              (+{Global.userinfor.callingCode}){Global.userinfor.phone}
+              (+{this.props.CallingCode})
+              {this.props.Phone}
             </Text>
           </View>
         </View>
@@ -71,6 +72,13 @@ export default class UserInfor extends React.Component {
     );
   }
 }
-// const mapStateToProps = state => ({
-//   tasks: state.todoList
-// })
+
+const mapStateToProps = state => ({
+  Phone: state.phoneNumber,
+  CallingCode: state.CallingCode
+})
+
+export default connect(
+    mapStateToProps,null
+)(UserInfor)
+

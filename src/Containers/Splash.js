@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import onPost from '../Function/onPost';
+// import onPost from '../Function/onPost';
 import {_retrieveData} from '../Function/_retrieveData';
 import {stylesSplash} from '../Components/Styles';
 import NavigationService from '../Function/NavigationService';
+import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
+import {connect} from 'react-redux';
 
-export default class SplashScreen extends React.Component {
+ class SplashScreen extends React.Component {
   performTimeConsumingTask = async () => {
     return new Promise(resolve =>
       setTimeout(() => {
@@ -13,6 +15,24 @@ export default class SplashScreen extends React.Component {
       }, 2000),
     );
   };
+  async  onPost() {
+    var data = {};
+    data.token = await _retrieveData();
+    return new Promise(async (resolve, reject) => {
+      fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
+        method: 'GET',
+      })
+          .then(response => response.json())
+          .then(json => {
+            this.props.AddPhone(json.data.phone)
+            this.props.AddCallingCode(json.data.callingCode)
+            resolve(true);
+          })
+          .catch(error => {
+            reject(error);
+          });
+    });
+  }
 
   async componentDidMount() {
     const data = await this.performTimeConsumingTask();
@@ -22,7 +42,7 @@ export default class SplashScreen extends React.Component {
         this.props.navigation.navigate('Auth');
       }
       if (value !== null) {
-        await onPost();
+        this.onPost();
         // await this.props.navigation.navigate('UserInforScreen');
         NavigationService.navigate('UserInforScreen')
       }
@@ -44,3 +64,17 @@ export default class SplashScreen extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  Phone: state.phoneNumber,
+  CallingCode: state.CallingCode
+});
+
+const mapDispatchToProps = dispatch => ({
+  AddPhone: phone => dispatch(AddPhone(phone)),
+  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SplashScreen)

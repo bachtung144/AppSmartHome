@@ -3,7 +3,7 @@ import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Home from '../Containers/StackHome/Home';
 import HeaderHome from '../Components/HeaderHome';
-import Device from '../Containers/Auth/Device';
+import Device from '../Containers/StackDevice/Device';
 import Layer from '../Containers/Auth/Layer';
 import UserInfor from '../Containers/Auth/UserInfor';
 import {createStackNavigator} from 'react-navigation-stack';

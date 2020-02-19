@@ -13,14 +13,16 @@ import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import onPost from '../../Function/onPost';
+// import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
 import {stylesLogin,styleButtonBlue} from '../../Components/Styles';
 import {_storeData} from '../../Function/_storeData';
 import ButtonTest from '../../Components/ButtonTest';
-import Loading from '../../Components/Loading';
+import {_retrieveData} from '../../Function/_retrieveData';
+import {AddCallingCode, AddPhone} from '../../Redux/Action/ActionUserInfor';
+import {connect} from 'react-redux';
 
-export default class Login extends Component {
+ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +61,7 @@ export default class Login extends Component {
         if (data.status === 'success') {
           await this.setState({isLoading:true})
           await _storeData('Token', data.data.token);
-          await onPost();
+          this.onPost();
           await navigate('UserInforScreen');
         }
         if (data.status === 'fail') {
@@ -71,6 +73,26 @@ export default class Login extends Component {
         console.warn(error);
       });
   };
+
+  async  onPost() {
+    var data = {};
+    data.token = await _retrieveData();
+    return new Promise(async (resolve, reject) => {
+      fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
+        method: 'GET',
+      })
+          .then(response => response.json())
+          .then(json => {
+            this.props.AddPhone(json.data.phone)
+            this.props.AddCallingCode(json.data.callingCode)
+
+            resolve(true);
+          })
+          .catch(error => {
+            reject(error);
+          });
+    });
+  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -186,3 +208,17 @@ export default class Login extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  Phone: state.phoneNumber,
+  CallingCode: state.CallingCode
+})
+
+const mapDispatchToProps = dispatch => ({
+  AddPhone: phone => dispatch(AddPhone(phone)),
+  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)

@@ -47,6 +47,7 @@ export default class Home extends Component {
       });
       this.setState({appTest: createAppContainer(TabNavigator)});
     });
+
   };
 
   render() {

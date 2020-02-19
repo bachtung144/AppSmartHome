@@ -4,18 +4,12 @@ import {
   View,
   SafeAreaView,
   FlatList,
-  Image,
-  TouchableOpacity,
   Dimensions,
     Button
 } from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
 import AddDevice from '../../Function/AddDevice';
-import {styleFlatList} from '../../Components/Styles';
-import hp_wall from '../../Picture/hp_wall.png';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {Global,Global1} from '../../Function/Global';
 import NavigationService from '../../Function/NavigationService';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -34,6 +28,7 @@ export default class ListDevice extends Component {
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: roomId}));
     this.socket.on('deviceRoom', async response => {
       await this.setState({DATA: JSON.parse(response).data});
+      // console.log(roomId)
       // console.warn(JSON.parse(response).data)
     });
   };

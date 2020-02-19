@@ -1,11 +1,14 @@
 import {ADD_PHONE, ADD_CALLINGCODE} from '../Action/ActionUserInfor';
 
-export default function User(state = {}, action) {
+const myState  = {
+  phoneNumber : '',
+}
+
+export default function User(state = myState, action) {
   switch (action.type) {
     case ADD_PHONE:
       return {
         ...state,
-
         phoneNumber: action.phoneNumber,
       };
     case ADD_CALLINGCODE:
