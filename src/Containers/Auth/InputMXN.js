@@ -4,7 +4,7 @@ import BackGround from '../../Components/BackGround';
 import background_input from '../../Picture/backround_input.png';
 import ButtonCustom from '../../Components/Button';
 import BlockLink from '../../Components/BlockLink';
-import {stylesInputMXN} from '../../Components/Styles';
+import {styleButtonBlue, stylesInputMXN} from '../../Components/Styles';
 import ButtonTest from '../../Components/ButtonTest';
 
 export default class InputMXNSignUp extends Component {
@@ -78,7 +78,9 @@ export default class InputMXNSignUp extends Component {
             <Text style={{color: 'red'}}>Mã xác nhận ko đúng!</Text>
           )}
           {this.state.MXN ? (
-            <ButtonCustom onPress={this.onSubmit} name={'Xác nhận'} />
+            <ButtonCustom onPress={this.onSubmit}
+                          name={'Xác nhận'}
+                          style={styleButtonBlue.buttonLogin}/>
           ) : (
             <ButtonTest name={'Xác nhận'} />
           )}

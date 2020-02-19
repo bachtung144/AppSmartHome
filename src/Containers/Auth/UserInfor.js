@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
 import {Global} from '../../Function/Global';
-import {stylesUserInfor} from '../../Components/Styles';
+import {styleButtonBlue, stylesUserInfor} from '../../Components/Styles';
 import { connect } from 'react-redux'
 import NavigationService from '../../Function/NavigationService';
 
@@ -63,7 +63,9 @@ export default class UserInfor extends React.Component {
             <Text style={stylesUserInfor.version}>1.0.0(v121)</Text>
           </View>
 
-          <ButtonCustom name={'Đăng xuất'} onPress={this.navi} />
+          <ButtonCustom name={'Đăng xuất'}
+                        onPress={this.navi}
+                        style={styleButtonBlue.buttonLogin}/>
         </View>
       </View>
     );

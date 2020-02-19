@@ -6,7 +6,8 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+    Button
 } from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
@@ -33,6 +34,7 @@ export default class ListDevice extends Component {
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: roomId}));
     this.socket.on('deviceRoom', async response => {
       await this.setState({DATA: JSON.parse(response).data});
+      // console.warn(JSON.parse(response).data)
     });
   };
   render() {
@@ -55,11 +57,15 @@ export default class ListDevice extends Component {
               index > this.state.DATA.length - 1 ? (
                 <AddDevice />
               ) : (
-                <Item title={item.deviceName} onPress={() => NavigationService.navigate('stackDevice')} />
+                <Item title={item.deviceName}
+                      onPress={() => NavigationService.navigate('DetailDeviceScreen',
+                          {deviceName:item.deviceName})} />
               )
             }
           />
+            // {deviceName:item.deviceName}
         ) : null}
+        <Button title={'test'} onPress={() => console.log(this.state.DATA)}/>
       </SafeAreaView>
     );
   }

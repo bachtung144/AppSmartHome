@@ -3,7 +3,7 @@ import {View, TextInput, TouchableOpacity} from 'react-native';
 import BackGround from '../../Components/BackGround';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
-import {stylesNewPass} from '../../Components/Styles';
+import {styleButtonBlue, stylesNewPass} from '../../Components/Styles';
 import onPost from '../../Function/onPost';
 import {_storeData} from '../../Function/_storeData';
 import ButtonTest from '../../Components/ButtonTest';
@@ -72,7 +72,9 @@ export default class NewPass extends Component {
           </View>
 
           {this.state.password ? (
-            <ButtonCustom onPress={this.onSubmit} name={'Xác nhận'} />
+            <ButtonCustom onPress={this.onSubmit}
+                          name={'Xác nhận'}
+                          style={styleButtonBlue.buttonLogin}/>
           ) : (
             <ButtonTest name={'Xác nhận'} />
           )}

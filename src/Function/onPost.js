@@ -3,9 +3,10 @@ import {_retrieveData} from './_retrieveData';
 import { connect } from 'react-redux'
 import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
 import {Store as store} from 'redux';
+import warning from 'react-redux/lib/utils/warning';
 
 
- export default async function onPost() {
+  export default async function onPost() {
   var data = {};
   data.token = await _retrieveData();
   return new Promise(async (resolve, reject) => {
@@ -31,7 +32,7 @@ import {Store as store} from 'redux';
 //     AddPhone1: phone => dispatch(AddPhone(phone))
 // })
 // const mapStateToProps = state => ({
-//     AddPhone1: state
+//     AddPhone1: state.phoneNumber
 // })
 //
 // export default connect(

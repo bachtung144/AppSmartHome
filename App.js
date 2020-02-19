@@ -8,6 +8,7 @@ import User from './src/Redux/Reducer/ReducerUserInfor'
 import NavigationService from './src/Function/NavigationService';
 import {stackRoot} from './src/StackScreen/stackRoot';
 import {StackNavigatorAuth} from './src/StackScreen/StackNavigatorAuth';
+import { Provider } from 'react-redux'
 const store = createStore(User)
 
 const InitialNavigator = createSwitchNavigator({
@@ -21,8 +22,10 @@ const InitialNavigator = createSwitchNavigator({
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
   render() {
-    return <AppContainer_splash  ref={navigatorRef => {
-      NavigationService.setTopLevelNavigator(navigatorRef);
-    }}/>;
+    return (
+        <Provider store={store}>
+          <AppContainer_splash  ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);}}/>
+        </Provider>)
   }
 }

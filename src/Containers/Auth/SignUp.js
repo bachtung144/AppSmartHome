@@ -15,7 +15,7 @@ import ButtonCustom from '../../Components/Button';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BlockLink from '../../Components/BlockLink';
-import {stylesForgetPass} from '../../Components/Styles';
+import {styleButtonBlue, stylesForgetPass} from '../../Components/Styles';
 import ButtonTest from '../../Components/ButtonTest';
 
 export default class SignUp extends Component {
@@ -148,6 +148,7 @@ export default class SignUp extends Component {
                   <ButtonCustom
                     onPress={props.handleSubmit}
                     name={'Tiếp tục'}
+                    style={styleButtonBlue.buttonLogin}
                   />
                 ) : (
                   <ButtonTest name={'Tiếp tục'} />

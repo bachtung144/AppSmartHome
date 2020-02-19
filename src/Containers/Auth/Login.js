@@ -15,7 +15,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
-import {stylesLogin} from '../../Components/Styles';
+import {stylesLogin,styleButtonBlue} from '../../Components/Styles';
 import {_storeData} from '../../Function/_storeData';
 import ButtonTest from '../../Components/ButtonTest';
 import Loading from '../../Components/Loading';
@@ -165,6 +165,7 @@ export default class Login extends Component {
                   <ButtonCustom
                     onPress={props.handleSubmit}
                     name={'Đăng nhập'}
+                    style={styleButtonBlue.buttonLogin}
                     status={this.state.isLoading}
                   />
                 ) : (
