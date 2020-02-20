@@ -28,7 +28,7 @@ export default class ListDevice extends Component {
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: roomId}));
     this.socket.on('deviceRoom', async response => {
       await this.setState({DATA: JSON.parse(response).data});
-      // console.log(roomId)
+       console.log(navigation.state)
       // console.warn(JSON.parse(response).data)
     });
   };

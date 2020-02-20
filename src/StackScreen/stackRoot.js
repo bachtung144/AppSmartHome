@@ -9,7 +9,6 @@ import UserInfor from '../Containers/Auth/UserInfor';
 import {createStackNavigator} from 'react-navigation-stack';
 import DetailDevice from '../Containers/StackHome/DetailDevice';
 import {Text} from 'react-native';
-import HeaderDetailDevice from '../Components/HeaderDetailDevice';
 import MenuDetail from '../Containers/StackHome/MenuDetail';
 import Alarm from '../Containers/StackHome/Alarm';
 import AddAlarm from '../Containers/StackHome/AddAlarm';

@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+
 export const stylesLogin = {
   container: {
     marginHorizontal: 30,
@@ -283,7 +285,7 @@ export const stylesSplash = {
 };
 
 export const styleFlatList = {
-  container:{
+  container: {
     marginVertical: 10,
     marginHorizontal: 15,
     width: 150,
@@ -300,18 +302,18 @@ export const styleFlatList = {
     shadowRadius: 1.41,
     elevation: 2,
   },
-  title:{
+  title: {
     marginBottom: 5,
     backgroundColor: '#DCDCDC',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
   },
-  body:{
+  body: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  Icon:{
+  Icon: {
     width: 40,
     height: 40,
     borderRadius: 40 / 2,
@@ -320,23 +322,23 @@ export const styleFlatList = {
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  Image:{width: 70, height: 60}
-}
+  Image: {width: 70, height: 60},
+};
 export const styleDetailDevice = {
-  container:{flex: 10},
-  subContainer1:{
+  container: {flex: 10},
+  subContainer1: {
     backgroundColor: '#eaeaea',
     flex: 9,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  subContainer2:{
+  subContainer2: {
     backgroundColor: 'white',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  buttonOff:{
+  buttonOff: {
     backgroundColor: 'white',
     width: '90%',
     height: 100,
@@ -346,13 +348,12 @@ export const styleDetailDevice = {
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  clock:{
+  clock: {
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
-  }
-
-}
+  },
+};
 
 export const styleButtonBlue = {
   buttonLogin: {
@@ -364,4 +365,54 @@ export const styleButtonBlue = {
     marginTop: 10,
     backgroundColor: '#1291b6',
   },
-}
+};
+const screenHeight = Math.round(Dimensions.get('window').height);
+const screenWidth = Math.round(Dimensions.get('window').width);
+export const styleHeaderHome = {
+  contaner: {
+    height: 60,
+    backgroundColor: '#FFCCCC',
+    borderBottomWidth: 0.5,
+  },
+  containerSub1: {
+    height: '40%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  containerHouse: {
+    flexDirection: 'row',
+    width: (screenWidth / 100) * 33,
+    marginLeft: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textHouse: {fontSize: 20, fontWeight: 'bold'},
+  iconHouse: {marginLeft: 5, fontSize: 20},
+  containerButton: {
+    backgroundColor: '#1291b6',
+    marginRight: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    borderRadius: 15,
+    borderWidth: 0.5,
+    borderColor: 'gray',
+  },
+  iconButton: {fontSize: 30, color: 'white'},
+  containerSub2: {
+    height: '60%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconWeather: {fontSize: 35, marginLeft: 10, color: 'orange'},
+  textWeather: {fontWeight: 'bold'},
+  containerPeople: {
+    backgroundColor: '#FF6666',
+    alignItems: 'center',
+    borderRadius: 2,
+    paddingHorizontal: 5,
+  },
+  containerAir: {marginRight: 15},
+  textAir: {fontWeight: 'bold'},
+};
