@@ -23,6 +23,7 @@ export default class Home extends Component {
     let obj = {};
     this.socket.emit('listRoom');
     this.socket.on('listRoom', async response => {
+      // console.warn(JSON.parse(response).data)
       await this.setState({listRoom: JSON.parse(response).data});
       let term = JSON.parse(response).data;
       for (let i = 0; i < term.length; i++) {
@@ -35,6 +36,7 @@ export default class Home extends Component {
         // obj[term[i].id] = ListIdRoom[i]
         // ListIdRoom.push(term[i].id)
       }
+      // console.warn(obj)
       // await console.warn(ListIdRoom)
       const TabNavigator = createMaterialTopTabNavigator(obj, {
         swipeEnabled: true,
@@ -53,9 +55,9 @@ export default class Home extends Component {
   render() {
     if (this.state.appTest === null) {
       return (
-        <View>
-          <Text>Loading</Text>
-        </View>
+          <View>
+            <Text>Loading</Text>
+          </View>
       );
     }
     let AppTest = this.state.appTest;

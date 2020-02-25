@@ -9,8 +9,9 @@ import NavigationService from './src/Function/NavigationService';
 import {stackRoot} from './src/StackScreen/stackRoot';
 import {StackNavigatorAuth} from './src/StackScreen/StackNavigatorAuth';
 import { Provider } from 'react-redux'
-const store = createStore(User)
-
+import {rootReducer} from './src/Redux/Combine';
+const store = createStore(rootReducer );
+import {Button} from 'react-native'
 const InitialNavigator = createSwitchNavigator({
   SplashScreen: {
     screen: Splash,
@@ -22,10 +23,12 @@ const InitialNavigator = createSwitchNavigator({
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
   render() {
+      store.subscribe(() => console.log(store.getState()))
     return (
         <Provider store={store}>
           <AppContainer_splash  ref={navigatorRef => {
           NavigationService.setTopLevelNavigator(navigatorRef);}}/>
+          {/*<Button title={'test'} onPress={() => console.log(store.getState())}/>*/}
         </Provider>)
   }
 }

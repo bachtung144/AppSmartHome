@@ -2,8 +2,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {Component} from 'react';
 import hp_wall from '../Picture/hp_wall.png';
 import Icon from 'react-native-vector-icons/AntDesign';
-export default class AddDevice extends Component {
-  render() {
+export default function AddDevice({onPress})  {
     return (
       <TouchableOpacity
         style={{
@@ -25,9 +24,10 @@ export default class AddDevice extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           height: 90,
-        }}>
+        }}
+        onPress={onPress}
+      >
         <Icon name={'pluscircleo'} size={50} color={'#1291b6'} />
       </TouchableOpacity>
     );
-  }
 }

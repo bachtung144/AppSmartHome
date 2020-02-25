@@ -74,8 +74,8 @@ import {AddPhone} from '../../Redux/Action/ActionUserInfor';
 }
 
 const mapStateToProps = state => ({
-  Phone: state.phoneNumber,
-  CallingCode: state.CallingCode
+  Phone: state.User.phoneNumber,
+  CallingCode: state.User.CallingCode
 })
 
 export default connect(

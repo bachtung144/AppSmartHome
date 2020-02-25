@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 import {Text,FlatList,SafeAreaView,View,Button,ActivityIndicator} from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
-// import SocketEmit from '../../Socket/SocketIo'
-// import SocketOn from '../../Socket/SocketIo'
-import ActivityIndicatorViewNativeComponent
-    from 'react-native/Libraries/Components/ActivityIndicator/ActivityIndicatorViewNativeComponent';
-
+import socket from '../../Socket/SocketIo';
 
 export default class Device extends Component {
     constructor(props) {
@@ -20,17 +16,17 @@ export default class Device extends Component {
         }
     }
     getData =  () =>{
-        if (this.state.page ===3) return;
+
         // const socket = io('http://192.168.99.199:1123')
         this.socket.emit('listDevice', JSON.stringify({page: this.state.page}));
-         this.socket.on('listDevice', async response => {
-             console.warn(JSON.parse(response).data)
-                 await this.setState({
-                    // DATA: [...this.state.DATA, JSON.parse(response).data[j]]
-                    DATA:this.state.DATA.concat(JSON.parse(response).data),
-                     isLoading:false
-                });
-             if (JSON.parse(response).data.length < 10) {return }
+        this.socket.on('listDevice', async response => {
+            // console.warn(JSON.parse(response).data)
+            await this.setState({
+                // DATA: [...this.state.DATA, JSON.parse(response).data[j]]
+                DATA:this.state.DATA.concat(JSON.parse(response).data),
+                isLoading:false
+            });
+            if (JSON.parse(response).data.length < 10) {return };
         });
 
     };

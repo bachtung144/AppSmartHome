@@ -2,7 +2,8 @@ import {ADD_PHONE, ADD_CALLINGCODE} from '../Action/ActionUserInfor';
 
 const myState  = {
   phoneNumber : '',
-}
+  CallingCode :''
+};
 
 export default function User(state = myState, action) {
   switch (action.type) {

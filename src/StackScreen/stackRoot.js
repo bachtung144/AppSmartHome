@@ -14,6 +14,9 @@ import Alarm from '../Containers/StackHome/Alarm';
 import AddAlarm from '../Containers/StackHome/AddAlarm';
 import {createAppContainer} from "react-navigation";
 import {Dimensions} from 'react-native';
+import AddDevice from '../Containers/StackHome/AddDevice';
+import {AddListDevice} from '../Redux/Action/ActionListDevice';
+import {connect} from 'react-redux';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
@@ -66,9 +69,9 @@ const tabDetailDevice = createBottomTabNavigator(
     }
 )
 
-export const stackRoot = createStackNavigator({
+ export const stackRoot = createStackNavigator({
     TabNavigator : TabNavigator,
-    DetailDeviceScreen : {screen:DetailDevice,},
+    DetailDeviceScreen : {screen:DetailDevice},
     MenuDetailScreen:{screen:MenuDetail,
         navigationOptions:{
             title:'Cài đặt thiết bị',
@@ -80,7 +83,18 @@ export const stackRoot = createStackNavigator({
         }},
     AlarmScreen:{screen:Alarm},
     AddAlarmScreen:{screen:AddAlarm},
+    AddDeviceScreen:{screen:AddDevice}
 },)
+// const mapStateToProps = state => ({
+//     DATA: state.ListDevice.ListDevice1,
+// });
+//
+//
+//
+// export default connect(
+//     mapStateToProps,
+//     null
+// )(stackRoot);
 
 // export const stackRootTest = createAppContainer(stackRoot);
 

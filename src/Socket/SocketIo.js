@@ -2,40 +2,42 @@ import io from 'socket.io-client';
 // window.navigator.userAgent = 'react-native';
 import { AsyncStorage } from 'react-native';
 
-export const Connect = () =>{
-    io('http://192.168.99.199:1123');
-};
+class Socket {
+    Connect (){
+        return io('http://192.168.99.199:1123')
+    }
 
-export async function SocketEmit(eventMess,data:{}) {
-    let connect = await Connect();
-    await connect.emit(eventMess,data)
+    async SocketEmit (eventMess,data:{}){
+        let connect = await this.Connect()
+        await connect.emit(eventMess,JSON.stringify(data))
+    }
+
+    async SockenOn (eventMess){
+        let connect = await this.Connect();
+        await connect.on(eventMess,(response) => {
+            return  JSON.parse(response).data
+        });
+    }
+
+     fetchListDevice = async (data:{}) =>{
+        try{
+            return new Promise(
+                async (resolve,reject) => {
+                    let connect = this.Connect()
+                    await connect.emit('listDevice',JSON.stringify(data))
+                    await connect.on('listDevice',async (response) => {
+                        resolve(JSON.parse(response).data)
+                    })
+                    reject(null)
+                }
+            )
+        }catch (e) {
+            console.warn(e.message())
+        }
+     }
 }
 
-export const SocketOn = async (eventMess) => {
-    let connect = await Connect();
-    await connect.on(eventMess,(response) => {
-        return JSON.parse(response).data
-    })
-};
+const socket = new Socket();
+export default socket
 
-// export default class Action {
-//     static fetchListRoom = (data : {}) => {
-//         try {
-//             return new Promise(
-//                 async (resolve, reject) => {
-//                     let connect = await connect();
-//                     await connect.emit('listRoom', data);
-//                     await connect.on('listRoom', (response) => {
-//
-//                         if (response) {
-//                             return resolve(JSON.parse(response));
-//                         } else {
-//                             return reject();
-//                         }
-//                     })
-//                 }
-//             )
-//         } catch (e) {
-//             console.log(e.message);
-//         }
-//     }}
+

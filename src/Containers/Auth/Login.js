@@ -211,12 +211,12 @@ import {connect} from 'react-redux';
 const mapStateToProps = state => ({
   Phone: state.phoneNumber,
   CallingCode: state.CallingCode
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   AddPhone: phone => dispatch(AddPhone(phone)),
   AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
-})
+});
 
 export default connect(
     mapStateToProps,
