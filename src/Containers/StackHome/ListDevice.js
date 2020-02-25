@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
-  Button,
+  Button, ScrollView,
 } from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
@@ -15,7 +15,6 @@ import {AddListDevice} from '../../Redux/Action/ActionListDevice';
 import {connect} from 'react-redux';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
-
 class ListDevice extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,6 @@ class ListDevice extends Component {
     };
     let {navigation} = this.props;
     this.roomID = navigation.state.key;
-
   }
 
   componentDidMount = async () => {
@@ -34,22 +32,21 @@ class ListDevice extends Component {
       await this.props.AddListDevice(JSON.parse(response).data, this.roomID);
     });
   };
-  render() {
-    // console.log("this is list device: " , this.props.DATA);
-    // console.warn(this.roomID)
 
+  render() {
     if (!this.props.DATA) {
       return (
         <View>
           <Text>Loading</Text>
           <Button title={'test1'} onPress={() =>  console.warn(this.props.DATA)} />
         </View>
-        //   console.warn("this is" + this.props.DATA[this.roomID])
+
       )
     }
 
     return (
       <SafeAreaView>
+        <ScrollView>
         {this.props.DATA ? (
           <FlatList
             numColumns={Math.floor(screenWidth / 150)}
@@ -58,7 +55,8 @@ class ListDevice extends Component {
             keyExtractor={item => item.id}
             renderItem={({item, index}) =>
               index > this.props.DATA.length - 1 ? (
-                <AddDevice onPress={() => NavigationService.navigate('AddDeviceScreen')}/>
+                <AddDevice onPress={() => NavigationService.navigate('AddDeviceScreen',
+                    {roomId: this.roomID})}/>
               ) : (
                 <Item
                   title={item.deviceName}
@@ -78,6 +76,7 @@ class ListDevice extends Component {
         ) :
         null}
         <Button title={'test'} onPress={() => console.warn(this.props.DATA)} />
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -93,7 +92,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  AddListDevice: (ListDevice,roomId) => dispatch(AddListDevice(ListDevice,roomId)),
+  AddListDevice: (ListDevice, roomId) =>
+    dispatch(AddListDevice(ListDevice, roomId)),
 });
 
 export default connect(

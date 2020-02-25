@@ -450,7 +450,7 @@ export const styleMenuDetail = {
   CXL:{marginRight: 10},
   containerVoice:{
     height:50,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     borderBottomWidth: 0.5,
   },
   containerTTCDK:{
@@ -480,6 +480,14 @@ export const styleMenuDetail = {
     borderBottomWidth: 0.5,
     borderColor: 'gray',
   },
-  textCheckPM:{marginLeft: 15, fontSize: 20, color: 'gray'}
-
+  textCheckPM:{marginLeft: 15, fontSize: 20, color: 'gray'},
+  buttonDelete:{
+    width: '90%',
+    borderRadius: 70,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 5,
+    backgroundColor: 'red',
+  }
 };

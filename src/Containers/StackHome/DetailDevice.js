@@ -3,13 +3,7 @@ import React, {Component} from 'react';
 import NavigationService from '../../Function/NavigationService';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Alarm from './Alarm';
-import AddAlarm from './AddAlarm';
-import {createAppContainer} from 'react-navigation';
 import {styleDetailDevice} from '../../Components/Styles'
-import {EditNameDevice} from '../../Redux/Action/ActionListDevice';
-import {connect} from 'react-redux';
 import Title from '../../Components/Title'
 
  export default class DetailDevice extends React.Component {
@@ -20,7 +14,6 @@ import Title from '../../Components/Title'
     };
   }
   static navigationOptions = ({navigation}) => {
-      // console.log(this.props.DATA)
     return {
       title: <Title roomId={navigation.getParam('roomId','default value')}
                     deviceName = {navigation.getParam('deviceName', 'default value')}
@@ -45,9 +38,7 @@ import Title from '../../Components/Title'
   };
 
   render() {
-      console.warn(this.props.DATA)
-    const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
+
     return (
       <View style={styleDetailDevice.container}>
 
@@ -72,24 +63,9 @@ import Title from '../../Components/Title'
             <Text>Lịch sử</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>{navigation.getParam('deviceName', 'default value')}</Text>
-          <Text>{navigation.getParam('deviceModel', 'default value')}</Text>
-          <Text>{navigation.getParam('id', 'default value')}</Text>
-          <Text>{navigation.getParam('roomId', 'default value')}</Text>
-        </View>
-          <Button title={'test'} onPress={() => console.warn(this.props.DATA)} />
+
+
       </View>
     );
   }
 }
-//
-// const mapStateToProps = state => ({
-//     DATA: state.ListDevice.ListDevice1,
-// });
-//
-//
-// export default connect(
-//     mapStateToProps,
-//     null
-// )(DetailDevice);

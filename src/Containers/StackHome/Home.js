@@ -5,8 +5,6 @@ import {createAppContainer} from 'react-navigation';
 import 'react-native-gesture-handler';
 import ListDevice from './ListDevice';
 import {View, Text} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import DetailDevice from './DetailDevice';
 
 export default class Home extends Component {
   constructor(props) {
@@ -33,11 +31,8 @@ export default class Home extends Component {
             tabBarLabel: term[i].roomName,
           },
         };
-        // obj[term[i].id] = ListIdRoom[i]
-        // ListIdRoom.push(term[i].id)
       }
-      // console.warn(obj)
-      // await console.warn(ListIdRoom)
+
       const TabNavigator = createMaterialTopTabNavigator(obj, {
         swipeEnabled: true,
         tabBarOptions: {
