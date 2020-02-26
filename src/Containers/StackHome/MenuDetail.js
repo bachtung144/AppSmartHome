@@ -10,7 +10,6 @@ import {
 import React, {Component} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import {styleMenuDetail} from '../../Components/Styles';
-import io from 'socket.io-client';
 import {
   DeleteDevice,
   EditNameDevice,
@@ -20,6 +19,7 @@ import ButtonCustom from '../../Components/Button';
 import alexa from '../../Picture/alexa.jpg';
 import gga from '../../Picture/gga.png';
 import NavigationService from '../../Function/NavigationService';
+import socket from '../../Socket/SocketIo';
 
 class MenuDetail extends Component {
   constructor(props) {
@@ -28,43 +28,46 @@ class MenuDetail extends Component {
       modal: false,
       deviceNameUser: '',
     };
+    const {navigation} = this.props;
+    this.id = navigation.getParam('id1', 'default value');
+    this.deviceModel = navigation.getParam('deviceModel1', 'default value');
+    this.roomId = parseInt(navigation.getParam('roomId1', 'default value'));
   }
+  getResponseEdit = async response => {
+    console.warn(JSON.parse(response));
+    if (JSON.parse(response).status === 'success') {
+      this.props.EditNameDevice(
+        this.state.deviceNameUser,
+        this.id,
+        this.roomId,
+      );
+    }
+  };
 
   edit = async () => {
-    this.socket = io('http://192.168.99.199:1123');
-    const {navigation} = this.props;
-    let id = navigation.getParam('id1', 'default value');
-    let deviceModel = navigation.getParam('deviceModel1', 'default value');
-    let deviceName = this.state.deviceNameUser;
-    let roomId = parseInt(navigation.getParam('roomId1', 'default value'));
-    this.props.EditNameDevice(deviceName, id, roomId);
-    await this.socket.emit(
+    await socket.SocketEmit(
       'editDevice',
       JSON.stringify({
-        id: id,
-        deviceModel: deviceModel,
-        deviceName: deviceName,
-        roomId: roomId,
+        id: this.id,
+        deviceModel: this.deviceModel,
+        deviceName: this.state.deviceNameUser,
+        roomId: this.roomId,
       }),
     );
-    this.socket.on('editDevice', async response => {
-      console.warn(JSON.parse(response));
-    });
+    await socket.SocketOn('editDevice', this.getResponseEdit);
+  };
+
+  getResponseDelete = async response => {
+    console.warn(response);
+    if (JSON.parse(response).status === 'success') {
+      NavigationService.navigate('Home');
+      this.props.DeleteDevice(this.id, this.roomId);
+    }
   };
 
   delete = async () => {
-    const {navigation} = this.props;
-    let roomId = parseInt(navigation.getParam('roomId1', 'default value'));
-    let id = navigation.getParam('id1', 'default value');
-    this.socket = io('http://192.168.99.199:1123');
-    await this.socket.emit('delDevice', JSON.stringify({id: id}));
-    this.socket.on('delDevice', async response => {
-      console.warn(response);
-      if(JSON.parse(response).status === 'success'){
-        NavigationService.navigate('Home')
-        this.props.DeleteDevice(id, roomId);
-      }
-    });
+    await socket.SocketEmit('delDevice', JSON.stringify({id: this.id}));
+    await socket.SocketOn('delDevice', this.getResponseDelete);
   };
 
   render() {

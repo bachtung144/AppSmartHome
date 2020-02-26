@@ -14,6 +14,7 @@ import NavigationService from '../../Function/NavigationService';
 import {AddListDevice} from '../../Redux/Action/ActionListDevice';
 import {connect} from 'react-redux';
 const screenWidth = Math.round(Dimensions.get('window').width);
+import Loading from '../../Components/Loading';
 
 class ListDevice extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ListDevice extends Component {
   componentDidMount = async () => {
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: this.roomID}));
     await this.socket.on('deviceRoom',async  response => {
-      this.props.DATA = JSON.parse(response).data
+      this.props.DATA = JSON.parse(response).data;
       await this.props.AddListDevice(JSON.parse(response).data, this.roomID);
     });
   };
@@ -36,11 +37,7 @@ class ListDevice extends Component {
   render() {
     if (!this.props.DATA) {
       return (
-        <View>
-          <Text>Loading</Text>
-          <Button title={'test1'} onPress={() =>  console.warn(this.props.DATA)} />
-        </View>
-
+        <Loading/>
       )
     }
 
@@ -75,7 +72,7 @@ class ListDevice extends Component {
           />
         ) :
         null}
-        <Button title={'test'} onPress={() => console.warn(this.props.DATA)} />
+        {/*<Button title={'test'} onPress={() => console.warn(this.props.DATA)} />*/}
         </ScrollView>
       </SafeAreaView>
     )
