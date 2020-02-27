@@ -22,7 +22,7 @@ const InitialNavigator = createSwitchNavigator({
 const AppContainer_splash = createAppContainer(InitialNavigator);
 export default class App extends React.Component {
   render() {
-    store.subscribe(() => console.log(store.getState()));
+    // store.subscribe(() => console.log(store.getState()));
     return (
       <Provider store={store}>
         <AppContainer_splash

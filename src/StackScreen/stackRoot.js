@@ -14,7 +14,9 @@ import AddDevice from '../Containers/StackHome/AddDevice';
 import ListSetAction from '../Containers/StackSetClock/ListSetAction';
 import ListSettingClock from '../Containers/StackSetClock/ListSettingClock';
 import SetClock from '../Containers/StackSetClock/SetClock';
-import {Button} from 'react-native';
+import ActionOnOff from '../Containers/StackSetClock/ComponentAction/ActionOnOff';
+import ActionChangeColor from '../Containers/StackSetClock/ComponentAction/ActionChangeColor';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
@@ -62,8 +64,9 @@ const StackSetClock = createStackNavigator(
     {
       ListSettingClockScreen:{screen:ListSettingClock},
       SetClockScreen:{screen:SetClock},
-      ListSetActionScreen:{
-        screen:ListSetAction},
+      ListSetActionScreen:{screen:ListSetAction},
+      ActionOnOffScreen :{screen:ActionOnOff},
+      ActionChangeColorScreen:{screen:ActionChangeColor}
     },
 );
 
@@ -88,9 +91,4 @@ export const stackRoot = createStackNavigator({
   }}
 });
 
-const getTitle = (navigation) => {
-  const {routeName} = navigation.state;
-  if(routeName === 'StackSetClockScreen') {
-    return null
-  }
-};
+

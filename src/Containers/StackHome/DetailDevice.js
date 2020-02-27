@@ -47,6 +47,7 @@ export default class DetailDevice extends React.Component {
   };
 
   render() {
+      let {navigation} = this.props;
     return (
       <View style={styleDetailDevice.container}>
         <View style={styleDetailDevice.subContainer1}>
@@ -57,7 +58,9 @@ export default class DetailDevice extends React.Component {
 
         <View style={styleDetailDevice.subContainer2}>
           <TouchableOpacity style={styleDetailDevice.clock}
-                            onPress={() =>NavigationService.navigate('StackSetClockScreen') }>
+                            onPress={() =>
+                                NavigationService.navigate('StackSetClockScreen',
+                                    {LastRouteName:navigation.state.routeName}) }>
             <Icon name={'clock-o'} size={15} />
             <Text>Hẹn giờ</Text>
           </TouchableOpacity>

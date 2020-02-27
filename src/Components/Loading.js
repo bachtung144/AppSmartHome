@@ -5,7 +5,7 @@ export default class Loading extends Component {
   render() {
     return (
       <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator size="small" color="#0000ff" />
+        <ActivityIndicator size="small" color='#1291b6' />
       </View>
     );
   }
