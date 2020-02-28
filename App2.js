@@ -10,9 +10,10 @@ import ActionChangeColor from './src2/StackSetClock/ComponentAction/ActionChange
 const stackClock = createStackNavigator({
   ListSettingClockScreen: {screen: ListSettingClock},
   SetClockScreen: {screen: SetClock},
-  ListSetActionScreen: {screen: ListSetAction},
+  ListSetActionScreen: {screen: ListSetAction,navigationOptions:{title:'Danh sách hành động'}},
   ActionOnOffScreen:{screen:ActionOnOff},
-  ActionChangeColorScreen:{screen:ActionChangeColor}
+  ActionChangeColorScreen:{screen:ActionChangeColor,
+    navigationOptions:{title:'Đổi màu'}}
 });
 const AppContainer = createAppContainer(stackClock);
 export default class App2 extends React.Component {
