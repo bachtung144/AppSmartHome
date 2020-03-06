@@ -33,6 +33,7 @@ class ListDevice extends Component {
       var result = term.map(function(el) {
         var o = Object.assign({}, el);
         o.OptionOnOff = 0;
+        o.ListAlarm = [];
         return o;
       });
       // console.warn(result);

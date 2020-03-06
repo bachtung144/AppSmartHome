@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 class title extends React.Component {
 
     render() {
-        let roomId = this.props.roomId
-        let index = this.props.index
+        let roomId = this.props.roomId;
+        let index = this.props.index;
         // let deviceName = this.props.deviceName
         return <Text>{this.props.DATA[roomId][index].deviceName}</Text>;
     }

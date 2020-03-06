@@ -7,12 +7,13 @@ import {
   Dimensions,
   FlatList,
   Button,
+  ScrollView,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import ButtonSave from './ComponentSetClock/ButtonSave';
 import CheckModel from './FunctionSetClock/CheckModelForNavigate';
 import {StyleSetClockScreen} from './StyleSetClock/StyleSetClock';
-import {SaveOnOff} from '../../Redux/Action/ActionListDevice';
+import {AddListAlarm, SaveOnOff} from '../../Redux/Action/ActionListDevice';
 import {connect} from 'react-redux';
 const days = [
   {id: 1, name: 'Thứ hai', value: 2},
@@ -38,18 +39,19 @@ function ItemDay({day, onPress}) {
   };
 
   return (
-    <TouchableOpacity onPress={onSelect} style={[StyleSetClockScreen.containerItem,
-        {backgroundColor: isSelected ? '#1291b6' : 'gray'},{borderColor: isSelected ? '#1291b6' : 'gray'}]}>
+    <TouchableOpacity
+      onPress={onSelect}
+      style={[
+        StyleSetClockScreen.containerItem,
+        {backgroundColor: isSelected ? '#1291b6' : 'gray'},
+        {borderColor: isSelected ? '#1291b6' : 'gray'},
+      ]}>
       <Text style={StyleSetClockScreen.textItemDay}>{day.name}</Text>
     </TouchableOpacity>
   );
 }
 
 class SetClock extends Component {
-  static navigationOptions = {
-    headerRight: () => <ButtonSave />,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +60,7 @@ class SetClock extends Component {
       show: false,
       optionLoop: 1,
       nameClock: '',
-      listPickedDay:[]
+      listPickedDay: [],
     };
     const {navigation} = this.props;
     this.deviceModel = navigation.getParam('deviceModel', 'default value');
@@ -68,6 +70,19 @@ class SetClock extends Component {
     this.id = navigation.getParam('id', 'default value');
   }
 
+  // static navigationOptions = {
+  //   headerRight: () => <ButtonSave onPress={this.SaveSetting()}/>,
+  // };
+  SaveSetting = async () => {
+    const {navigate} = this.props.navigation;
+    let obj = {
+      id: Math.floor(Math.random() * 100),
+      hour: this.state.date.getHours(),
+      minute: this.state.date.getMinutes(),
+    };
+    await this.props.AddListAlarm(this.roomId, this.id, obj);
+    await navigate('ListSettingClockScreen');
+  };
   onChangeDate = value => {
     this.setState({
       date: value,
@@ -79,7 +94,8 @@ class SetClock extends Component {
     const {navigate} = this.props.navigation;
     const termNavigate = CheckModel(this.deviceModel);
     return (
-      <View>
+      <ScrollView>
+        <ButtonSave onPress={this.SaveSetting} />
         <View>
           <TextInput
             placeholder={'Nhập tên hẹn giờ'}
@@ -171,8 +187,11 @@ class SetClock extends Component {
             )}
           </TouchableOpacity>
         </View>
-        {/*<Button title={'test'} onPress={() => console.warn(this.state.date.getHours(),this.state.date.getMinutes())}/>*/}
-      </View>
+        <Button
+          title={'test'}
+          onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}
+        />
+      </ScrollView>
     );
   }
 }
@@ -180,8 +199,11 @@ class SetClock extends Component {
 const mapStateToProps = state => ({
   DATA: state.ListDevice.ListDevice1,
 });
-
+const mapDispatchToProps = dispatch => ({
+  AddListAlarm: (roomId, id, newSetClock: {}) =>
+    dispatch(AddListAlarm(roomId, id, newSetClock)),
+});
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(SetClock);

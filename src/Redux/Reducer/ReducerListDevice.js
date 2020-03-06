@@ -3,7 +3,8 @@ import {
   EDIT_NAMEDEVICE,
   DELETE_DEVICE,
   ADD_DEVICE,
-    SAVE_ONOFF
+  SAVE_ONOFF,
+  ADD_LISTALARM,
 } from '../Action/ActionListDevice';
 
 const myState = {
@@ -22,7 +23,7 @@ export default function ListDevice(state = myState, action) {
       };
     case EDIT_NAMEDEVICE:
       let rs1 = {
-        ...state.ListDevice1
+        ...state.ListDevice1,
       };
       rs1[action.roomId] = rs1[action.roomId].map(device => {
         if (device.id === action.id) {
@@ -36,15 +37,17 @@ export default function ListDevice(state = myState, action) {
       };
     case DELETE_DEVICE:
       let term = {
-        ...state.ListDevice1
+        ...state.ListDevice1,
       };
-      term[action.roomId] = term[action.roomId].filter(item => item.id !== action.id);
+      term[action.roomId] = term[action.roomId].filter(
+        item => item.id !== action.id,
+      );
       return {
         ListDevice1: {...term},
       };
     case ADD_DEVICE:
       let term1 = {
-        ...state.ListDevice1
+        ...state.ListDevice1,
       };
 
       term1[action.roomId] = term1[action.roomId].concat(action.newDevice);
@@ -52,9 +55,9 @@ export default function ListDevice(state = myState, action) {
       return {
         ListDevice1: {...term1},
       };
-    case SAVE_ONOFF :
+    case SAVE_ONOFF:
       let termS = {
-        ...state.ListDevice1
+        ...state.ListDevice1,
       };
       termS[action.roomId] = termS[action.roomId].map(device => {
         if (device.id === action.id) {
@@ -65,9 +68,20 @@ export default function ListDevice(state = myState, action) {
       return {
         ListDevice1: {...termS},
       };
+    case ADD_LISTALARM:
+      let termList = {
+        ...state.ListDevice1,
+      };
+      termList[action.roomId] = termList[action.roomId].map(device => {
+        if (device.id === action.id) {
+          device.ListAlarm = device.ListAlarm.concat(action.newSetClock);
+        }
+        return device;
+      });
+      return {
+        ListDevice1: {...termList},
+      };
     default:
       return state;
   }
 }
-
-
