@@ -1,5 +1,5 @@
 import {View, Text, Button, TouchableOpacity} from 'react-native';
-import React, {Component} from 'react';
+import React from 'react';
 import NavigationService from '../../Function/NavigationService';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -47,7 +47,12 @@ export default class DetailDevice extends React.Component {
   };
 
   render() {
-      let {navigation} = this.props;
+    let {navigation} = this.props;
+    let roomId = navigation.getParam('roomId', 'default value');
+    let deviceName = navigation.getParam('deviceName', 'default value');
+    let index = navigation.getParam('index', 'default value');
+    let deviceModel = navigation.getParam('deviceModel', 'default value');
+    let id = navigation.getParam('id', 'default value');
     return (
       <View style={styleDetailDevice.container}>
         <View style={styleDetailDevice.subContainer1}>
@@ -57,10 +62,18 @@ export default class DetailDevice extends React.Component {
         </View>
 
         <View style={styleDetailDevice.subContainer2}>
-          <TouchableOpacity style={styleDetailDevice.clock}
-                            onPress={() =>
-                                NavigationService.navigate('StackSetClockScreen',
-                                    {LastRouteName:navigation.state.routeName}) }>
+          <TouchableOpacity
+            style={styleDetailDevice.clock}
+            onPress={() =>
+              NavigationService.navigate('StackSetClockScreen', {
+                LastRouteName: navigation.state.routeName,
+                roomId: roomId,
+                deviceName: deviceName,
+                index: index,
+                deviceModel: deviceModel,
+                  id:id
+              })
+            }>
             <Icon name={'clock-o'} size={15} />
             <Text>Hẹn giờ</Text>
           </TouchableOpacity>

@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import {Text, View,SafeAreaView,FlatList,StyleSheet,TouchableOpacity} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+
 
 class Item extends React.Component{
   render(){
-    let onPress = this.props.onPress
+    let onPress = this.props.onPress;
     return (
         <TouchableOpacity style={styles.item} onPress={onPress}>
           <Text style={styles.title}>{this.props.ActionName}</Text>
+          <Feather name={'chevron-right'} size={27}
+                   style={{
+                     alignItems:'center',justifyContent: 'center',marginTop:5}}/>
         </TouchableOpacity>
     );
 
@@ -56,12 +61,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: 'white',
+    padding: 5,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    borderRadius:5,
+    borderWidth:0.5,
+    borderColor:'gray',
+    justifyContent:'space-between',
+    flexDirection: 'row',
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
   },
 });

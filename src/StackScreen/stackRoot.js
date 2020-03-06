@@ -16,6 +16,7 @@ import ListSettingClock from '../Containers/StackSetClock/ListSettingClock';
 import SetClock from '../Containers/StackSetClock/SetClock';
 import ActionOnOff from '../Containers/StackSetClock/ComponentAction/ActionOnOff';
 import ActionChangeColor from '../Containers/StackSetClock/ComponentAction/ActionChangeColor';
+import ActionMusic from '../Containers/StackSetClock/ComponentAction/ActionMusic';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 
@@ -66,7 +67,8 @@ const StackSetClock = createStackNavigator(
       SetClockScreen:{screen:SetClock},
       ListSetActionScreen:{screen:ListSetAction},
       ActionOnOffScreen :{screen:ActionOnOff},
-      ActionChangeColorScreen:{screen:ActionChangeColor}
+      ActionChangeColorScreen:{screen:ActionChangeColor},
+      ActionMusicScreen:{screen:ActionMusic}
     },
 );
 

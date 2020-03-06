@@ -29,8 +29,15 @@ class ListDevice extends Component {
   componentDidMount = async () => {
     await this.socket.emit('deviceRoom', JSON.stringify({roomId: this.roomID}));
     await this.socket.on('deviceRoom',async  response => {
-      this.props.DATA = JSON.parse(response).data;
-      await this.props.AddListDevice(JSON.parse(response).data, this.roomID);
+      var term = JSON.parse(response).data;
+      var result = term.map(function(el) {
+        var o = Object.assign({}, el);
+        o.OptionOnOff = 0;
+        return o;
+      });
+      // console.warn(result);
+      this.props.DATA = result;
+      await this.props.AddListDevice(result, this.roomID);
     });
   };
 
@@ -72,7 +79,7 @@ class ListDevice extends Component {
           />
         ) :
         null}
-        {/*<Button title={'test'} onPress={() => console.warn(this.props.DATA)} />*/}
+        <Button title={'test'} onPress={() => console.warn(this.props.DATA)} />
         </ScrollView>
       </SafeAreaView>
     )
@@ -83,7 +90,8 @@ const mapStateToProps = (state, props) => {
   let roomID = navigation.state.key;
   // console.log("this is mapStateToProps device: " , state.ListDevice.ListDevice1[roomID]);
   return {
-    DATA: state.ListDevice.ListDevice1 && state.ListDevice.ListDevice1[roomID] ? state.ListDevice.ListDevice1[roomID] : false,
+    DATA: state.ListDevice.ListDevice1 && state.ListDevice.ListDevice1[roomID]
+        ? state.ListDevice.ListDevice1[roomID] : false,
   };
 
 };

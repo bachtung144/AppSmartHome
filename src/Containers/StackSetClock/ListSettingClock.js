@@ -8,10 +8,19 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 export default class ListSettingClock extends React.Component{
     static navigationOptions = ({navigation}) => {
         let goback = navigation.getParam('LastRouteName', 'default value');
+        let roomId = navigation.getParam('roomId', 'default value');
+        let deviceName = navigation.getParam('deviceName', 'default value');
+        let index = navigation.getParam('index', 'default value');
+        let deviceModel = navigation.getParam('deviceModel', 'default value');
+        let id = navigation.getParam('id', 'default value');
         return {
-            headerTitle: 'Danh sách hẹn giờ',
+            headerTitle:deviceName,
             headerLeft : () => (<GoBackButton onPress={() => NavigationService.navigate(goback)}/>),
-            headerRight: () => (<ButtonAdd onPress={() => navigation.navigate('SetClockScreen')}/>),
+            headerRight: () => (<ButtonAdd
+                onPress={() => navigation.navigate('SetClockScreen',
+                    {roomId:roomId,deviceName:deviceName,
+                        deviceModel:deviceModel,
+                        index:index,id:id})}/>),
             headerTitleContainerStyle: {
                 alignItems: 'center',
                 justifyContent: 'center',

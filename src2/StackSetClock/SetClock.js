@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
   View,
-  Button,
-  Platform,
   TouchableOpacity,
   Text,
   TextInput,
@@ -10,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import ButtonSave from './Component_SetClock/ButtonSave';
 
 const days = [
   {id: 1, name: 'Thứ hai', value: 2},
@@ -62,6 +61,11 @@ function ItemDay({day, onPress}) {
 }
 
 export default class SetClock extends Component {
+    static navigationOptions ={
+        headerRight:() =>
+            (<ButtonSave/>)
+    };
+
   state = {
     date: new Date(),
     mode: 'date',
