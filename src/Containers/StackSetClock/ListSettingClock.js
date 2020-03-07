@@ -7,56 +7,42 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  Switch,
 } from 'react-native';
 import GoBackButton from '../../Components/GoBackButton';
 import ButtonAdd from '../../Components/ButtonAdd';
 import NavigationService from '../../Function/NavigationService';
 import {connect} from 'react-redux';
+import {StyleListSetting} from './StyleSetClock/StyleSetClock';
+import {AddListAlarm, DeleteListAlarm} from '../../Redux/Action/ActionListDevice';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
-function Item({hour, minute}) {
+function Item({hour, minute, actionOnOff, nameClock,onPress}) {
   return (
-    <TouchableOpacity
-      style={{
-        borderBottomColor: 'rbga(0,0,0,0.5)',
-        padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: 90,
-        alignItems: 'center',
-        borderBottomWidth:0.5
-      }}>
+    <TouchableOpacity style={StyleListSetting.touchItem}>
       <View>
-        <Text style={{fontSize: 30, fontWeight: 'bold'}}>
+        <Text style={StyleListSetting.textHour}>
           {hour}:{minute}
         </Text>
-        <Text>Trang thai chuyen: tat</Text>
-        <Text>Di ngu: hang ngay</Text>
+
+        <View style={{flexDirection: 'row',
+          justifyContent: 'space-between',}}>
+        <Text style={{fontWeight:'bold'}}>Trạng thái chuyển :</Text>
+        {actionOnOff === 0 || actionOnOff === 'default value' ? (<Text> Tắt</Text>) : <Text> Bật</Text>}
+        </View>
+
+        <View style={{flexDirection: 'row',
+          justifyContent: 'space-between',}}>
+          <Text style={{fontWeight:'bold'}}>{nameClock}:</Text>
+          <Text>hàng ngày</Text>
+        </View>
+        <Button title={'xóa'} onPress={onPress}/>
       </View>
-      <TouchableOpacity
-        style={{
-          borderColor: 'black',
-          borderWidth: 1,
-          overflow: 'hidden',
-          width: 80,
-          height: 40,
-          borderRadius: 20,
-        }}>
-        <View
-          style={{
-            borderColor: 'black',
-            borderWidth: 1,
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'white',
-            position: 'absolute',
-          }}
-        />
-      </TouchableOpacity>
+      <Switch />
     </TouchableOpacity>
   );
 }
+
 class ListSettingClock extends React.Component {
   constructor(props) {
     super(props);
@@ -89,6 +75,7 @@ class ListSettingClock extends React.Component {
               deviceModel: deviceModel,
               index: index,
               id: id,
+                LastRouteName: navigation.state.routeName
             })
           }
         />
@@ -110,15 +97,21 @@ class ListSettingClock extends React.Component {
           <FlatList
             data={term}
             renderItem={({item}) => (
-              <Item hour={item.hour} minute={item.minute} />
+              <Item
+                hour={item.hour}
+                minute={item.minute}
+                actionOnOff={item.optionOnOff}
+                nameClock={item.nameClock}
+                onPress={() => this.props.DeleteListAlarm(this.roomId,this.id,item.id)}
+              />
             )}
             keyExtractor={item => item.id}
           />
         </SafeAreaView>
-        <Button
-          title={'test'}
-          onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}
-        />
+        {/*<Button*/}
+        {/*  title={'test'}*/}
+        {/*  onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}*/}
+        {/*/>*/}
       </View>
     );
   }
@@ -126,8 +119,10 @@ class ListSettingClock extends React.Component {
 const mapStateToProps = state => ({
   DATA: state.ListDevice.ListDevice1,
 });
-
+const mapDispatchToProps = dispatch => ({
+  DeleteListAlarm: (roomId,id,idItem) => dispatch(DeleteListAlarm(roomId,id,idItem)),
+});
 export default connect(
   mapStateToProps,
-  null,
+    mapDispatchToProps,
 )(ListSettingClock);

@@ -64,7 +64,9 @@ const TabNavigator = createBottomTabNavigator(
 const StackSetClock = createStackNavigator(
     {
       ListSettingClockScreen:{screen:ListSettingClock},
-      SetClockScreen:{screen:SetClock},
+      SetClockScreen:{screen:SetClock,navigationOptions:{
+              headerShown:false
+          }},
       ListSetActionScreen:{screen:ListSetAction},
       ActionOnOffScreen :{screen:ActionOnOff},
       ActionChangeColorScreen:{screen:ActionChangeColor},

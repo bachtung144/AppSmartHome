@@ -7,7 +7,7 @@ export default class GoBackButton extends React.PureComponent{
         return(
             <View>
                 <TouchableOpacity onPress={onPress}>
-                    <Feather name={'arrow-left'} size={30} color={'#1291b6'}/>
+                    <Feather name={'arrow-left'} size={30} />
                 </TouchableOpacity>
             </View>
         )

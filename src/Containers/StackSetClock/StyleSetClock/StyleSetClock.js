@@ -58,6 +58,13 @@ export const StyleSetClockScreen = {
     backgroundColor:'white'
   },
   textButtonLoop: {padding: 10, textAlign: 'center', fontSize: 14},
+  header:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    backgroundColor: 'white',
+    paddingVertical: 10,
+  }
 };
 
 export const StyleActionOnOff = {
@@ -84,4 +91,17 @@ export const StyleActionOnOff = {
   },
   check:{fontSize: 20, color: 'green'},
   close:{fontSize: 20, color: 'red'}
+};
+
+export const StyleListSetting = {
+  touchItem:{
+    borderBottomColor: 'rbga(0,0,0,0.5)',
+    padding: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 90,
+    alignItems: 'center',
+    borderBottomWidth:0.5
+  },
+  textHour:{fontSize: 30, fontWeight: 'bold'},
 };

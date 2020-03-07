@@ -71,7 +71,7 @@ export default class DetailDevice extends React.Component {
                 deviceName: deviceName,
                 index: index,
                 deviceModel: deviceModel,
-                  id:id
+                id: id,
               })
             }>
             <Icon name={'clock-o'} size={15} />

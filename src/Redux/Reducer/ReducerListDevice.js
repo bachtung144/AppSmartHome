@@ -3,8 +3,8 @@ import {
   EDIT_NAMEDEVICE,
   DELETE_DEVICE,
   ADD_DEVICE,
-  SAVE_ONOFF,
   ADD_LISTALARM,
+  DELETE_LISTALARM
 } from '../Action/ActionListDevice';
 
 const myState = {
@@ -55,19 +55,6 @@ export default function ListDevice(state = myState, action) {
       return {
         ListDevice1: {...term1},
       };
-    case SAVE_ONOFF:
-      let termS = {
-        ...state.ListDevice1,
-      };
-      termS[action.roomId] = termS[action.roomId].map(device => {
-        if (device.id === action.id) {
-          device = {...device, OptionOnOff: action.NewOption};
-        }
-        return device;
-      });
-      return {
-        ListDevice1: {...termS},
-      };
     case ADD_LISTALARM:
       let termList = {
         ...state.ListDevice1,
@@ -80,6 +67,21 @@ export default function ListDevice(state = myState, action) {
       });
       return {
         ListDevice1: {...termList},
+      };
+    case DELETE_LISTALARM:
+      let termDelete ={
+        ...state.ListDevice1,
+      };
+      termDelete[action.roomId] = termDelete[action.roomId].map(device => {
+        if (device.id === action.id) {
+          device.ListAlarm = device.ListAlarm.filter(
+              item => item.id !== action.idItem,
+          );
+        }
+        return device;
+      });
+      return {
+        ListDevice1: {...termDelete},
       };
     default:
       return state;
