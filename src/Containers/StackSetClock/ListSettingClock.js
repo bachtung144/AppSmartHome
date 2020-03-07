@@ -1,47 +1,15 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Button,
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-  Switch,
-} from 'react-native';
+import {View, Button, Dimensions, SafeAreaView} from 'react-native';
 import GoBackButton from '../../Components/GoBackButton';
 import ButtonAdd from '../../Components/ButtonAdd';
 import NavigationService from '../../Function/NavigationService';
 import {connect} from 'react-redux';
-import {StyleListSetting} from './StyleSetClock/StyleSetClock';
-import {AddListAlarm, DeleteListAlarm} from '../../Redux/Action/ActionListDevice';
+import {DeleteListAlarm} from '../../Redux/Action/ActionListDevice';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import {Item} from './ComponentSetClock/ItemListSetting';
+import {RenderHiddenItem} from './ComponentSetClock/HidenItemSetting';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
-
-function Item({hour, minute, actionOnOff, nameClock,onPress}) {
-  return (
-    <TouchableOpacity style={StyleListSetting.touchItem}>
-      <View>
-        <Text style={StyleListSetting.textHour}>
-          {hour}:{minute}
-        </Text>
-
-        <View style={{flexDirection: 'row',
-          justifyContent: 'space-between',}}>
-        <Text style={{fontWeight:'bold'}}>Trạng thái chuyển :</Text>
-        {actionOnOff === 0 || actionOnOff === 'default value' ? (<Text> Tắt</Text>) : <Text> Bật</Text>}
-        </View>
-
-        <View style={{flexDirection: 'row',
-          justifyContent: 'space-between',}}>
-          <Text style={{fontWeight:'bold'}}>{nameClock}:</Text>
-          <Text>hàng ngày</Text>
-        </View>
-        <Button title={'xóa'} onPress={onPress}/>
-      </View>
-      <Switch />
-    </TouchableOpacity>
-  );
-}
 
 class ListSettingClock extends React.Component {
   constructor(props) {
@@ -75,7 +43,7 @@ class ListSettingClock extends React.Component {
               deviceModel: deviceModel,
               index: index,
               id: id,
-                LastRouteName: navigation.state.routeName
+              LastRouteName: navigation.state.routeName
             })
           }
         />
@@ -87,31 +55,43 @@ class ListSettingClock extends React.Component {
       },
     };
   };
-
   render() {
     // console.warn(this.props.DATA[this.roomId][this.index]);
     let term = this.props.DATA[this.roomId][this.index].ListAlarm;
+    const {navigate} = this.props.navigation;
     return (
       <View>
         <SafeAreaView>
-          <FlatList
+          <SwipeListView
             data={term}
-            renderItem={({item}) => (
+            renderItem={({item,index}) => (
               <Item
                 hour={item.hour}
                 minute={item.minute}
                 actionOnOff={item.optionOnOff}
                 nameClock={item.nameClock}
-                onPress={() => this.props.DeleteListAlarm(this.roomId,this.id,item.id)}
+                onPress={() => navigate('SetClockScreen',
+                    {LastRouteName: this.props.navigation.state.routeName,
+                      key:this.props.navigation.state.key,index:index,
+                      hour:item.hour,minute:item.minute,actionOnOff:item.actionOnOff,
+                      nameClock:item.nameClock})}
               />
             )}
             keyExtractor={item => item.id}
+            renderHiddenItem={({item}) => (
+              <RenderHiddenItem
+                onPress={() =>
+                  this.props.DeleteListAlarm(this.roomId, this.id, item.id)
+                }
+              />
+            )}
+            rightOpenValue={-75}
           />
         </SafeAreaView>
-        {/*<Button*/}
-        {/*  title={'test'}*/}
-        {/*  onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}*/}
-        {/*/>*/}
+        <Button
+          title={'test'}
+          onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}
+        />
       </View>
     );
   }
@@ -120,9 +100,10 @@ const mapStateToProps = state => ({
   DATA: state.ListDevice.ListDevice1,
 });
 const mapDispatchToProps = dispatch => ({
-  DeleteListAlarm: (roomId,id,idItem) => dispatch(DeleteListAlarm(roomId,id,idItem)),
+  DeleteListAlarm: (roomId, id, idItem) =>
+    dispatch(DeleteListAlarm(roomId, id, idItem)),
 });
 export default connect(
   mapStateToProps,
-    mapDispatchToProps,
+  mapDispatchToProps,
 )(ListSettingClock);

@@ -4,6 +4,7 @@ export const DELETE_DEVICE = 'DELETE_DEVICE ';
 export const ADD_DEVICE = 'ADD_DEVICE';
 export const ADD_LISTALARM = 'ADD_LISTALARM';
 export const DELETE_LISTALARM = 'DELETE_LISTALARM'
+export const EDIT_LISTALARM = 'EDIT_LISTALARM'
 
 export function AddListDevice(ListDevice: {}, roomId) {
   return {type: ADD_LISTDEVICE, ListDevice, roomId};
@@ -27,4 +28,8 @@ export function AddListAlarm(roomId, id, newSetClock: {}) {
 
 export function DeleteListAlarm(roomId,id,idItem) {
   return{type:DELETE_LISTALARM,roomId,id,idItem}
+}
+
+export function EditListAlarm(roomId,id,index,newSet:{}) {
+  return{type:EDIT_LISTALARM,roomId,id,index,newSet}
 }

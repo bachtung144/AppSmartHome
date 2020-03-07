@@ -6,7 +6,6 @@ import {
   TextInput,
   Dimensions,
   FlatList,
-  Button,
   ScrollView,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
@@ -16,16 +15,7 @@ import {StyleSetClockScreen} from './StyleSetClock/StyleSetClock';
 import {AddListAlarm} from '../../Redux/Action/ActionListDevice';
 import {connect} from 'react-redux';
 import GoBackButton from '../../Components/GoBackButton';
-const days = [
-  {id: 1, name: 'Thứ hai', value: 2},
-  {id: 2, name: 'Thứ ba', value: 3},
-  {id: 3, name: 'Thứ tư', value: 4},
-  {id: 4, name: 'Thứ năm', value: 5},
-  {id: 5, name: 'Thứ sáu', value: 6},
-  {id: 6, name: 'Thứ bảy', value: 7},
-  {id: 7, name: 'Chủ Nhật', value: 8},
-  {id: 8, name: 'Hàng ngày', value: 9},
-];
+import {days} from './FunctionSetClock/ArrayDays';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 function ItemDay({day, onPress}) {
@@ -53,18 +43,28 @@ function ItemDay({day, onPress}) {
 }
 
 class SetClock extends Component {
-
   constructor(props) {
     super(props);
+    const {navigation} = this.props;
+    const d = new Date();
+
     this.state = {
-      date: new Date(),
+      date:
+        navigation.getParam('key', 'default value') === 'default value'
+          ? new Date()
+          : new Date(
+              d.getFullYear(),
+              d.getMonth(),
+              d.getDate(),
+              navigation.getParam('hour', 'default value'),
+              navigation.getParam('minute', 'default value'),
+            ),
       mode: 'date',
       show: false,
       optionLoop: 1,
       nameClock: '',
       listPickedDay: [],
     };
-    const {navigation} = this.props;
     this.deviceModel = navigation.getParam('deviceModel', 'default value');
     this.roomId = navigation.getParam('roomId', 'default value');
     this.deviceName = navigation.getParam('deviceName', 'default value');
@@ -96,10 +96,11 @@ class SetClock extends Component {
     const {navigate} = this.props.navigation;
     const termNavigate = CheckModel(this.deviceModel);
 
+    let checkKey = navigation.getParam('key', 'default value');
+    let checkName = navigation.getParam('nameClock', 'default value');
     return (
       <ScrollView>
-        <View
-          style={StyleSetClockScreen.header}>
+        <View style={StyleSetClockScreen.header}>
           <GoBackButton
             onPress={() =>
               navigate(navigation.getParam('LastRouteName', 'default value'))
@@ -109,7 +110,9 @@ class SetClock extends Component {
         </View>
         <View>
           <TextInput
-            placeholder={'Nhập tên hẹn giờ'}
+            placeholder={
+              checkKey === 'default value' ? 'Nhập tên hẹn giờ' : checkName
+            }
             style={StyleSetClockScreen.nameTextInput}
             value={this.state.nameClock}
             onChangeText={nameClock => this.setState({nameClock: nameClock})}
