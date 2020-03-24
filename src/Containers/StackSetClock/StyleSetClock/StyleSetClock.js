@@ -110,7 +110,7 @@ export const StyleListSetting = {
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 90,
+    height: 110,
   },
   status: {flexDirection: 'row', justifyContent: 'space-between'},
   text: {fontWeight: 'bold'},

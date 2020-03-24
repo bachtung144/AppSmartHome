@@ -1,5 +1,9 @@
-export default function CheckActionNameForNavigate(ActionName) {
-    if(ActionName === 'Bật-Tắt') return 'ActionOnOffScreen';
-    if(ActionName === 'Đổi màu') return 'ActionChangeColorScreen';
-    if(ActionName === 'Nhạc chuông') return 'ActionMusicScreen';
+export default function CheckActionNameForNavigate(command) {
+  switch (command) {
+    case 'power' : return 'ActionOnOffScreen';
+    case 'color'  : return 'ActionChangeColorScreen';
+    case 'temperature' : return 'ActionTemperatureScreen';
+    case 'humidity' : return 'ActionHumidityScreen';
+    case 'google_voice' : return 'ActionGoogleVoiceScreen';
+  }
 }

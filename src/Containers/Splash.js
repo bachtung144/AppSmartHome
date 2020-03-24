@@ -6,46 +6,71 @@ import {stylesSplash} from '../Components/Styles';
 import NavigationService from '../Function/NavigationService';
 import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
 import {connect} from 'react-redux';
+import socket from '../Socket/SocketIo';
+import {AddListAllDevice} from '../Redux/Action/ActionListAllDevice';
+import io from 'socket.io-client';
 
- class SplashScreen extends React.Component {
-  performTimeConsumingTask = async () => {
-    return new Promise(resolve =>
-      setTimeout(() => {
-        resolve('result');
-      }, 2000),
-    );
-  };
-  async  onPost() {
+class SplashScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.socket = io('http://192.168.99.199:1123');
+
+  }
+
+  async LoadSocket() {
+    console.log(1);
+    try {
+      this.socket.emit('listDevice', JSON.stringify({page: 1}));
+      // this.socket.emit('listDevice', JSON.stringify({page: 2}));
+      return new Promise(async (resolve, reject) => {
+        await this.socket.on(
+          'listDevice',
+          async response => {
+            if (response) {
+              await this.props.AddListAllDevice(JSON.parse(response).data);
+              console.log(2);
+              return resolve(JSON.parse(response));
+            } else {
+              return reject("error");
+            }
+          },
+        )
+      })
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  async onPost() {
     var data = {};
     data.token = await _retrieveData();
     return new Promise(async (resolve, reject) => {
+      await this.LoadSocket();
+      console.log(3);
       fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
         method: 'GET',
       })
-          .then(response => response.json())
-          .then(json => {
-            this.props.AddPhone(json.data.phone)
-            this.props.AddCallingCode(json.data.callingCode)
-            resolve(true);
-          })
-          .catch(error => {
-            reject(error);
-          });
+        .then(response => response.json())
+        .then(json => {
+          this.props.AddPhone(json.data.phone);
+          this.props.AddCallingCode(json.data.callingCode);
+          resolve(true);
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .done(NavigationService.navigate('UserInforScreen'));
     });
   }
 
   async componentDidMount() {
-    const data = await this.performTimeConsumingTask();
     var value = await _retrieveData();
-    if (data !== null) {
-      if (value === null) {
-        this.props.navigation.navigate('Auth');
-      }
-      if (value !== null) {
-        this.onPost();
-        // await this.props.navigation.navigate('UserInforScreen');
-        NavigationService.navigate('UserInforScreen')
-      }
+
+    if (value === null) {
+      this.props.navigation.navigate('Auth');
+    }
+    if (value !== null) {
+      await this.onPost();
     }
   }
 
@@ -66,15 +91,18 @@ import {connect} from 'react-redux';
 }
 const mapStateToProps = state => ({
   Phone: state.phoneNumber,
-  CallingCode: state.CallingCode
+  CallingCode: state.CallingCode,
+  ListAllDevice: state.ListAllDevice.ListAllDevice,
 });
 
 const mapDispatchToProps = dispatch => ({
   AddPhone: phone => dispatch(AddPhone(phone)),
-  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
+  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode)),
+  AddListAllDevice: (ListAllDevice: []) =>
+    dispatch(AddListAllDevice(ListAllDevice)),
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SplashScreen)
+  mapStateToProps,
+  mapDispatchToProps,
+)(SplashScreen);

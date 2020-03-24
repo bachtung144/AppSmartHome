@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   ActivityIndicator,
+    Button
 } from 'react-native';
 import io from 'socket.io-client';
 import Item from '../../Function/Item';
@@ -21,14 +22,13 @@ export default class Device extends Component {
     };
   }
   getResponse = async response => {
-    // if(this.state.page ===3) return ;
+    console.warn(JSON.parse(response).data)
+    if(this.state.page ===2) return ;
     await this.setState({
       DATA: this.state.DATA.concat(JSON.parse(response).data),
       isLoading: false,
     });
-    if (JSON.parse(response).data.length < 10) {
-      return;
-    }
+
   };
 
   getData = async () => {
@@ -58,6 +58,7 @@ export default class Device extends Component {
   };
 
   render() {
+
     if (this.state.DATA === null) {
       return (
         <View>
@@ -81,6 +82,7 @@ export default class Device extends Component {
           onEndReachedThreshold={0}
           ListFooterComponent={this.renderFooter}
         />
+        <Button title={'test'} onPress={() => console.warn(this.state.DATA)}/>
       </SafeAreaView>
     );
   }

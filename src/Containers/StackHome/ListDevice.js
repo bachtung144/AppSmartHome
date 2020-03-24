@@ -7,13 +7,14 @@ import {
   ScrollView,
 } from 'react-native';
 import io from 'socket.io-client';
-import Item from '../../Function/Item';
+import ItemDeviceRoom from '../../Function/Item';
 import AddDevice from '../../Function/AddDevice';
 import NavigationService from '../../Function/NavigationService';
 import {AddListDevice} from '../../Redux/Action/ActionListDevice';
 import {connect} from 'react-redux';
 const screenWidth = Math.round(Dimensions.get('window').width);
 import Loading from '../../Components/Loading';
+import socket from '../../Socket/SocketIo';
 
 class ListDevice extends Component {
   constructor(props) {
@@ -24,19 +25,23 @@ class ListDevice extends Component {
     this.roomID = navigation.state.key;
   }
 
+  getRes = async response => {
+
+    var term = JSON.parse(response).data;
+    // var result = term.map(function (el) {
+    //   var o = Object.assign({}, el);
+    //   o.ListAlarm = [];
+    //   return o;
+    // });
+    // console.warn(result);
+
+    await this.props.AddListDevice(term, this.roomID);
+  };
   componentDidMount = async () => {
-    await this.socket.emit('deviceRoom', JSON.stringify({roomId: this.roomID}));
-    await this.socket.on('deviceRoom', async response => {
-      var term = JSON.parse(response).data;
-      var result = term.map(function(el) {
-        var o = Object.assign({}, el);
-        o.ListAlarm = [];
-        return o;
-      });
-      // console.warn(result);
-      this.props.DATA = result;
-      await this.props.AddListDevice(result, this.roomID);
-    });
+    this.socket.emit('deviceRoom', JSON.stringify({roomId: this.roomID}));
+    this.socket.on('deviceRoom',this.getRes);
+    // await socket.SocketEmit('deviceRoom', JSON.stringify({roomId: this.roomID}));
+    // await socket.SocketOn('deviceRoom',this.getRes);
   };
 
   render() {
@@ -45,45 +50,45 @@ class ListDevice extends Component {
     }
 
     return (
-      <SafeAreaView>
-        <ScrollView>
-          {this.props.DATA ? (
-            <FlatList
-              numColumns={Math.floor(screenWidth / 150)}
-              data={[...this.props.DATA, 'item']}
-              keyExtractor={item => item.id}
-              renderItem={({item, index}) =>
-                index > this.props.DATA.length - 1 ? (
-                  <AddDevice
-                    onPress={() =>
-                      NavigationService.navigate('AddDeviceScreen', {
-                        roomId: this.roomID,
-                      })
+        <SafeAreaView>
+          <ScrollView>
+            {this.props.DATA ? (
+                <FlatList
+                    numColumns={Math.floor(screenWidth / 150)}
+                    data={[...this.props.DATA, 'item']}
+                    keyExtractor={item => item.id}
+                    renderItem={({item, index}) =>
+                        index > this.props.DATA.length - 1 ? (
+                            <AddDevice
+                                onPress={() =>
+                                    NavigationService.navigate('AddDeviceScreen', {
+                                      roomId: this.roomID,
+                                    })
+                                }
+                            />
+                        ) : (
+                            <ItemDeviceRoom
+                                title={item.deviceName}
+                                onPress={() =>
+                                    NavigationService.navigate('DetailDeviceScreen', {
+                                      deviceName: item.deviceName,
+                                      deviceModel: item.deviceModel,
+                                      id: item.id,
+                                      roomId: this.roomID,
+                                      index: index,
+                                    })
+                                }
+                            />
+                        )
                     }
-                  />
-                ) : (
-                  <Item
-                    title={item.deviceName}
-                    onPress={() =>
-                      NavigationService.navigate('DetailDeviceScreen', {
-                        deviceName: item.deviceName,
-                        deviceModel: item.deviceModel,
-                        id: item.id,
-                        roomId: this.roomID,
-                        index: index,
-                      })
-                    }
-                  />
-                )
-              }
+                />
+            ) : null}
+            <Button
+                title={'test'}
+                onPress={() => console.warn(this.props.DATA)}
             />
-          ) : null}
-          <Button
-            title={'test'}
-            onPress={() => console.warn(this.props.DATA)}
-          />
-        </ScrollView>
-      </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
     );
   }
 }
@@ -93,18 +98,18 @@ const mapStateToProps = (state, props) => {
   // console.log("this is mapStateToProps device: " , state.ListDevice.ListDevice1[roomID]);
   return {
     DATA:
-      state.ListDevice.ListDevice1 && state.ListDevice.ListDevice1[roomID]
-        ? state.ListDevice.ListDevice1[roomID]
-        : false,
+        state.ListDevice.ListDevice1 && state.ListDevice.ListDevice1[roomID]
+            ? state.ListDevice.ListDevice1[roomID]
+            : false,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   AddListDevice: (ListDevice, roomId) =>
-    dispatch(AddListDevice(ListDevice, roomId)),
+      dispatch(AddListDevice(ListDevice, roomId)),
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+    mapStateToProps,
+    mapDispatchToProps,
 )(ListDevice);

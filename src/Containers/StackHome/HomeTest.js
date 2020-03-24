@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import io from 'socket.io-client';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import 'react-native-gesture-handler';
-import ListDevice from './ListDevice';
-import {View, Text} from 'react-native';
 import socket from '../../Socket/SocketIo';
-import {DeleteListAlarm} from '../../Redux/Action/ActionListDevice';
-import {AddListAction} from '../../Redux/Action/ActionListAction';
 import {connect} from 'react-redux';
 import Loading from '../../Components/Loading';
+import ListDeviceTest from './ListDeviceTest';
+import {AddListAllDevice} from '../../Redux/Action/ActionListAllDevice';
 
- class Home extends Component {
+class HomeTest extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,10 +21,10 @@ import Loading from '../../Components/Loading';
     let obj = {};
     await this.setState({listRoom: JSON.parse(response).data});
     let term = JSON.parse(response).data;
-    console.log(term)
+    // console.log(term)
     for (let i = 0; i < term.length; i++) {
       obj[term[i].id] = {
-        screen: ListDevice,
+        screen: ListDeviceTest,
         navigationOptions: {
           tabBarLabel: term[i].roomName,
         },
@@ -48,33 +45,29 @@ import Loading from '../../Components/Loading';
   componentDidMount = async () => {
     await socket.SocketEmit('listRoom');
     await socket.SocketOn('listRoom', this.getData);
-    await socket.SocketEmit('listAction');
-    await socket.SocketOn('listAction', response => {
 
-          this.props.AddListAction(JSON.parse(response).data)
-        }
-    )
-    // socket.checkConnect()
   };
 
   render() {
+    // console.warn(this.props.ListAllDevice)
     if (this.state.appTest === null) {
-      return (
-          <Loading/>
-      );
+      return <Loading />;
     }
     let AppTest = this.state.appTest;
     return <AppTest />;
   }
 }
-const mapStateToProps = state => ({
-  ListAction : state.ListAction.ListAction
-});
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = (state, props) => {
+  return {
+    ListAllDevice: state.ListAllDevice.ListAllDevice,
+  };
+};
 
-  AddListAction : (ListAction: []) =>   dispatch(AddListAction(ListAction)),
+const mapDispatchToProps = dispatch => ({
+  AddListAllDevice: (ListAllDevice: []) =>
+    dispatch(AddListAllDevice(ListAllDevice)),
 });
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Home);
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeTest);

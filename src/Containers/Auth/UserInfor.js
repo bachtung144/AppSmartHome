@@ -14,6 +14,7 @@ import {AddPhone} from '../../Redux/Action/ActionUserInfor';
   }
   constructor(props) {
     super(props);
+
   }
 
   removeItemValue = async key => {

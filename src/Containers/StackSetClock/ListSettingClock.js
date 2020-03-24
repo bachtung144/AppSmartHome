@@ -22,7 +22,7 @@ class ListSettingClock extends React.Component {
     this.id = navigation.getParam('id', 'default value');
   }
 
-  static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({navigation}) => {
     let goback = navigation.getParam('LastRouteName', 'default value');
     let roomId = navigation.getParam('roomId', 'default value');
     let deviceName = navigation.getParam('deviceName', 'default value');
@@ -75,6 +75,7 @@ class ListSettingClock extends React.Component {
                       key:this.props.navigation.state.key,index:index,
                       hour:item.hour,minute:item.minute,actionOnOff:item.actionOnOff,
                       nameClock:item.nameClock})}
+                DATA={item.listDays}
               />
             )}
             keyExtractor={item => item.id}
@@ -90,7 +91,7 @@ class ListSettingClock extends React.Component {
         </SafeAreaView>
         <Button
           title={'test'}
-          onPress={() => console.warn(this.props.DATA[this.roomId][this.index])}
+          onPress={() => console.warn(this.props.ListAction)}
         />
       </View>
     );
@@ -98,6 +99,7 @@ class ListSettingClock extends React.Component {
 }
 const mapStateToProps = state => ({
   DATA: state.ListDevice.ListDevice1,
+  ListAction : state.ListAction.ListAction
 });
 const mapDispatchToProps = dispatch => ({
   DeleteListAlarm: (roomId, id, idItem) =>

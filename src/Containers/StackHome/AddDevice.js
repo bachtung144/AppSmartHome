@@ -34,42 +34,42 @@ class AddDevice extends Component {
   add = async () => {
     const {navigation} = this.props;
     await socket.SocketEmit(
-      'addDevice',
-      JSON.stringify({
-        deviceModel: this.state.deviceModel,
-        deviceName: this.state.deviceName,
-        roomId: parseInt(navigation.getParam('roomId', 'default value')),
-      }),
+        'addDevice',
+        JSON.stringify({
+          deviceModel: this.state.deviceModel,
+          deviceName: this.state.deviceName,
+          roomId: parseInt(navigation.getParam('roomId', 'default value')),
+        }),
     );
     await socket.SocketOn('addDevice', this.getResponse);
   };
 
   render() {
     return (
-      <View style={styleAddDevice.container}>
-        <TextInput
-          value={this.state.deviceModel}
-          onChangeText={deviceModel => this.setState({deviceModel})}
-          placeholder={'deviceModel'}
-          style={styleAddDevice.input}
-        />
-        <TextInput
-          value={this.state.deviceName}
-          onChangeText={deviceName => this.setState({deviceName})}
-          placeholder={'deviceName'}
-          style={styleAddDevice.input}
-        />
-        <Button title={'Add'} onPress={() => this.add()} />
-      </View>
+        <View style={styleAddDevice.container}>
+          <TextInput
+              value={this.state.deviceModel}
+              onChangeText={deviceModel => this.setState({deviceModel})}
+              placeholder={'deviceModel'}
+              style={styleAddDevice.input}
+          />
+          <TextInput
+              value={this.state.deviceName}
+              onChangeText={deviceName => this.setState({deviceName})}
+              placeholder={'deviceName'}
+              style={styleAddDevice.input}
+          />
+          <Button title={'Add'} onPress={() => this.add()} />
+        </View>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   AddDeviceCustom: (newDevice, roomId) =>
-    dispatch(AddDeviceCustom(newDevice, roomId)),
+      dispatch(AddDeviceCustom(newDevice, roomId)),
 });
 export default connect(
-  null,
-  mapDispatchToProps,
+    null,
+    mapDispatchToProps,
 )(AddDevice);
