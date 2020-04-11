@@ -5,7 +5,7 @@ import Loading from './Loading';
 export default class ButtonCustom extends React.PureComponent {
   render() {
     let onPress = this.props.onPress;
-    let style = this.props.style
+    let style = this.props.style;
     return (
       <TouchableOpacity style={style}
                         onPress={onPress}
@@ -17,14 +17,3 @@ export default class ButtonCustom extends React.PureComponent {
   }
 }
 
-const styles = {
-  buttonLogin: {
-    width: '100%',
-    borderRadius: 70,
-    height: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-    backgroundColor: '#1291b6',
-  },
-};

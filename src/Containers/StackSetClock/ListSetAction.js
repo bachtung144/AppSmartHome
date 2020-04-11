@@ -11,7 +11,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import InitArrayAction from './FunctionSetClock/InitArrayAction';
 import CheckActionNameForNavigate from './FunctionSetClock/CheckActionNameForNavigate';
-import {AddListAlarm} from '../../Redux/Action/ActionListDevice';
+import {AddListAlarm} from '../../Redux/ListDeviceOld/ActionListDevice';
 import {connect} from 'react-redux';
 
 class Item extends React.Component {

@@ -19,7 +19,7 @@ import {stylesLogin,styleButtonBlue} from '../../Components/Styles';
 import {_storeData} from '../../Function/_storeData';
 import ButtonTest from '../../Components/ButtonTest';
 import {_retrieveData} from '../../Function/_retrieveData';
-import {AddCallingCode, AddPhone} from '../../Redux/Action/ActionUserInfor';
+import {AddCallingCode, AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
 import {connect} from 'react-redux';
 
  class Login extends Component {

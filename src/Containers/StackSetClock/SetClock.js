@@ -13,7 +13,7 @@ import DatePicker from 'react-native-date-picker';
 import ButtonSave from './ComponentSetClock/ButtonSave';
 import CheckModel from './FunctionSetClock/CheckModelForNavigate';
 import {StyleSetClockScreen} from './StyleSetClock/StyleSetClock';
-import {AddListAlarm} from '../../Redux/Action/ActionListDevice';
+import {AddListAlarm} from '../../Redux/ListDeviceOld/ActionListDevice';
 import {connect} from 'react-redux';
 import GoBackButton from '../../Components/GoBackButton';
 import {days} from './FunctionSetClock/ArrayDays'

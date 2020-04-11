@@ -4,7 +4,7 @@ import GoBackButton from '../../Components/GoBackButton';
 import ButtonAdd from '../../Components/ButtonAdd';
 import NavigationService from '../../Function/NavigationService';
 import {connect} from 'react-redux';
-import {DeleteListAlarm} from '../../Redux/Action/ActionListDevice';
+import {DeleteListAlarm} from '../../Redux/ListDeviceOld/ActionListDevice';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {Item} from './ComponentSetClock/ItemListSetting';
 import {RenderHiddenItem} from './ComponentSetClock/HidenItemSetting';

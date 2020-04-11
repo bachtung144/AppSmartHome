@@ -8,7 +8,7 @@ import {
     Button
 } from 'react-native';
 import io from 'socket.io-client';
-import Item from '../../Function/Item';
+import Item from '../StackHome/ComponentStackHome/Item';
 import socket from '../../Socket/SocketIo';
 
 export default class Device extends Component {

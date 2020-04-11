@@ -1,39 +1,39 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text,Button} from 'react-native';
 // import onPost from '../Function/onPost';
 import {_retrieveData} from '../Function/_retrieveData';
 import {stylesSplash} from '../Components/Styles';
 import NavigationService from '../Function/NavigationService';
-import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
+import {AddCallingCode, AddPhone} from '../Redux/UserInfor/ActionUserInfor';
 import {connect} from 'react-redux';
 import socket from '../Socket/SocketIo';
-import {AddListAllDevice} from '../Redux/Action/ActionListAllDevice';
+import {AddListAllDevice} from '../Redux/ListAllDevice/ActionListAllDevice';
 import io from 'socket.io-client';
 
 class SplashScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.socket = io('http://192.168.99.199:1123');
+    this.socket = io('https://thuctapgratiot.herokuapp.com/');
 
   }
 
   async LoadSocket() {
-    console.log(1);
+    // console.log(1);
     try {
       this.socket.emit('listDevice', JSON.stringify({page: 1}));
       // this.socket.emit('listDevice', JSON.stringify({page: 2}));
       return new Promise(async (resolve, reject) => {
         await this.socket.on(
-          'listDevice',
-          async response => {
-            if (response) {
-              await this.props.AddListAllDevice(JSON.parse(response).data);
-              console.log(2);
-              return resolve(JSON.parse(response));
-            } else {
-              return reject("error");
-            }
-          },
+            'listDevice',
+            async response => {
+              if (response) {
+                  console.warn(JSON.parse(response).data)
+                await this.props.AddListAllDevice(JSON.parse(response).data);
+                return resolve(JSON.parse(response));
+              } else {
+                return reject("error");
+              }
+            },
         )
       })
     } catch (e) {
@@ -50,20 +50,24 @@ class SplashScreen extends React.Component {
       fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
         method: 'GET',
       })
-        .then(response => response.json())
-        .then(json => {
-          this.props.AddPhone(json.data.phone);
-          this.props.AddCallingCode(json.data.callingCode);
-          resolve(true);
-        })
-        .catch(error => {
-          reject(error);
-        })
-        .done(NavigationService.navigate('UserInforScreen'));
+          .then(response => response.json())
+          .then(json => {
+            this.props.AddPhone(json.data.phone);
+            this.props.AddCallingCode(json.data.callingCode);
+            resolve(true);
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .done(NavigationService.navigate('UserInforScreen'));
     });
   }
 
   async componentDidMount() {
+      // console.warn({id1: 1,
+      //     deviceModel: 'hp1',
+      //     deviceName: '312314',
+      //     roomId: 5,})
     var value = await _retrieveData();
 
     if (value === null) {
@@ -76,16 +80,16 @@ class SplashScreen extends React.Component {
 
   render() {
     return (
-      <View style={stylesSplash.viewStyles}>
-        <View style={stylesSplash.BlockStyle}>
-          <Text style={stylesSplash.Logo}>Logo GratIoT</Text>
+        <View style={stylesSplash.viewStyles}>
+          <View style={stylesSplash.BlockStyle}>
+            <Text style={stylesSplash.Logo}>Logo GratIoT</Text>
+          </View>
+          <View>
+            <Text style={stylesSplash.textStyles}>
+              Kết nối mọi vật thật dễ dàng
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={stylesSplash.textStyles}>
-            Kết nối mọi vật thật dễ dàng
-          </Text>
-        </View>
-      </View>
     );
   }
 }
@@ -99,10 +103,10 @@ const mapDispatchToProps = dispatch => ({
   AddPhone: phone => dispatch(AddPhone(phone)),
   AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode)),
   AddListAllDevice: (ListAllDevice: []) =>
-    dispatch(AddListAllDevice(ListAllDevice)),
+      dispatch(AddListAllDevice(ListAllDevice)),
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+    mapStateToProps,
+    mapDispatchToProps,
 )(SplashScreen);

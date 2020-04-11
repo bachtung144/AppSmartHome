@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
-import ListDevice from './Reducer/ReducerListDevice';
-import User from './Reducer/ReducerUserInfor';
-import ListAction from './Reducer/ReducerListAction';
-import ListAllDevice from './Reducer/ReducerListAllDevice';
-import ListDeviceRoom from './Reducer/ReducerListDeviceRoom';
+import User from './UserInfor/ReducerUserInfor';
+import ListAction from './ListAction/ReducerListAction';
+import ListAllDevice from './ListAllDevice/ReducerListAllDevice';
+import ListDeviceRoom from './ListDeviceRoom/ReducerListDeviceRoom';
 export const rootReducer =  combineReducers({
     User,
     ListAction,

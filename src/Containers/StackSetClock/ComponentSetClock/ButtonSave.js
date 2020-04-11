@@ -3,10 +3,8 @@ import {
     TouchableOpacity,
     Text,
 } from 'react-native';
-import {AddListAlarm, SaveOnOff} from '../../../Redux/Action/ActionListDevice';
-import {connect} from 'react-redux';
 
- export default class ButtonSave extends React.PureComponent{
+export default class ButtonSave extends React.PureComponent{
     render(){
         let onPress = this.props.onPress;
         return(
@@ -17,15 +15,3 @@ import {connect} from 'react-redux';
     }
 }
 
-// const mapStateToProps = state => ({
-//     DATA:state.ListDevice.ListDevice1
-// });
-//
-// const mapDispatchToProps = dispatch => ({
-//     AddListAlarm: (roomId,id,newListAlarm) => dispatch( AddListAlarm(roomId,id,newListAlarm))
-// });
-//
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(ButtonSave);

@@ -6,7 +6,7 @@ import {AsyncStorage} from 'react-native';
 import {styleButtonBlue, stylesUserInfor} from '../../Components/Styles';
 import { connect } from 'react-redux'
 import NavigationService from '../../Function/NavigationService';
-import {AddPhone} from '../../Redux/Action/ActionUserInfor';
+import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
 
  class UserInfor extends React.Component {
   static navigationOptions = {

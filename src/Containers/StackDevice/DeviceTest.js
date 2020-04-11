@@ -1,71 +1,36 @@
-import React, {Component} from 'react';
-import {
-    Text,
-    FlatList,
-    SafeAreaView,
-    View,
-    ActivityIndicator,
-    Button
-} from 'react-native';
-
-import ItemDeviceRoom from '../../Function/Item';
-import socket from '../../Socket/SocketIo';
-import {deleteDevice} from '../../../src3/Redux/Action';
+import React from 'react';
+import {Text, FlatList, SafeAreaView, View} from 'react-native';
 import {connect} from 'react-redux';
-import {AddListAction} from '../../Redux/Action/ActionListAction';
+import ItemAllDevice from './ComponentStackDevice/ItemAllDevice';
 
 class DeviceTest extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            DATA: [],
-        };
+  render() {
+    if (this.props.ListAllDevice === null) {
+      return (
+        <View>
+          <Text>Loading</Text>
+        </View>
+      );
     }
-
-    async componentDidMount() {
-       await socket.SocketEmit('listDevice', JSON.stringify({page: 1}))
-       await socket.SocketEmit('listDevice', JSON.stringify({page: 2}))
-       await socket.SocketOn('listDevice', response =>{
-           // this.props.AddListTest(JSON.parse(response).data)
-           }
-       );
-    }
-
-    render() {
-
-        if (this.state.DATA === null) {
-            return (
-                <View>
-                    <Text>Loading</Text>
-                </View>
-            );
-        }
-        return (
-            <SafeAreaView>
-                <Button title={'test'} onPress={() => console.warn(this.props.ListTest)}/>
-                <FlatList
-                    data={this.props.ListTest}
-                    renderItem={({item}) => (
-                        <ItemDeviceRoom
-                            title={item.deviceName}
-                            onPress={() => console.warn('hello')}
-                        />
-                    )}
-                    keyExtractor={item => item.id}
-                    numColumns={2}
-                />
-            </SafeAreaView>
-        );
-    }
+    return (
+      <SafeAreaView>
+        <FlatList
+          data={this.props.ListAllDevice}
+          renderItem={({item}) => (
+            <ItemAllDevice id={item.id} deviceName={item.deviceName} />
+          )}
+          keyExtractor={item => item.id}
+          numColumns={2}
+        />
+      </SafeAreaView>
+    );
+  }
 }
 const mapStateToProps = state => ({
-    ListTest : state.ListDeviceTest.ListTest
+  ListAllDevice: state.ListAllDevice.ListAllDevice,
 });
-// const mapDispatchToProps = dispatch => ({
-//     AddListTest : (ListTest: []) =>   dispatch(AddListTest(ListTest)),
-// });
-export default connect(
-    mapStateToProps,
-    null,
-)(DeviceTest);
 
+export default connect(
+  mapStateToProps,
+  null,
+)(DeviceTest);

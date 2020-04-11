@@ -1,6 +1,6 @@
 import {_retrieveData} from './_retrieveData';
 import { connect } from 'react-redux'
-import {AddCallingCode, AddPhone} from '../Redux/Action/ActionUserInfor';
+import {AddCallingCode, AddPhone} from '../Redux/UserInfor/ActionUserInfor';
 import {Store as store} from 'redux';
 import warning from 'react-redux/lib/utils/warning';
 

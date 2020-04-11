@@ -4,7 +4,7 @@ class Socket {
     constructor(props) {
         // alert("12345");
         // this.socket = io('http://192.168.99.114:1125');
-        this.socket = io('http://192.168.99.199:1123');
+        this.socket = io('https://thuctapgratiot.herokuapp.com/');
     }
 
     async SocketEmit(eventMess, data: {}) {
