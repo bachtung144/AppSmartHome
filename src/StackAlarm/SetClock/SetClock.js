@@ -10,8 +10,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {StyleSetClockScreen} from '../StyleStackAlarm/StyleStackAlarm';
-import GoBackButton from '../../Components/GoBackButton';
-import ButtonSave from '../../Containers/StackSetClock/ComponentSetClock/ButtonSave';
 import {days} from './ComponentSetClock/ArrayDays';
 import DatePicker from 'react-native-date-picker';
 import {connect} from 'react-redux';
@@ -183,10 +181,6 @@ class SetClock extends React.Component {
             <Text style={StyleSetClockScreen.textAddAction}>Trạng thái</Text>
           </TouchableOpacity>
         </View>
-        {/*<Button*/}
-        {/*    title={'test'}*/}
-        {/*    onPress={() => console.warn(this.props.ListAction)}*/}
-        {/*/>*/}
       </ScrollView>
     );
   }

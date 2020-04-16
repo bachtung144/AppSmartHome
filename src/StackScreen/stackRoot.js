@@ -1,13 +1,12 @@
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Home from '../Containers/StackHome/HomeDevice/Home';
 import Device from '../Containers/StackDevice/Device';
 import Layer from '../Containers/Auth/Layer';
 import UserInfor from '../Containers/Auth/UserInfor';
 import {createStackNavigator} from 'react-navigation-stack';
 import DetailDeviceTest from '../Containers/StackHome/DetailDevice/DetailDeviceTest';
-import MenuDetailTest from '../Containers/StackHome/MenuDetail/MenuDetailTest'
+import MenuDetailTest from '../Containers/StackHome/MenuDetail/MenuDetailTest';
 import {Dimensions} from 'react-native';
 import AddDevice from '../Containers/StackHome/ComponentStackHome/AddDevice';
 import DeviceTest from '../Containers/StackDevice/DeviceTest';
@@ -20,6 +19,7 @@ import ActionColor from '../StackAlarm/ListAction/ComponentAction/ActionColor';
 import ActionGoogleVoice from '../StackAlarm/ListAction/ComponentAction/ActionGoogleVoice';
 import ActionHumidity from '../StackAlarm/ListAction/ComponentAction/ActionHumidity';
 import ActionTemperature from '../StackAlarm/ListAction/ComponentAction/ActionTemperature';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
@@ -39,7 +39,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home: {screen: HomeTest },
+    Home: {screen: HomeTest},
     Device: {screen: DeviceTest},
     Layer: {screen: Layer},
     User: {
@@ -58,41 +58,27 @@ const TabNavigator = createBottomTabNavigator(
       activeTintColor: '#1291b6',
       inactiveTintColor: 'gray',
     },
-
   },
 );
 
-// const StackSetClock = createStackNavigator({
-//   ListSettingClockScreen: {screen: ListSettingClock},
-//   SetClockScreen: {
-//     screen: SetClock,
-//     navigationOptions: {
-//       headerShown: false,
-//     },
-//   },
-//   ListSetActionScreen: {screen: ListSetAction},
-//   ActionOnOffScreen: {screen: ActionOnOff},
-//   ActionChangeColorScreen: {screen: ActionChangeColor},
-//   ActionGoogleVoiceScreen:{screen:ActionGoogleVoice},
-//   ActionHumidityScreen:{screen:ActionHumidity},
-//   ActionTemperatureScreen:{screen:ActionTemperature}
-// });
-
 const StackSetClock = createStackNavigator({
-  ListAlarmScreen: {screen:ListAlarm},
-  SetClockScreen : {screen : SetClock},
-  ListActionScreen: {screen : ListAction},
+  ListAlarmScreen: {screen: ListAlarm},
+  SetClockScreen: {screen: SetClock},
+  ListActionScreen: {screen: ListAction},
   ActionPowerScreen: {screen: ActionPower},
   ActionColorScreen: {screen: ActionColor},
-  ActionGoogleVoiceScreen:{screen:ActionGoogleVoice},
-  ActionHumidityScreen:{screen:ActionHumidity},
-  ActionTemperatureScreen:{screen:ActionTemperature}
+  ActionGoogleVoiceScreen: {screen: ActionGoogleVoice},
+  ActionHumidityScreen: {screen: ActionHumidity},
+  ActionTemperatureScreen: {screen: ActionTemperature},
 });
 
 export const stackRoot = createStackNavigator({
-  TabNavigator: {screen:TabNavigator,navigationOptions: {
+  TabNavigator: {
+    screen: TabNavigator,
+    navigationOptions: {
       headerShown: false,
-    },},
+    },
+  },
   DetailDeviceScreen: {screen: DetailDeviceTest},
   MenuDetailScreen: {
     screen: MenuDetailTest,

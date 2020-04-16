@@ -4,17 +4,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonCustom from '../../Components/Button';
 import {AsyncStorage} from 'react-native';
 import {styleButtonBlue, stylesUserInfor} from '../../Components/Styles';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux';
 import NavigationService from '../../Function/NavigationService';
-import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
 
- class UserInfor extends React.Component {
+class UserInfor extends React.Component {
   static navigationOptions = {
     header: null,
-  }
+  };
   constructor(props) {
     super(props);
-
   }
 
   removeItemValue = async key => {
@@ -27,10 +25,9 @@ import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
   };
 
   navi = async () => {
-    const {navigate} = this.props.navigation;
     let term1 = await this.removeItemValue('Token');
     if (term1 === 1) {
-      return NavigationService.navigate('LoginScreen')
+      return NavigationService.navigate('LoginScreen');
     }
   };
 
@@ -43,8 +40,7 @@ import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
               <Icon name="user" size={130} color={'#555555'} />
             </View>
             <Text>
-              (+{this.props.CallingCode})
-              {this.props.Phone}
+              (+{this.props.CallingCode}){this.props.Phone}
             </Text>
           </View>
         </View>
@@ -65,9 +61,11 @@ import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
             <Text style={stylesUserInfor.version}>1.0.0(v121)</Text>
           </View>
 
-          <ButtonCustom name={'Đăng xuất'}
-                        onPress={this.navi}
-                        style={styleButtonBlue.buttonLogin}/>
+          <ButtonCustom
+            name={'Đăng xuất'}
+            onPress={this.navi}
+            style={styleButtonBlue.buttonLogin}
+          />
         </View>
       </View>
     );
@@ -76,10 +74,10 @@ import {AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
 
 const mapStateToProps = state => ({
   Phone: state.User.phoneNumber,
-  CallingCode: state.User.CallingCode
-})
+  CallingCode: state.User.CallingCode,
+});
 
 export default connect(
-    mapStateToProps,null
-)(UserInfor)
-
+  mapStateToProps,
+  null,
+)(UserInfor);

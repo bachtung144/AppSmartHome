@@ -1,11 +1,8 @@
 import {_retrieveData} from './_retrieveData';
-import { connect } from 'react-redux'
-import {AddCallingCode, AddPhone} from '../Redux/UserInfor/ActionUserInfor';
-import {Store as store} from 'redux';
-import warning from 'react-redux/lib/utils/warning';
+import {connect} from 'react-redux';
+import {AddPhone} from '../Redux/UserInfor/ActionUserInfor';
 
-
- async function onPost() {
+async function onPost() {
   var data = {};
   data.token = await _retrieveData();
   return new Promise(async (resolve, reject) => {
@@ -14,13 +11,7 @@ import warning from 'react-redux/lib/utils/warning';
     })
       .then(response => response.json())
       .then(json => {
-        // Global.userinfor.phone = json.data.phone;
-        // Global.userinfor.callingCode = json.data.callingCode;
-        //   store.dispatch(AddPhone(json.data.phone))
-          // store.dispatch(AddCallingCode(json.data.callingCode))
-          this.props.AddPhone(json.data.phone)
-          // this.props.AddCallingCode(json.data.callingCode)
-
+        this.props.AddPhone(json.data.phone);
         resolve(true);
       })
       .catch(error => {
@@ -29,16 +20,14 @@ import warning from 'react-redux/lib/utils/warning';
   });
 }
 const mapStateToProps = state => ({
-    Phone: state.phoneNumber
-    // CallingCode: state.CallingCode
-})
+  Phone: state.phoneNumber,
+});
 
 const mapDispatchToProps = dispatch => ({
-    AddPhone: phone => dispatch(AddPhone(phone)),
-    // AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
-})
+  AddPhone: phone => dispatch(AddPhone(phone)),
+});
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(onPost)
+  mapStateToProps,
+  mapDispatchToProps,
+)(onPost);

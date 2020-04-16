@@ -72,9 +72,11 @@ export default class NewPass extends Component {
           </View>
 
           {this.state.password ? (
-            <ButtonCustom onPress={this.onSubmit}
-                          name={'Xác nhận'}
-                          style={styleButtonBlue.buttonLogin}/>
+            <ButtonCustom
+              onPress={this.onSubmit}
+              name={'Xác nhận'}
+              style={styleButtonBlue.buttonLogin}
+            />
           ) : (
             <ButtonTest name={'Xác nhận'} />
           )}

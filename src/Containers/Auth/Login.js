@@ -15,14 +15,14 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 // import onPost from '../../Function/onPost';
 import BlockLink from '../../Components/BlockLink';
-import {stylesLogin,styleButtonBlue} from '../../Components/Styles';
+import {stylesLogin, styleButtonBlue} from '../../Components/Styles';
 import {_storeData} from '../../Function/_storeData';
 import ButtonTest from '../../Components/ButtonTest';
 import {_retrieveData} from '../../Function/_retrieveData';
 import {AddCallingCode, AddPhone} from '../../Redux/UserInfor/ActionUserInfor';
 import {connect} from 'react-redux';
 
- class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +32,7 @@ import {connect} from 'react-redux';
       nameNation: 'Vietnam',
       modal: false,
       verify: true,
-      isLoading:false
+      isLoading: false,
     };
   }
 
@@ -59,13 +59,13 @@ import {connect} from 'react-redux';
       .then(async data => {
         console.warn(data);
         if (data.status === 'success') {
-          await this.setState({isLoading:true})
+          await this.setState({isLoading: true});
           await _storeData('Token', data.data.token);
           this.onPost();
           await navigate('UserInforScreen');
         }
         if (data.status === 'fail') {
-          await this.setState({isLoading:true})
+          await this.setState({isLoading: true});
           await this.setState({verify: false});
         }
       })
@@ -74,23 +74,23 @@ import {connect} from 'react-redux';
       });
   };
 
-  async  onPost() {
+  async onPost() {
     var data = {};
     data.token = await _retrieveData();
     return new Promise(async (resolve, reject) => {
       fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
         method: 'GET',
       })
-          .then(response => response.json())
-          .then(json => {
-            this.props.AddPhone(json.data.phone)
-            this.props.AddCallingCode(json.data.callingCode)
+        .then(response => response.json())
+        .then(json => {
+          this.props.AddPhone(json.data.phone);
+          this.props.AddCallingCode(json.data.callingCode);
 
-            resolve(true);
-          })
-          .catch(error => {
-            reject(error);
-          });
+          resolve(true);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   }
 
@@ -210,15 +210,15 @@ import {connect} from 'react-redux';
 }
 const mapStateToProps = state => ({
   Phone: state.phoneNumber,
-  CallingCode: state.CallingCode
+  CallingCode: state.CallingCode,
 });
 
 const mapDispatchToProps = dispatch => ({
   AddPhone: phone => dispatch(AddPhone(phone)),
-  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode))
+  AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode)),
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Login)
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

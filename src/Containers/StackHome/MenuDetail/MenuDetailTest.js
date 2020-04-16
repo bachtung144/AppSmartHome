@@ -4,21 +4,23 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Button,
 } from 'react-native';
 import React, {Component} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import {styleMenuDetail} from './StyleMenuDetail/StyleMenuDetail';
 import {
-   DeleteDeviceListAll,
+  DeleteDeviceListAll,
   EditNameDevice,
 } from '../../../Redux/ListAllDevice/ActionListAllDevice';
 import {connect} from 'react-redux';
-import socket from '../../../Socket/SocketIo';
 import ButtonDelete from './ComponentMenuDetail/ButtonDelete';
 import Voice from './ComponentMenuDetail/Voice';
 import InforSetting from './ComponentMenuDetail/InforSetting';
 import NavigationService from '../../../Function/NavigationService';
 import {DeleteDeviceListRoom} from '../../../Redux/ListDeviceRoom/ActionListDeviceRoom';
+import {emit} from '../../../Socket/_Socket';
+import {SetFalseDelete, SetFalseEdit} from '../../../Redux/Status/ActionStatus';
 
 class MenuDetailTest extends Component {
   constructor(props) {
@@ -30,15 +32,22 @@ class MenuDetailTest extends Component {
     let {navigation} = this.props;
     this.id = navigation.getParam('id', 'default value');
   }
-  getResponseEdit = async response => {
-    console.warn(JSON.parse(response));
-    if (JSON.parse(response).status === 'success') {
-      this.props.EditNameDevice(this.state.deviceNameUser, this.id);
+
+  async UNSAFE_componentWillReceiveProps(props) {
+    if (props.statusEdit) {
+      props.EditNameDevice(this.state.deviceNameUser, this.id);
+      props.SetFalseEdit();
     }
-  };
+    if (props.statusDelete) {
+      props.DeleteDeviceListRoom(this.id, this.props.DeviceInfor[0].roomId);
+      props.DeleteDeviceListAll(this.id);
+      props.SetFalseDelete();
+      NavigationService.navigate('Home');
+    }
+  }
 
   edit = async () => {
-    await socket.SocketEmit(
+    await emit(
       'editDevice',
       JSON.stringify({
         id: this.id,
@@ -47,24 +56,19 @@ class MenuDetailTest extends Component {
         roomId: this.props.DeviceInfor[0].roomId,
       }),
     );
-    await socket.SocketOn('editDevice', this.getResponseEdit);
-  };
-
-  getResponseDelete = async response => {
-    console.warn(response);
-    if (JSON.parse(response).status === 'success') {
-      await this.props.DeleteDeviceListRoom(this.id,this.props.DeviceInfor[0].roomId);
-      await this.props.DeleteDeviceListAll(this.id);
-      await NavigationService.navigate('Home');
-    }
   };
 
   delete = async () => {
-    await socket.SocketEmit('delDevice', JSON.stringify({id: this.id}));
-    await socket.SocketOn('delDevice', this.getResponseDelete);
+    await emit('delDevice', JSON.stringify({id: this.id}));
   };
 
   render() {
+    let nameRoom =
+      this.props.DeviceInfor.length !== 0
+        ? this.props.ListRoom.filter(
+            ele => ele.id === this.props.DeviceInfor[0].roomId,
+          )[0]
+        : {roomName: 'hello'};
     return (
       <ScrollView>
         <View style={{flex: 1}}>
@@ -76,7 +80,11 @@ class MenuDetailTest extends Component {
               <View style={styleMenuDetail.containerSubTTB}>
                 <Text style={styleMenuDetail.TTB}>Tên thiết bị</Text>
                 <TextInput
-                  // placeholder={this.props.DeviceInfor[0].deviceName}
+                  placeholder={
+                    this.props.DeviceInfor.length !== 0
+                      ? this.props.DeviceInfor[0].deviceName
+                      : null
+                  }
                   editable={this.state.modal}
                   value={this.state.deviceNameUser}
                   onChangeText={async deviceNameUser =>
@@ -95,13 +103,15 @@ class MenuDetailTest extends Component {
             </View>
             <View style={styleMenuDetail.containerTTB}>
               <Text style={styleMenuDetail.VTTB}>Vị trí thiết bị</Text>
-              <Text style={styleMenuDetail.CXL}>Cần xử lý</Text>
+              <Text style={styleMenuDetail.CXL}>
+                {this.props.DeviceInfor.length !== 0 ? nameRoom.roomName : null}
+              </Text>
             </View>
           </View>
           <Voice />
           <InforSetting />
           <ButtonDelete onPress={() => this.delete()} />
-          {/*<Button title={'test'} onPress={() => console.warn(this.props.DATA)} />*/}
+          {/*<Button title={'test'} onPress={() => console.warn(nameRoom.roomName)} />*/}
         </View>
       </ScrollView>
     );
@@ -114,12 +124,20 @@ const mapStateToProps = (state, props) => {
   return {
     ListAllDevice: state.ListAllDevice.ListAllDevice,
     DeviceInfor: state.ListAllDevice.ListAllDevice.filter(ele => ele.id === id),
+    ListRoom: state.ListRoom.ListRoom,
+    statusEdit: state.Status.statusEdit,
+    statusDelete: state.Status.statusDelete,
   };
 };
+
 const mapDispatchToProps = dispatch => ({
-  EditNameDevice: (newDeviceName, id) => dispatch(EditNameDevice(newDeviceName,id)),
+  EditNameDevice: (newDeviceName, id) =>
+    dispatch(EditNameDevice(newDeviceName, id)),
   DeleteDeviceListAll: id => dispatch(DeleteDeviceListAll(id)),
-  DeleteDeviceListRoom : (id, roomId) => dispatch(DeleteDeviceListRoom(id,roomId)),
+  DeleteDeviceListRoom: (id, roomId) =>
+    dispatch(DeleteDeviceListRoom(id, roomId)),
+  SetFalseEdit: () => dispatch(SetFalseEdit()),
+  SetFalseDelete: () => dispatch(SetFalseDelete()),
 });
 export default connect(
   mapStateToProps,

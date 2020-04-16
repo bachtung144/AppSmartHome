@@ -1,14 +1,15 @@
 import {ADD_LISTACTION} from './ActionListAction';
 
 const myState = {
-    ListAction:[]
+  ListAction: [],
 };
-export default function ListAction(state = myState, action){
-    switch (action.type){
-        case ADD_LISTACTION:
-            return {
-                ListAction: action.ListAction
-            };
-        default : return state
-    }
+export default function ListAction(state = myState, action) {
+  switch (action.type) {
+    case ADD_LISTACTION:
+      return {
+        ListAction: [...state.ListAction, action.ListAction],
+      };
+    default:
+      return state;
+  }
 }

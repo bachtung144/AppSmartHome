@@ -3,13 +3,11 @@ import {createAppContainer} from 'react-navigation';
 import {createSwitchNavigator} from 'react-navigation';
 import Splash from './src/Containers/Splash';
 import 'react-native-gesture-handler';
-import {createStore} from 'redux';
 import NavigationService from './src/Function/NavigationService';
 import {stackRoot} from './src/StackScreen/stackRoot';
 import {StackNavigatorAuth} from './src/StackScreen/StackNavigatorAuth';
 import {Provider} from 'react-redux';
-import {rootReducer} from './src/Redux/Combine';
-const store = createStore(rootReducer);
+import {store} from './src/Redux/Store';
 import {Button} from 'react-native';
 const InitialNavigator = createSwitchNavigator({
   SplashScreen: {

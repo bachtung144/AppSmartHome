@@ -1,7 +1,8 @@
 export const ADD_LISTDEVICEROOM = 'ADD_LISTDEVICEROOM';
 export const ADD_DEVICE_LISTROOM = 'ADD_DEVICE_LISTROOM';
 export const DELETE_DEVICE_LISTROOM = 'DELETE_DEVICE_LISTROOM';
-export function AddListDeviceRoom(ListDeviceRoom: {}, roomId) {
+
+export function AddListDeviceRoom(ListDeviceRoom: [], roomId) {
   return {type: ADD_LISTDEVICEROOM, ListDeviceRoom, roomId};
 }
 

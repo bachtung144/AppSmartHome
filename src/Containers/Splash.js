@@ -1,52 +1,59 @@
 import React from 'react';
 import {View, Text,Button} from 'react-native';
-// import onPost from '../Function/onPost';
 import {_retrieveData} from '../Function/_retrieveData';
 import {stylesSplash} from '../Components/Styles';
 import NavigationService from '../Function/NavigationService';
 import {AddCallingCode, AddPhone} from '../Redux/UserInfor/ActionUserInfor';
 import {connect} from 'react-redux';
-import socket from '../Socket/SocketIo';
 import {AddListAllDevice} from '../Redux/ListAllDevice/ActionListAllDevice';
 import io from 'socket.io-client';
+import {connectSocket} from '../Socket/_Socket'
+import {emit} from '../Socket/_Socket';
 
 class SplashScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.socket = io('https://thuctapgratiot.herokuapp.com/');
-
+      let isConnect =  connectSocket();
+      console.log("isConnect => ", isConnect)
+      // this.emitEvent();
   }
 
-  async LoadSocket() {
-    // console.log(1);
-    try {
-      this.socket.emit('listDevice', JSON.stringify({page: 1}));
-      // this.socket.emit('listDevice', JSON.stringify({page: 2}));
-      return new Promise(async (resolve, reject) => {
-        await this.socket.on(
-            'listDevice',
-            async response => {
-              if (response) {
-                  console.warn(JSON.parse(response).data)
-                await this.props.AddListAllDevice(JSON.parse(response).data);
-                return resolve(JSON.parse(response));
-              } else {
-                return reject("error");
-              }
-            },
-        )
-      })
-    } catch (e) {
-      console.log(e.message);
+  // async LoadSocket() {
+  //   // console.log(1);
+  //   try {
+  //     this.socket.emit('listDevice', JSON.stringify({page: 1}));
+  //     // this.socket.emit('listDevice', JSON.stringify({page: 2}));
+  //     return new Promise(async (resolve, reject) => {
+  //       await this.socket.on(
+  //           'listDevice',
+  //           async response => {
+  //             if (response) {
+  //                 // console.warn(JSON.parse(response).data)
+  //               await this.props.AddListAllDevice(JSON.parse(response).data);
+  //               return resolve(JSON.parse(response));
+  //             } else {
+  //               return reject("error");
+  //             }
+  //           },
+  //       )
+  //     })
+  //   } catch (e) {
+  //     console.log(e.message);
+  //   }
+  // }
+    async loadSocket(){
+        return new Promise(async () =>{
+            await emit('listDevice', JSON.stringify({page: 1}));
+             await emit('listRoom');
+        })
     }
-  }
-
   async onPost() {
+       // emit('listRoom');
     var data = {};
     data.token = await _retrieveData();
     return new Promise(async (resolve, reject) => {
-      await this.LoadSocket();
-      console.log(3);
+        // emit('listRoom');
+       await this.loadSocket();
       fetch(`http://192.168.99.199:1123/userinfo?token=${data.token}`, {
         method: 'GET',
       })
@@ -59,22 +66,19 @@ class SplashScreen extends React.Component {
           .catch(error => {
             reject(error);
           })
-          .done(NavigationService.navigate('UserInforScreen'));
+          // .done(NavigationService.navigate('UserInforScreen'));
     });
   }
 
   async componentDidMount() {
-      // console.warn({id1: 1,
-      //     deviceModel: 'hp1',
-      //     deviceName: '312314',
-      //     roomId: 5,})
     var value = await _retrieveData();
-
     if (value === null) {
       this.props.navigation.navigate('Auth');
     }
     if (value !== null) {
-      await this.onPost();
+      await this.loadSocket()
+      // await this.onPost();
+      // await NavigationService.navigate('UserInforScreen')
     }
   }
 

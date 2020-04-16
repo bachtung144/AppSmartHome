@@ -29,15 +29,15 @@ export default function ListAllDevice(state = myState, action) {
       let termDelete = [...state.ListAllDevice];
 
       termDelete = termDelete.filter(item => item.id !== action.id);
-      console.warn(termDelete);
       return {
         ListAllDevice: [...termDelete],
       };
     case ADD_DEVICE_LISTALL:
-      let termAdd = [...state.ListAllDevice];
-      termAdd = termAdd.concat(action.newDevice);
+      // let termAdd = [...state.ListAllDevice];
+      // termAdd = termAdd.push(action.newDevice);
       return {
-        ListAllDevice: [...termAdd],
+        ...state,
+        ListAllDevice: [...state.ListAllDevice,action.newDevice]
       };
     default:
       return state;

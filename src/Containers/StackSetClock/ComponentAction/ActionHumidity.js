@@ -1,12 +1,12 @@
-import React,{Component} from 'react';
-import {Text,View } from 'react-native';
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
 
-export default class ActionHumidity extends Component{
-    render(){
-        return(
-            <View>
-                <Text>ActionHumidity</Text>
-            </View>
-        )
-    }
+export default class ActionHumidity extends Component {
+  render() {
+    return (
+      <View>
+        <Text>ActionHumidity</Text>
+      </View>
+    );
+  }
 }

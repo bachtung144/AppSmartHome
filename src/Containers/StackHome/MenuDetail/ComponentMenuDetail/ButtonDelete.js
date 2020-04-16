@@ -1,16 +1,16 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {styleMenuDetail} from '../StyleMenuDetail/StyleMenuDetail';
+import {styleButtonDelete} from './StyleComponenMenuDetail/StyleButtonDelete';
 
 export default class ButtonDelete extends React.PureComponent {
   render() {
     let onPress = this.props.onPress;
     return (
-      <View style={{flex: 1, alignItems: 'center'}}>
+      <View style={styleButtonDelete.containerButtonDelete}>
         <TouchableOpacity
-          style={styleMenuDetail.buttonDelete}
+          style={styleButtonDelete.buttonDelete}
           onPress={onPress}>
-          <Text style={{color: 'white'}}>Xóa </Text>
+          <Text style={styleButtonDelete.text}>Xóa </Text>
         </TouchableOpacity>
       </View>
     );

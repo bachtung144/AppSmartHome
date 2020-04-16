@@ -1,5 +1,3 @@
-import {Dimensions} from 'react-native';
-
 export const stylesLogin = {
   container: {
     marginHorizontal: 30,
@@ -284,6 +282,17 @@ export const stylesSplash = {
   },
 };
 
+export const styleButtonBlue = {
+  buttonLogin: {
+    width: '100%',
+    borderRadius: 70,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    backgroundColor: '#1291b6',
+  },
+};
 export const styleFlatList = {
   container: {
     marginVertical: 10,
@@ -324,187 +333,4 @@ export const styleFlatList = {
   },
   Image: {width: 70, height: 60},
 };
-export const styleDetailDevice = {
-  container: {flex: 10},
-  subContainer1: {
-    backgroundColor: '#eaeaea',
-    flex: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  subContainer2: {
-    backgroundColor: 'white',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  buttonOff: {
-    backgroundColor: 'white',
-    width: '90%',
-    height: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 0.5,
-    borderColor: 'gray',
-  },
-  clock: {
-    padding: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-};
 
-export const styleButtonBlue = {
-  buttonLogin: {
-    width: '100%',
-    borderRadius: 70,
-    height: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-    backgroundColor: '#1291b6',
-  },
-};
-const screenHeight = Math.round(Dimensions.get('window').height);
-const screenWidth = Math.round(Dimensions.get('window').width);
-export const styleHeaderHome = {
-  contaner: {
-    height: 60,
-    backgroundColor: '#FFCCCC',
-    borderBottomWidth: 0.5,
-  },
-  containerSub1: {
-    height: '40%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  containerHouse: {
-    flexDirection: 'row',
-    width: (screenWidth / 100) * 33,
-    marginLeft: 7,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textHouse: {fontSize: 20, fontWeight: 'bold'},
-  iconHouse: {marginLeft: 5, fontSize: 20},
-  containerButton: {
-    backgroundColor: '#1291b6',
-    marginRight: 7,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 80,
-    borderRadius: 15,
-    borderWidth: 0.5,
-    borderColor: 'gray',
-  },
-  iconButton: {fontSize: 30, color: 'white'},
-  containerSub2: {
-    height: '60%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  iconWeather: {fontSize: 35, marginLeft: 10, color: 'orange'},
-  textWeather: {fontWeight: 'bold'},
-  containerPeople: {
-    backgroundColor: '#FF6666',
-    alignItems: 'center',
-    borderRadius: 2,
-    paddingHorizontal: 5,
-  },
-  containerAir: {marginRight: 15},
-  textAir: {fontWeight: 'bold'},
-};
-
-export const styleMenuDetail = {
-  ContainerTTCB: {
-    flex: 2 / 4,
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-  },
-  textTTCB: {marginLeft: 15, fontSize: 20},
-  containerTTB: {
-    flex: 2 / 4,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-    backgroundColor: 'white',
-  },
-  containerSubTTB: {flexDirection: 'row', marginLeft: 15, alignItems: 'center'},
-  TTB: {fontSize: 20},
-  subTTB: {marginLeft: 20, marginTop: 5},
-  iconEdit: {fontSize: 30, color: '#1291b6', marginRight: 8},
-  containerTTA: {
-    flex: 2 / 4,
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-    backgroundColor: 'white',
-  },
-  TTA: {marginLeft: 10, fontSize: 20},
-  VTTB: {marginLeft: 17, fontSize: 15},
-  CXL: {marginRight: 10},
-  containerVoice: {
-    height: 50,
-    justifyContent: 'space-around',
-    borderBottomWidth: 0.5,
-  },
-  containerTTCDK: {
-    height: 50,
-
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-  },
-  containerTB: {
-    height: 50,
-
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-  },
-  containerShare: {
-    height: 50,
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-    backgroundColor: 'white',
-  },
-  containerCheckPM: {
-    height: 50,
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-    borderColor: 'gray',
-  },
-  textCheckPM: {marginLeft: 15, fontSize: 20, color: 'gray'},
-  buttonDelete: {
-    width: '90%',
-    borderRadius: 70,
-    height: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    backgroundColor: 'red',
-  },
-};
-
-export const styleAddDevice = {
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-  },
-  input: {
-    width: 300,
-    height: 44,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 10,
-  },
-};

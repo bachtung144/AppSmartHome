@@ -1,31 +1,29 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {styleMenuDetail} from '../StyleMenuDetail/StyleMenuDetail';
+import {styleInforSetting} from './StyleComponenMenuDetail/StyleInforSetting';
 
 export default class InforSetting extends React.PureComponent {
   render() {
     return (
       <View style={{flex: 2}}>
-        <View style={styleMenuDetail.containerTTCDK}>
-          <Text style={{marginLeft: 15, fontSize: 20}}>
+        <View style={styleInforSetting.containerTTCDK}>
+          <Text style={styleInforSetting.textInfor}>
             Thông tin cài đặt khác
           </Text>
         </View>
-        <View style={styleMenuDetail.containerTB}>
-          <Text style={{marginLeft: 15, fontSize: 15, color: 'gray'}}>
-            Thông báo
-          </Text>
+        <View style={styleInforSetting.containerTB}>
+          <Text style={styleInforSetting.textCheckPM}>Thông báo</Text>
         </View>
-        <View style={styleMenuDetail.containerShare}>
-          <Text style={{marginLeft: 15, fontSize: 20}}>Chia sẻ thiết bị</Text>
+        <View style={styleInforSetting.containerShare}>
+          <Text style={styleInforSetting.textInfor}>Chia sẻ thiết bị</Text>
         </View>
-        <View style={styleMenuDetail.containerCheckPM}>
-          <Text style={styleMenuDetail.textCheckPM}>
+        <View style={styleInforSetting.containerCheckPM}>
+          <Text style={styleInforSetting.textCheckPM}>
             Kiểm tra nâng cấp phần mềm
           </Text>
         </View>
-        <View style={styleMenuDetail.containerShare}>
-          <Text style={{marginLeft: 15, fontSize: 20}}>Thông tin khác</Text>
+        <View style={styleInforSetting.containerShare}>
+          <Text style={styleInforSetting.textInfor}>Thông tin khác</Text>
         </View>
       </View>
     );
