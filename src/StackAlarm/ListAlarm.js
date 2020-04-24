@@ -17,7 +17,7 @@ class ListAlarm extends React.Component {
       ),
       headerRight: () => (
         <ButtonAdd
-          onPress={() => navigation.navigate('SetClockScreen', {id: id})}
+          onPress={() => navigation.navigate('SetClockScreen', {id: id,LastRouteName : navigation.state.routeName})}
         />
       ),
       headerTitleContainerStyle: {

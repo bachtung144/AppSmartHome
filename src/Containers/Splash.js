@@ -5,17 +5,15 @@ import {stylesSplash} from '../Components/Styles';
 import NavigationService from '../Function/NavigationService';
 import {AddCallingCode, AddPhone} from '../Redux/UserInfor/ActionUserInfor';
 import {connect} from 'react-redux';
-import {AddListAllDevice} from '../Redux/ListAllDevice/ActionListAllDevice';
-import io from 'socket.io-client';
 import {connectSocket} from '../Socket/_Socket'
 import {emit} from '../Socket/_Socket';
+import Loading from '../Components/Loading';
 
 class SplashScreen extends React.Component {
   constructor(props) {
     super(props);
       let isConnect =  connectSocket();
       console.log("isConnect => ", isConnect)
-      // this.emitEvent();
   }
 
   // async LoadSocket() {
@@ -45,6 +43,7 @@ class SplashScreen extends React.Component {
         return new Promise(async () =>{
             await emit('listDevice', JSON.stringify({page: 1}));
              await emit('listRoom');
+             emit('listAction')
         })
     }
   async onPost() {
@@ -93,6 +92,7 @@ class SplashScreen extends React.Component {
               Kết nối mọi vật thật dễ dàng
             </Text>
           </View>
+            <Loading/>
         </View>
     );
   }
@@ -106,8 +106,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   AddPhone: phone => dispatch(AddPhone(phone)),
   AddCallingCode: callingCode => dispatch(AddCallingCode(callingCode)),
-  AddListAllDevice: (ListAllDevice: []) =>
-      dispatch(AddListAllDevice(ListAllDevice)),
 });
 
 export default connect(

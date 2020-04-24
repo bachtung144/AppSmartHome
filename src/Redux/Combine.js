@@ -6,6 +6,7 @@ import ListDeviceRoom from './ListDeviceRoom/ReducerListDeviceRoom';
 import ListRoom from './ListRoom/ReducerListRoom';
 import Status from './Status/ReducerStatus';
 import NewDevice from './NewDevice/ReducerNewDevice';
+import ListActionDevice from './ListActionDevice/ReducerListActionDevice';
 export const rootReducer = combineReducers({
   User,
   ListAction,
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   ListRoom,
   Status,
   NewDevice,
+  ListActionDevice
 });

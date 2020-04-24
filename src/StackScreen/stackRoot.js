@@ -60,16 +60,23 @@ const TabNavigator = createBottomTabNavigator(
     },
   },
 );
-
-const StackSetClock = createStackNavigator({
-  ListAlarmScreen: {screen: ListAlarm},
-  SetClockScreen: {screen: SetClock},
-  ListActionScreen: {screen: ListAction},
+const StackActions = createStackNavigator({
   ActionPowerScreen: {screen: ActionPower},
   ActionColorScreen: {screen: ActionColor},
   ActionGoogleVoiceScreen: {screen: ActionGoogleVoice},
-  ActionHumidityScreen: {screen: ActionHumidity},
+  ActionHumidityScreen: {screen: ActionHumidity,},
   ActionTemperatureScreen: {screen: ActionTemperature},
+},);
+
+const StackSetClock = createStackNavigator({
+  ListAlarmScreen: {screen: ListAlarm},
+  SetClockScreen: {screen: SetClock,navigationOptions:{
+    headerShown:false
+    }},
+  ListActionScreen: {screen: ListAction},
+  ActionsScreen : {screen: StackActions,navigationOptions: {
+      headerShown: false,
+    },}
 });
 
 export const stackRoot = createStackNavigator({

@@ -34,7 +34,6 @@ export const StyleSetClockScreen = {
   },
   containerTouch: {
     width: '90%',
-    backgroundColor: '#1291b6',
     alignItems: 'center',
     height: 50,
     justifyContent: 'center',

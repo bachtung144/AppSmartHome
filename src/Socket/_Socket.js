@@ -10,6 +10,7 @@ import {
   SetTrueEdit,
 } from '../Redux/Status/ActionStatus';
 import {AddActions, AddId} from '../Redux/NewDevice/ActionNewDevice';
+import {AddListAction} from '../Redux/ListAction/ActionListAction';
 //https://thuctapgratiot.herokuapp.com/
 //http://192.168.86.40:1123/
 const domain_socket = 'https://thuctapgratiot.herokuapp.com/'; // define domain socketio
@@ -101,6 +102,10 @@ function onEvent() {
       store.dispatch(AddActions(JSON.parse(response).data.actions));
       store.dispatch(SetTrueAdd());
     }
+  });
+
+  _socket.on('listAction', response => {
+     store.dispatch(AddListAction(JSON.parse(response).data))
   });
 
   return true;

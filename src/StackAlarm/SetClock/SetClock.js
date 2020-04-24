@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   Button,
   FlatList,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   View,
@@ -14,6 +13,11 @@ import {days} from './ComponentSetClock/ArrayDays';
 import DatePicker from 'react-native-date-picker';
 import {connect} from 'react-redux';
 import CheckActionNameForNavigate from '../ListAction/CheckActionNameForNavigate';
+import NavigationService from '../../Function/NavigationService';
+import GoBackButton from '../../Components/GoBackButton';
+import ButtonSave from '../../Containers/StackSetClock/ComponentSetClock/ButtonSave';
+import {store} from '../../Redux/Store';
+import {DeleteAllArrayAction} from '../../Redux/ListActionDevice/ActionListActionDevice';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 class Item extends Component {
@@ -33,7 +37,7 @@ class Item extends Component {
   }
 }
 
-class SetClock extends React.Component {
+class SetClock extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +50,7 @@ class SetClock extends React.Component {
       selectedItem: [],
     };
   }
+
   onSelect(item) {
     let newSelectedItem = this.state.selectedItem;
     if (!this.state.selected.get(item.id)) {
@@ -76,21 +81,35 @@ class SetClock extends React.Component {
       return CheckActionNameForNavigate(command);
     }
   }
-
+  goBack() {
+    const {navigate} = this.props.navigation;
+    const {navigation} = this.props;
+    let id = navigation.getParam('id', 'default value');
+    store.dispatch(DeleteAllArrayAction(id));
+    navigate(navigation.getParam('LastRouteName', 'default value'));
+  }
   render() {
     const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
     let id = navigation.getParam('id', 'default value');
+    let colorPicked = navigation.getParam('colorPicked', 'default value');
+    let nameCommand =
+      this.props.ActionDeviceInforPower.length !== 0
+        ? this.props.ActionDeviceInforPower[0].command
+        : null;
+    let valueCommand =
+      this.props.ActionDeviceInforPower.length !== 0
+        ? this.props.ActionDeviceInforPower[0].value
+        : null;
+    let valueColor =
+      this.props.ActionDeviceInforColor.length !== 0
+        ? this.props.ActionDeviceInforColor[0].value
+        : '#1291b6';
     return (
-      <ScrollView>
-        {/*<View style={StyleSetClockScreen.header}>*/}
-        {/*    <GoBackButton*/}
-        {/*        onPress={() =>*/}
-        {/*            navigate(navigation.getParam('LastRouteName', 'default value'))*/}
-        {/*        }*/}
-        {/*    />*/}
-        {/*    <ButtonSave onPress={this.SaveSetting} />*/}
-        {/*</View>*/}
+      <View>
+        <View style={StyleSetClockScreen.header}>
+          <GoBackButton onPress={() => this.goBack()} />
+          <ButtonSave onPress={() => console.warn('hello')} />
+        </View>
         <View>
           <TextInput
             placeholder={'Nhập tên hẹn giờ'}
@@ -168,20 +187,30 @@ class SetClock extends React.Component {
         {/*khu list action*/}
         <View style={StyleSetClockScreen.ContainerButtonAddAction}>
           <TouchableOpacity
-            style={StyleSetClockScreen.containerTouch}
+            style={[
+              StyleSetClockScreen.containerTouch,
+              {backgroundColor: valueColor},
+            ]}
+            // backgroundColor: '#1291b6',
             onPress={() =>
-              navigate(
+              NavigationService.navigate(
                 this.checkNavigate(
                   this.props.DeviceInfor[0].actions,
                   this.props.DeviceInfor[0].actions[0].command,
                 ),
-                {id: id},
+                {
+                  id: id,
+                  LastRouteName: navigation.state.routeName,
+                },
               )
             }>
-            <Text style={StyleSetClockScreen.textAddAction}>Trạng thái</Text>
+            <Text style={StyleSetClockScreen.textAddAction}>
+              Trạng thái {nameCommand} : {valueCommand}
+            </Text>
           </TouchableOpacity>
+          {/*<Button title={'ttt'} onPress={() => console.warn(this.props.ActionDeviceInforColor)}/>*/}
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -192,6 +221,12 @@ const mapStateToProps = (state, props) => {
   return {
     DeviceInfor: state.ListAllDevice.ListAllDevice.filter(ele => ele.id === id),
     ListAction: state.ListAction.ListAction,
+    ActionDeviceInforPower: state.ListActionDevice.ListPower.filter(
+      ele => ele.id === id,
+    ),
+    ActionDeviceInforColor: state.ListActionDevice.ListColor.filter(
+      ele => ele.id === id,
+    ),
   };
 };
 export default connect(

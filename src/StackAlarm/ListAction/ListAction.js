@@ -28,14 +28,21 @@ class ListAction extends React.Component {
     const {navigation} = this.props;
     const {navigate} = this.props.navigation;
     let id = navigation.getParam('id', 'default value');
-    console.warn(id);
+    let LastRouteName = navigation.getParam('LastRouteName', 'default value');
     return (
       <FlatList
         data={this.props.DeviceInfor[0].actions}
         renderItem={({item}) => (
           <ItemAction
             ActionName={item.command}
-            onPress={() => navigate(CheckActionNameForNavigate(item.command))}
+            onPress={() =>
+              navigate(CheckActionNameForNavigate(item.command), {
+                LastRouteName: LastRouteName,
+                id: id,
+                command: item.command,
+                RouteNameListAction:navigation.state.routeName
+              })
+            }
           />
         )}
         keyExtractor={item => item.command}

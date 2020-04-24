@@ -26,7 +26,7 @@ class ListDevice extends React.Component {
     }
     return (
       <SafeAreaView>
-        <ScrollView>
+
           {this.props.ListDeviceRoom ? (
             <FlatList
               numColumns={Math.floor(screenWidth / 150)}
@@ -51,7 +51,6 @@ class ListDevice extends React.Component {
           {/*    title={'test1'}*/}
           {/*    onPress={() => console.warn(this.props.ListDeviceRoom)}*/}
           {/*/>*/}
-        </ScrollView>
       </SafeAreaView>
     );
   }
