@@ -11,15 +11,15 @@ import {Dimensions} from 'react-native';
 import AddDevice from '../Containers/StackHome/ComponentStackHome/AddDevice';
 import DeviceTest from '../Containers/StackDevice/DeviceTest';
 import HomeTest from '../Containers/StackHome/HomeDevice/HomeTest';
-import ListAlarm from '../StackAlarm/ListAlarm';
-import SetClock from '../StackAlarm/SetClock/SetClock';
-import ListAction from '../StackAlarm/ListAction/ListAction';
-import ActionPower from '../StackAlarm/ListAction/ComponentAction/ActionPower';
-import ActionColor from '../StackAlarm/ListAction/ComponentAction/ActionColor';
-import ActionGoogleVoice from '../StackAlarm/ListAction/ComponentAction/ActionGoogleVoice';
-import ActionHumidity from '../StackAlarm/ListAction/ComponentAction/ActionHumidity';
-import ActionTemperature from '../StackAlarm/ListAction/ComponentAction/ActionTemperature';
-
+import ListAlarm from '../Containers/StackClock/ListAlarm';
+import SetClock from '../Containers/StackClock/SetClock/SetClock';
+import ListAction from '../Containers/StackClock/ListAction/ListAction';
+import ActionPower from '../Containers/StackClock/ListAction/ComponentAction/ActionPower';
+import ActionColor from '../Containers/StackClock/ListAction/ComponentAction/ActionColor';
+import ActionGoogleVoice from '../Containers/StackClock/ListAction/ComponentAction/ActionGoogleVoice';
+import ActionHumidity from '../Containers/StackClock/ListAction/ComponentAction/ActionHumidity';
+import ActionTemperature from '../Containers/StackClock/ListAction/ComponentAction/ActionTemperature';
+import TermAction from '../Containers/StackClock/ListAction/ComponentAction/TermAction';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
@@ -61,22 +61,31 @@ const TabNavigator = createBottomTabNavigator(
   },
 );
 const StackActions = createStackNavigator({
-  ActionPowerScreen: {screen: ActionPower},
-  ActionColorScreen: {screen: ActionColor},
-  ActionGoogleVoiceScreen: {screen: ActionGoogleVoice},
-  ActionHumidityScreen: {screen: ActionHumidity,},
-  ActionTemperatureScreen: {screen: ActionTemperature},
-},);
+  ListActionScreen: {
+    screen: ListAction,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  TermActionScreen:{screen:TermAction,navigationOptions: {
+      headerShown: false,
+    },}
+});
 
 const StackSetClock = createStackNavigator({
   ListAlarmScreen: {screen: ListAlarm},
-  SetClockScreen: {screen: SetClock,navigationOptions:{
-    headerShown:false
-    }},
-  ListActionScreen: {screen: ListAction},
-  ActionsScreen : {screen: StackActions,navigationOptions: {
+  SetClockScreen: {
+    screen: SetClock,
+    navigationOptions: {
       headerShown: false,
-    },}
+    },
+  },
+  ActionsScreen: {
+    screen: StackActions,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
 });
 
 export const stackRoot = createStackNavigator({

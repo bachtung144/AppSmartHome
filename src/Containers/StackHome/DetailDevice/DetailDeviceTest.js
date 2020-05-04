@@ -5,6 +5,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TitleDetailDevice from './ComponentDetailDevice/TitleDetailDevice';
 import {styleDetailDevice} from './StyleDetailDevice/StyleDetailDevice';
+import {store} from '../../../Redux/Store';
+import {connect} from 'react-redux';
 
 export default class DetailDeviceTest extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -60,3 +62,4 @@ export default class DetailDeviceTest extends React.Component {
     );
   }
 }
+
