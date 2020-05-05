@@ -12,11 +12,10 @@ import {StyleSetClockScreen} from '../StyleStackAlarm/StyleStackAlarm';
 import {days} from './ComponentSetClock/ArrayDays';
 import DatePicker from 'react-native-date-picker';
 import {connect} from 'react-redux';
-import NavigationService from '../../../Function/NavigationService';
-import GoBackButton from '../../../Components/GoBackButton';
-import ButtonSave from '../../StackSetClock/ComponentSetClock/ButtonSave';
+import RootNavigate from '../ListAction/ComponentAction/RootNavigate';
 const screenWidth = Math.round(Dimensions.get('window').width);
-
+import ConvertPower from '../ListAction/ComponentAction/Convert Power';
+import HeaderSetClock from './ComponentSetClock/HeaderSetClock';
 class Item extends Component {
   render() {
     const {id, name, selected, onSelect} = this.props;
@@ -35,20 +34,17 @@ class Item extends Component {
 }
 
 class SetClock extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date(),
-      mode: 'date',
-      show: false,
-      optionLoop: 1,
-      nameClock: '',
-      selected: new Map(),
-      selectedItem: [],
-      command: null,
-      value: null,
-    };
-  }
+  state = {
+    date: new Date(),
+    mode: 'date',
+    show: false,
+    optionLoop: 1,
+    nameClock: '',
+    selected: new Map(),
+    selectedItem: [],
+    command: null,
+    value: null,
+  };
 
   onSelect(item) {
     let newSelectedItem = this.state.selectedItem;
@@ -73,13 +69,7 @@ class SetClock extends Component {
       date: value,
     });
   };
-  checkNavigate(arrAction) {
-    if (arrAction.length !== 1) {
-      return 'ListActionScreen';
-    } else {
-      return 'TermActionScreen';
-    }
-  }
+
   goBack() {
     const {navigate} = this.props.navigation;
     const {navigation} = this.props;
@@ -94,12 +84,13 @@ class SetClock extends Component {
     );
     const {navigation} = this.props;
     let id = navigation.getParam('id', 'default value');
+
+    let convert = ConvertPower(this.state.command, this.state.value);
+
     return (
       <View>
-        <View style={StyleSetClockScreen.header}>
-          <GoBackButton onPress={() => this.goBack()} />
-          <ButtonSave onPress={() => console.warn('hello')} />
-        </View>
+        <HeaderSetClock onPressBack={() => this.goBack() }
+                        onPressSave={() => console.warn('hello')}/>
         <View>
           <TextInput
             placeholder={'Nhập tên hẹn giờ'}
@@ -182,30 +173,25 @@ class SetClock extends Component {
               {backgroundColor: '#1291b6'},
             ]}
             onPress={() =>
-              NavigationService.navigate(
-                this.checkNavigate(arr_action, arr_action[0].command),
-                {
-                  arr_action_done: arr_action,
-                  callback: (command, value) => {
-                    this.setState({command: command});
-                    this.setState({value: value});
-                  },
-                  command: this.state.command,
-                  value: this.state.value,
+              RootNavigate(
+                arr_action,
+                (command, value) => {
+                  this.setState({command: command, value: value});
                 },
+                this.state.command,
+                this.state.value,
               )
             }>
             <Text style={StyleSetClockScreen.textAddAction}>Trạng thái</Text>
-            {!this.state.command && !this.state.value ? null : (
-              <Text>
-                {this.state.command} : {this.state.value}
+
+            {convert.nameValue !== null ? (
+              <Text style={{color: 'white'}}>
+                {convert.nameCommand}:{convert.nameValue}
               </Text>
+            ) : (
+              convert.cptValue
             )}
           </TouchableOpacity>
-          {/*<Button*/}
-          {/*  title={'ttt'}*/}
-          {/*  onPress={() => console.warn(this.props.DeviceInfor)}*/}
-          {/*/>*/}
         </View>
       </View>
     );

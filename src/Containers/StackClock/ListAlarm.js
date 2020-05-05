@@ -1,46 +1,35 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {View} from 'react-native';
 import GoBackButton from '../../Components/GoBackButton';
 import NavigationService from '../../Function/NavigationService';
 import ButtonAdd from '../../Components/ButtonAdd';
-import {connect} from 'react-redux';
 
-class ListAlarm extends React.Component {
-    static navigationOptions = ({navigation}) => {
-        let id = navigation.getParam('id', 'default value');
-        return {
-            headerTitle: 'List Alarm',
-            headerLeft: () => (
-                <GoBackButton
-                    onPress={() => NavigationService.navigate('DetailDeviceScreen')}
-                />
-            ),
-            headerRight: () => (
-                <ButtonAdd
-                    onPress={() => navigation.navigate('SetClockScreen', {id: id,LastRouteName : navigation.state.routeName})}
-                />
-            ),
-            headerTitleContainerStyle: {
-                alignItems: 'center',
-                justifyContent: 'center',
-            },
-        };
+export default class ListAlarm extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    let id = navigation.getParam('id', 'default value');
+    return {
+      title: 'Danh sách báo thức',
+      headerLeft: () => (
+        <GoBackButton
+          onPress={() => NavigationService.navigate('DetailDeviceScreen')}
+        />
+      ),
+      headerRight: () => (
+        <ButtonAdd
+          onPress={() =>
+            navigation.navigate('SetClockScreen', {
+              id: id,
+              LastRouteName: navigation.state.routeName,
+            })
+          }
+        />
+      ),
+      headerTitleContainerStyle: {
+        marginLeft: 15,
+      },
     };
-    render() {
-        return (
-            <Button
-                title={'test'}
-                onPress={() => console.warn(this.props.ListAction)}
-            />
-        );
-    }
+  };
+  render() {
+    return <View />;
+  }
 }
-
-const mapStateToProps = state => ({
-    ListAction: state.ListAction.ListAction,
-});
-
-export default connect(
-    mapStateToProps,
-    null,
-)(ListAlarm);

@@ -60,80 +60,11 @@ export const StyleSetClockScreen = {
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'gray',
     backgroundColor: 'white',
     paddingVertical: 10,
   },
-};
-
-export const StyleActionOnOff = {
-  rootContainer: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  container: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '90%',
-    height: 70,
-    borderRadius: 7,
-    marginTop: 30,
-    borderWidth: 0.5,
-    borderColor: 'gray',
-  },
-  touch: {
-    height: 40,
-    width: 80,
-    backgroundColor: '#D3D3D3',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderRadius: 30,
-  },
-  check: {fontSize: 20, color: 'green'},
-  close: {fontSize: 20, color: 'red'},
-};
-
-export const StyleListSetting = {
-  touchItem: {
-    borderBottomColor: 'rbga(0,0,0,0.5)',
-    padding: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 90,
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-  },
-  textHour: {fontSize: 30, fontWeight: 'bold'},
-  rowFront: {
-    backgroundColor: 'white',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 110,
-  },
-  status: {flexDirection: 'row', justifyContent: 'space-between'},
-  text: {fontWeight: 'bold'},
-  backTextWhite: {
-    color: '#FFF',
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#DDD',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75,
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    right: 0,
-  },
+  textHeader:{fontSize: 18, marginTop: 3,marginRight:5},
+  textSave:{color:'#1291b6',marginRight:10,fontSize:20}
 };

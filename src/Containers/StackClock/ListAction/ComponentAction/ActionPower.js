@@ -1,8 +1,13 @@
 import React from 'react';
-import {Text, TouchableOpacity, SafeAreaView, FlatList,Button} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+} from 'react-native';
 import {styleActionPower} from '../StyleComponentAction/StyleActionPower';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import ConvertPower from './Convert Power';
 function ItemPower({nameOfValueCm, onPress, value_check}) {
   return (
     <TouchableOpacity style={styleActionPower.item} onPress={onPress}>
@@ -20,12 +25,9 @@ const ActionPower = React.memo(function ActionPower({
 }) {
   let callback = navigation.getParam('callback', 'default value');
   let value = navigation.getParam('value', 'default value');
-  let check_goback = navigation.getParam('check_goback', 'default value');
-  console.warn(check_goback);
   let command_pass = arr_action_done[0].command;
-  console.warn(arr_action_done)
+  let check_value = ConvertPower(command_pass, value).nameValue;
   let ListValuesCommand = arr_action_done[0].values;
-    const {goBack} = navigation;
   return (
     <SafeAreaView>
       <FlatList
@@ -36,14 +38,13 @@ const ActionPower = React.memo(function ActionPower({
             nameOfValueCm={item.name}
             onPress={() => {
               navigation.dismiss();
-              callback(command_pass, item.name);
+              callback(command_pass, item.value);
             }}
-            value_check={value}
+            value_check={check_value}
           />
         )}
-        keyExtractor={item => item.name}
+        keyExtractor={(item, index) => index.toString()}
       />
-      {/*<Button title={'d'} onPress={() => navigation.goBack()}/>*/}
     </SafeAreaView>
   );
 });

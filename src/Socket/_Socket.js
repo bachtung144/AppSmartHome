@@ -12,8 +12,8 @@ import {
 import {AddActions, AddId} from '../Redux/NewDevice/ActionNewDevice';
 import {AddListAction} from '../Redux/ListAction/ActionListAction';
 //https://thuctapgratiot.herokuapp.com/
-//http://192.168.86.40:1123/
-const domain_socket = 'https://thuctapgratiot.herokuapp.com/'; // define domain socketio
+//http://192.168.86.217:1123/
+const domain_socket = 'http://192.168.86.217:1123/'; // define domain socketio
 let _socket = false;
 
 async function connectSocket() {

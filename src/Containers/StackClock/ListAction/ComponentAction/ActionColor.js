@@ -5,13 +5,12 @@ import {styleActionColor} from '../StyleComponentAction/StyleActionColor';
 
 const ActionColor = React.memo(function ActionColor({
   navigation,
-  arr_action_done,
+  callback,
+  value,
+  command_pass,
+  command,
 }) {
   const [colorPicked, setColor] = useState('white');
-  let callback = navigation.getParam('callback', 'default value');
-  let value = navigation.getParam('value', 'default value');
-  let command = navigation.getParam('command', 'default value');
-  let command_pass = arr_action_done[0].command;
 
   return (
     <View>

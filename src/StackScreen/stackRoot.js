@@ -14,11 +14,6 @@ import HomeTest from '../Containers/StackHome/HomeDevice/HomeTest';
 import ListAlarm from '../Containers/StackClock/ListAlarm';
 import SetClock from '../Containers/StackClock/SetClock/SetClock';
 import ListAction from '../Containers/StackClock/ListAction/ListAction';
-import ActionPower from '../Containers/StackClock/ListAction/ComponentAction/ActionPower';
-import ActionColor from '../Containers/StackClock/ListAction/ComponentAction/ActionColor';
-import ActionGoogleVoice from '../Containers/StackClock/ListAction/ComponentAction/ActionGoogleVoice';
-import ActionHumidity from '../Containers/StackClock/ListAction/ComponentAction/ActionHumidity';
-import ActionTemperature from '../Containers/StackClock/ListAction/ComponentAction/ActionTemperature';
 import TermAction from '../Containers/StackClock/ListAction/ComponentAction/TermAction';
 const screenWidth = Math.round(Dimensions.get('window').width);
 

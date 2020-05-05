@@ -37,7 +37,7 @@ export default class ListAction extends React.Component {
       callback: callback,
       command: command,
       value: value,
-      check_goback:true
+      check_goback: true,
     });
   }
   render() {
