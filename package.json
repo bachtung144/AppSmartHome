@@ -21,7 +21,7 @@
     "react-native-date-picker": "^2.7.7",
     "react-native-gesture-handler": "^1.5.3",
     "react-native-hide-show-password-input": "^1.1.0",
-    "react-native-reanimated": "^1.7.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-safe-area-context": "^0.6.4",
     "react-native-safe-area-view": "^1.0.0",
     "react-native-screens": "^2.0.0-alpha.32",
